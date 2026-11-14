@@ -68,3 +68,30 @@ Gate (decided 11/14 20:00 and recorded in the `gate` field):
 | fail | Sun condition not met, or the 500 points were not finished by 20:00 | minimal build: map values read at sites, labelled as such |
 
 The gate line (10 pp, 0.8) differs from the target (5 pp, 0.95). It is a usable line that allows for differences in period, observer height and DEM version on the map side (not stated in the map label). Passing the gate without meeting the target is reported as measured together with "target not met".
+
+## 3. M1 LROC photographs against the shadow model
+
+Added to this file on 2026-11-14 after the results existed. The target below was written in planning notes dated 2026-11-11 (outside this repository) and copied into `compute/m1_lroc.py`; the repository history shows it only from the commit that carries the results.
+
+| Item | Value |
+|---|---|
+| Points | the 200 layer A points of section 2 (88 to 90 deg S) |
+| Frames | LROC wide angle camera south pole movie frames (`WAC_MOVIE_S*`), 37 frames; lit or shadow from one Otsu brightness cut per frame |
+| Model | the terrain model of section 2 at the frame time, Sun lit when the visible disc fraction is 0.5 or more |
+| Baseline | the same check with a flat horizon |
+| Measured | agreement, Cohen's kappa, confusion counts, one year share of sunlight against the LROC illumination map |
+
+Target set at hackathon start: agreement of 85% or more and higher than the flat horizon baseline.
+
+## 4. L2 best point, landing dates, shadow
+
+Added after the results existed, from the settings in `compute/l2_sites.py`. A region is a 15 x 15 km square around its point (assumption from a NASA 2022 description) with a 7 x 7 grid at 2 km steps. The score is the number of hours with the Sun lit (disc fraction 0.5 or more) and Earth visible together in 2027 to 2028. The period was fixed to the calendar period before the results were looked at, as in the planning notes. These rows have no pass or fail target; they are reported values. The landing date condition (72 hours of Sun in a row, Earth visible at least 50% of that time) is an example, not a mission requirement.
+
+## 5. DSN window edges against Horizons
+
+Added after the results existed. Window edges come from the NAIF station kernel with a station elevation limit of 10 degrees (an example value). One edge per station, chosen by the fixed seed 20261114, is compared with Horizons (target Moon, centre at the station position). Target set at hackathon start (planning notes, 2026-11-11): difference of 5 minutes or less.
+
+## 6. Changes after the start
+
+None to the targets of sections 1 and 2 (they are in the first commit of this file). Sections 3 to 5 were written down in this file after the results existed, as stated in each section.
+

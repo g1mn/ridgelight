@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // web/src/map.js
 // South Pole Polar Stereographic Map view
 (function () {

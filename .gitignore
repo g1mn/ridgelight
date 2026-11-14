@@ -4,3 +4,10 @@ node_modules/
 *.key
 .agy/
 .briefs/
+compute/in/
+compute/out/
+compute/out-test/
+compute/__pycache__/
+compute/.fetch-list.tsv
+compute/job*.log
+__pycache__/

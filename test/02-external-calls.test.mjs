@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // test/02-external-calls.test.mjs
 // Test 2: In web/, 0 external calls via fetch, script src, link href, img src, @import, url()
 

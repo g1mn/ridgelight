@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // test/03-no-em-dash.test.mjs
 // Test 3: Zero U+2014 em dash characters in web/, test/, tools/, README.md
 

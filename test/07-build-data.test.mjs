@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // test/07-build-data.test.mjs
 // Tests 9, 10, 11: build-data generation reproducibility, no synthetic fixture in data.js, size <= 5 MB.
 

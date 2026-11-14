@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // web/src/model.js
 // Classic script attaching normalized data model and math functions to globalThis.LW.
 (function () {
@@ -251,6 +252,27 @@
     };
   }
 
+  function round(x, d) {
+    if (typeof x !== 'number' || !isFinite(x)) return x;
+    const f = Math.pow(10, d);
+    return Math.round(x * f) / f;
+  }
+
+  /** Accept both M1 key spellings and give one shape. Percent values are 0..100. */
+  function normalizeM1(m1) {
+    const out = { agreement: null, kappa: null, baseline: null, targetMin: null, targetMet: null };
+    if (!m1 || typeof m1 !== 'object') return out;
+    const num = (x) => (typeof x === 'number' && isFinite(x) ? x : null);
+    out.agreement = num(m1.agreement_pct);
+    if (out.agreement == null) out.agreement = num(m1.agreement_layer_a);
+    out.kappa = num(m1.kappa);
+    out.baseline = m1.baseline && typeof m1.baseline === 'object' ? num(m1.baseline.agreement_pct) : null;
+    if (out.baseline == null) out.baseline = num(m1.baseline_no_terrain_agreement);
+    out.targetMin = m1.target && typeof m1.target === 'object' ? num(m1.target.agreement_pct_min) : null;
+    out.targetMet = typeof m1.target_met === 'boolean' ? m1.target_met : null;
+    return out;
+  }
+
   /**
    * Normalize verification data.
    */
@@ -320,6 +342,7 @@
       rows.push({
         id: 'l1b',
         titleKey: 'verify.l1b_title',
+        noteKey: null,
         comparison: 'Terrain horizon model vs LOLA illumination maps',
         n: '-',
         measured: 'Not measured yet',
@@ -332,18 +355,19 @@
       const nVal = l1b.n != null ? String(l1b.n) : '-';
       const status = l1b.gate === 'pass' ? 'met' : l1b.gate === 'fail' ? 'not_met' : 'info';
       const measuredParts = [];
-      if (l1b.mae_sun_pp != null) measuredParts.push(`Sun MAE ${l1b.mae_sun_pp} pp`);
-      if (l1b.r_sun != null) measuredParts.push(`r ${l1b.r_sun}`);
-      const measuredVal = measuredParts.length ? measuredParts.join(', ') : 'Measured';
+      if (l1b.mae_sun_pp != null) measuredParts.push(`Sun MAE ${round(l1b.mae_sun_pp, 2)} pp, r ${round(l1b.r_sun, 3)}`);
+      if (l1b.mae_earth_pp != null) measuredParts.push(`Earth MAE ${round(l1b.mae_earth_pp, 2)} pp, r ${round(l1b.r_earth, 3)}`);
+      const measuredVal = measuredParts.length ? measuredParts.join('; ') : 'Measured';
 
       const targetParts = [];
-      if (l1b.target_mae_sun_pp != null) targetParts.push(`MAE <= ${l1b.target_mae_sun_pp} pp`);
+      if (l1b.target_mae_sun_pp != null) targetParts.push(`MAE <= ${l1b.target_mae_sun_pp} pp, r >= ${l1b.target_r_sun}`);
       const targetVal = targetParts.length ? targetParts.join(', ') : '-';
 
       rows.push({
         id: 'l1b',
         titleKey: 'verify.l1b_title',
-        comparison: 'Terrain horizon model vs LOLA illumination maps',
+        noteKey: 'verify.l1b_note',
+        comparison: 'Terrain horizon model vs LOLA illumination maps (a model-to-model check of the implementation)',
         n: nVal,
         measured: measuredVal,
         target: targetVal,
@@ -353,13 +377,17 @@
       });
     }
 
-    // Row 3: M1 LROC images vs predicted shadow
+    // Row 3: M1 LROC images vs predicted shadow (N10 shape: agreement_pct, kappa, baseline.agreement_pct,
+    // target.agreement_pct_min, target_met; the earlier brief names agreement_layer_a and
+    // baseline_no_terrain_agreement are accepted too)
     const m1 = v.m1;
+    const m1Norm = normalizeM1(m1);
     if (!m1 || typeof m1 !== 'object') {
       rows.push({
         id: 'm1',
         titleKey: 'verify.m1_title',
-        comparison: 'LROC NAC images vs predicted shadow polygons',
+        noteKey: null,
+        comparison: 'LROC wide angle images vs predicted shadow',
         n: '-',
         measured: 'Not measured yet',
         target: '-',
@@ -367,34 +395,86 @@
         source: 'verify/m1-summary.json',
         isError: false
       });
-    } else if (m1.blocked) {
+    } else if (m1.blocked || m1.mode === 'blocked') {
       rows.push({
         id: 'm1',
         titleKey: 'verify.m1_title',
-        comparison: 'LROC NAC images vs predicted shadow polygons',
+        noteKey: null,
+        comparison: 'LROC wide angle images vs predicted shadow',
         n: m1.frames != null ? String(m1.frames) : '-',
-        measured: `Observation check not done: ${m1.blocked}`,
+        measured: `Observation check not done: ${m1.blocked || m1.mode}`,
         target: '-',
         status: 'not_measured',
         source: 'verify/m1-summary.json',
         isError: false
       });
     } else {
-      const nVal = m1.frames != null ? String(m1.frames) : '-';
-      const measuredParts = [];
-      if (m1.kappa != null) measuredParts.push(`kappa ${m1.kappa}`);
-      if (m1.agreement_layer_a != null) measuredParts.push(`agreement ${m1.agreement_layer_a}`);
-      const measuredVal = measuredParts.length ? measuredParts.join(', ') : 'Measured';
-
+      const parts = [];
+      if (m1Norm.agreement != null) parts.push(`agreement ${round(m1Norm.agreement, 1)}%`);
+      if (m1Norm.kappa != null) parts.push(`kappa ${round(m1Norm.kappa, 3)}`);
+      if (m1Norm.baseline != null) parts.push(`no terrain ${round(m1Norm.baseline, 1)}%`);
+      let status = 'info';
+      if (typeof m1Norm.targetMet === 'boolean') status = m1Norm.targetMet ? 'met' : 'not_met';
       rows.push({
         id: 'm1',
         titleKey: 'verify.m1_title',
-        comparison: 'LROC NAC images vs predicted shadow polygons',
-        n: nVal,
-        measured: measuredVal,
-        target: '-',
-        status: 'met',
+        noteKey: 'verify.m1_note',
+        comparison: 'LROC wide angle camera frames vs the terrain shadow model at points near the pole (real photographs)',
+        n: m1.frames != null ? String(m1.frames) : '-',
+        measured: parts.length ? parts.join(', ') : 'Measured',
+        target: m1Norm.targetMin != null ? `agreement >= ${m1Norm.targetMin}%, beat no terrain` : '-',
+        status,
         source: 'verify/m1-summary.json',
+        isError: false
+      });
+      const yc = m1.year_compare;
+      if (yc && typeof yc === 'object' && yc.mae_pp != null) {
+        rows.push({
+          id: 'm1_year',
+          titleKey: 'verify.m1_year_title',
+          noteKey: null,
+          comparison: 'Share of one year in sunlight, LROC frames vs model',
+          n: yc.n != null ? String(yc.n) : '-',
+          measured: `MAE ${round(yc.mae_pp, 2)} pp, r ${round(yc.r, 3)}`,
+          target: '-',
+          status: 'info',
+          source: 'verify/m1-summary.json',
+          isError: false
+        });
+      }
+    }
+
+    // L2 best points and DSN windows (A scope)
+    const l2 = v.l2;
+    if (l2 && typeof l2 === 'object' && l2.rank_pairs_total != null) {
+      const gains = l2.best_vs_center_hours ? Object.values(l2.best_vs_center_hours).filter((x) => typeof x === 'number') : [];
+      const gMin = gains.length ? Math.min(...gains) : null;
+      const gMax = gains.length ? Math.max(...gains) : null;
+      rows.push({
+        id: 'l2',
+        titleKey: 'verify.l2_title',
+        noteKey: 'verify.l2_note',
+        comparison: 'Best point per region and the effect of a 5 day shift of the landing date',
+        n: l2.regions != null ? String(l2.regions) : '-',
+        measured: `+${gMin} to +${gMax} h vs center; ${l2.rank_changed_combos} of ${l2.rank_pairs_total} rank pairs flipped`,
+        target: '-',
+        status: 'info',
+        source: 'verify/l2-summary.json',
+        isError: false
+      });
+    }
+    const dh = v.dsn_horizons;
+    if (dh && typeof dh === 'object' && dh.max_diff_min != null) {
+      rows.push({
+        id: 'dsn',
+        titleKey: 'verify.dsn_title',
+        noteKey: 'verify.dsn_note',
+        comparison: 'DSN station window edges vs Horizons',
+        n: dh.n_boundaries != null ? String(dh.n_boundaries) : '-',
+        measured: `max ${dh.max_diff_min} min`,
+        target: dh.target_max_diff_min != null ? `<= ${dh.target_max_diff_min} min` : '-',
+        status: typeof dh.target_met === 'boolean' ? (dh.target_met ? 'met' : 'not_met') : 'info',
+        source: 'verify/dsn-horizons-summary.json',
         isError: false
       });
     }
@@ -419,6 +499,74 @@
   }
 
   /**
+   * Normalize the L2 products (A scope): best point per region, landing date calendar,
+   * longest shadow, DSN windows. Returns { available: false } when nothing is loaded.
+   */
+  function normalizeL2(rawL2, verifyL2) {
+    const out = {
+      available: false,
+      summary: verifyL2 && typeof verifyL2 === 'object' ? verifyL2 : null,
+      calendar: null,
+      dsn: null,
+      shadowDefinition: null,
+      bySite: {}
+    };
+    if (!rawL2 || typeof rawL2 !== 'object') return out;
+    const regions = rawL2.sites && typeof rawL2.sites === 'object' ? rawL2.sites : {};
+    for (const [id, r] of Object.entries(regions)) {
+      if (!r || !Array.isArray(r.points) || !r.center || typeof r.best_point_id !== 'string') continue;
+      out.bySite[id] = {
+        region: r,
+        calendar: null,
+        shadow: [],
+        dsn: null
+      };
+    }
+    const cal = rawL2.calendar;
+    if (cal && typeof cal === 'object') {
+      out.calendar = {
+        period: cal.period || null,
+        landing_time_utc: cal.landing_time_utc || null,
+        x_hours: cal.x_hours,
+        y_earth_pct: cal.y_earth_pct,
+        example_values: cal.example_values === true,
+        note: cal.note || ''
+      };
+      for (const cs of Array.isArray(cal.sites) ? cal.sites : []) {
+        if (cs && out.bySite[cs.site_id]) {
+          out.bySite[cs.site_id].calendar = {
+            point_id: cs.point_id,
+            dates_ok: Array.isArray(cs.dates_ok) ? cs.dates_ok : [],
+            n_dates_ok: typeof cs.n_dates_ok === 'number' ? cs.n_dates_ok : Array.isArray(cs.dates_ok) ? cs.dates_ok.length : 0
+          };
+        }
+      }
+    }
+    const sh = rawL2.shadow;
+    if (sh && typeof sh === 'object') {
+      out.shadowDefinition = sh.definition || null;
+      for (const row of Array.isArray(sh.rows) ? sh.rows : []) {
+        if (row && out.bySite[row.site_id]) out.bySite[row.site_id].shadow.push(row);
+      }
+    }
+    const dsn = rawL2.dsn;
+    if (dsn && typeof dsn === 'object') {
+      out.dsn = {
+        min_elev_deg: dsn.min_elev_deg,
+        note: dsn.note || '',
+        period: dsn.period || null,
+        stations: Array.isArray(dsn.stations) ? dsn.stations : [],
+        window_definition: dsn.window_definition || ''
+      };
+      for (const ds of Array.isArray(dsn.sites) ? dsn.sites : []) {
+        if (ds && out.bySite[ds.site_id]) out.bySite[ds.site_id].dsn = ds;
+      }
+    }
+    out.available = Object.keys(out.bySite).length > 0;
+    return out;
+  }
+
+  /**
    * Main entry: normalize raw globalThis.LW_DATA.
    */
   function normalizeData(rawData) {
@@ -431,6 +579,9 @@
       mapValues: null,
       mapValuesBySite: {},
       verifyRows: [],
+      l2: normalizeL2(null, null),
+      m1: normalizeM1(null),
+      m1Raw: null,
       sources: {},
       errors
     };
@@ -484,6 +635,12 @@
 
     // 5. Verification rows
     result.verifyRows = normalizeVerify(rawData.verify, result.mapValues);
+    result.l2 = normalizeL2(rawData.l2, rawData.verify && rawData.verify.l2);
+    const m1raw = rawData.verify && rawData.verify.m1;
+    if (m1raw && typeof m1raw === 'object' && !m1raw.blocked && m1raw.mode !== 'blocked') {
+      result.m1Raw = m1raw;
+      result.m1 = normalizeM1(m1raw);
+    }
 
     return result;
   }
@@ -502,6 +659,8 @@
     findNearestSite,
     normalizeSite,
     normalizeVerify,
+    normalizeL2,
+    normalizeM1,
     normalizeData
   };
 })();

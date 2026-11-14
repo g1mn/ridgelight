@@ -1,0 +1,39 @@
+{
+ "n_boundaries": 3,
+ "max_diff_min": 0.003,
+ "target_max_diff_min": 5.0,
+ "target_note": "Target set at hackathon start: boundary time within 5 minutes of Horizons.",
+ "target_met": true,
+ "reference": "Horizons API, target Moon (301), CENTER coord@399 with the station position from the NAIF station kernel, AIRLESS, 1 minute steps",
+ "boundaries": [
+  {
+   "station": 399014,
+   "name": "DSS-14",
+   "edge": "end",
+   "claimed_utc": "2027-03-10T02:32:41.306000Z",
+   "horizons_utc": "2027-03-10T02:32:41Z",
+   "diff_min": 0.003,
+   "pass": true
+  },
+  {
+   "station": 399043,
+   "name": "DSS-43",
+   "edge": "start",
+   "claimed_utc": "2027-09-13T06:20:38.543000Z",
+   "horizons_utc": "2027-09-13T06:20:38Z",
+   "diff_min": 0.003,
+   "pass": true
+  },
+  {
+   "station": 399063,
+   "name": "DSS-63",
+   "edge": "end",
+   "claimed_utc": "2028-08-09T08:19:26.882000Z",
+   "horizons_utc": "2028-08-09T08:19:27Z",
+   "diff_min": 0.003,
+   "pass": true
+  }
+ ],
+ "checked_at_kst": "2026-11-14 10:33:22 KST",
+ "generated_with": "Claude (Anthropic SI) copied these rows from the DSN check result with compute/dsn_horizons_summary.py"
+}

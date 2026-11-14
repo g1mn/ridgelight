@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // test/06-model-data.test.mjs
 // Tests 8, 12, 13: Normalization resilience, approx inference, and aliases handling.
 

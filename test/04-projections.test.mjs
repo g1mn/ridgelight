@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // test/04-projections.test.mjs
 // Tests 4, 5, 6: Polar stereographic projection, Sky dome coords, Great circle distance.
 

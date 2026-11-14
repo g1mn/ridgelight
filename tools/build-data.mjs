@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // tools/build-data.mjs
 // Reads data/ and verify/ JSON files along with web/i18n/*.json,
 // and produces web/gen/data.js and web/gen/i18n.js.
@@ -101,6 +102,23 @@ if (m1Res.data) {
   sources['verify/m1-summary.json'] = m1Res.hash;
 }
 
+// 5b. L2 products (best points per region, calendar, shadow, DSN windows) and their summaries
+const l2SitesRes = readJsonDirIfExists('data/sites');
+Object.assign(sources, l2SitesRes.sources);
+function readSourced(relPath) {
+  const res = readJsonIfExists(relPath);
+  if (res.data) sources[relPath] = res.hash;
+  return res.data;
+}
+const l2Summary = readSourced('verify/l2-summary.json');
+const dsnHorizons = readSourced('verify/dsn-horizons-summary.json');
+const l2Data = {
+  sites: l2SitesRes.result,
+  calendar: readSourced('data/calendar.json'),
+  shadow: readSourced('data/shadow.json'),
+  dsn: readSourced('data/dsn.json')
+};
+
 const lwData = {
   sources,
   sites: sitesData,
@@ -110,8 +128,11 @@ const lwData = {
   verify: {
     l1a: l1aData,
     l1b: l1bData,
-    m1: m1Data
-  }
+    m1: m1Data,
+    l2: l2Summary,
+    dsn_horizons: dsnHorizons
+  },
+  l2: l2Data
 };
 
 // 6. i18n

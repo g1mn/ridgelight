@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // test/05-tracks-sunset.test.mjs
 // Test 7: Next sunset calculation using synthetic fixtures returns expected index/time or null.
 

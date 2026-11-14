@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // web/src/verify.js
 // Verification Panel table view
 (function () {
@@ -20,6 +21,7 @@
           <div class="card-header">
             <h2 id="verify-heading" class="card-title"></h2>
             <p id="verify-desc" class="card-desc"></p>
+            <p id="verify-scope" class="card-method-note"></p>
           </div>
           <div class="verify-body">
             <div class="table-responsive" tabindex="0" role="region" aria-label="Verification table">
@@ -49,6 +51,7 @@
 
       this.container.querySelector('#verify-heading').textContent = t('verify.title');
       this.container.querySelector('#verify-desc').textContent = t('verify.description');
+      this.container.querySelector('#verify-scope').textContent = t('verify.scope_note');
       this.container.querySelector('#th-comp').textContent = t('verify.col_comparison');
       this.container.querySelector('#th-n').textContent = t('verify.col_n');
       this.container.querySelector('#th-meas').textContent = t('verify.col_measured');
@@ -133,14 +136,14 @@
 
         tbody.appendChild(tr);
 
-        // Subrow note for L1(a)
-        if (row.id === 'l1a') {
+        // Subrow note under a row (L1(a) is not counted as a truth comparison, and so on)
+        if (row.noteKey) {
           const subTr = document.createElement('tr');
           subTr.className = 'verify-subrow l1a-subrow';
           const subTd = document.createElement('td');
           subTd.colSpan = 6;
           subTd.className = 'subrow-text';
-          subTd.textContent = this.t('verify.l1a_note');
+          subTd.textContent = this.t(row.noteKey);
           subTr.appendChild(subTd);
           tbody.appendChild(subTr);
         }

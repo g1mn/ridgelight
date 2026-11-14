@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // web/src/timeline.js
 // Timeline Bar view (Scope A)
 (function () {

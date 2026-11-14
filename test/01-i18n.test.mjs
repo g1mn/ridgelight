@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // test/01-i18n.test.mjs
 // Test 1: web/i18n/ 10 JSON files have identical flattened key sets and no empty values.
 

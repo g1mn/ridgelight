@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // web/src/dome.js
 // Sky Dome local horizontal projection view
 (function () {

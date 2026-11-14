@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // web/src/compare.js
 // 3-Site Comparison & Date Shift view (Scope A)
 (function () {
@@ -326,7 +327,7 @@
 
       // Notice about rank change
       if (swappedPairs > 0) {
-        noticeEl.textContent = this.t('compare.rank_swapped', { count: String(swappedPairs) });
+        noticeEl.textContent = this.t('compare.rank_swapped', { count: String(swappedPairs) }) + ' ' + this.t('compare.rank_of', { total: '3' });
         noticeEl.className = 'rank-notice rank-changed';
       } else {
         noticeEl.textContent = this.t('compare.rank_unchanged');

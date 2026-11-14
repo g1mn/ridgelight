@@ -1,3 +1,4 @@
+// Written with SI (AI coding model) assistance and reviewed by the author.
 // web/src/app.js
 // Main application entry: coordinates views, URL params, i18n, and theme.
 (function () {
@@ -16,7 +17,9 @@
         dome: null,
         verify: null,
         timeline: null,
-        compare: null
+        compare: null,
+        l2: null,
+        m1: null
       };
 
       this.t = this.t.bind(this);
@@ -238,6 +241,24 @@
         this.views.timeline.setData(this.data, this.selectedSiteId);
       }
 
+      const l2Container = document.getElementById('l2-view-container');
+      if (l2Container && LW.L2View) {
+        this.views.l2 = new LW.L2View(l2Container, {
+          t: this.t,
+          formatNumber: this.formatNumber
+        });
+        this.views.l2.setData(this.data, this.selectedSiteId);
+      }
+
+      const m1Container = document.getElementById('m1-view-container');
+      if (m1Container && LW.M1View) {
+        this.views.m1 = new LW.M1View(m1Container, {
+          t: this.t,
+          formatNumber: this.formatNumber
+        });
+        this.views.m1.setData(this.data);
+      }
+
       const compareContainer = document.getElementById('compare-view-container');
       if (compareContainer && LW.CompareView) {
         this.views.compare = new LW.CompareView(compareContainer, {
@@ -257,6 +278,7 @@
       if (this.views.dome) this.views.dome.selectSite(siteId);
       if (this.views.timeline) this.views.timeline.selectSite(siteId);
       if (this.views.compare) this.views.compare.setData(this.data, siteId);
+      if (this.views.l2) this.views.l2.selectSite(siteId);
     }
 
     onTimeChange(timeIdx) {
@@ -310,6 +332,8 @@
       if (this.views.verify) this.views.verify.updateLanguage(this.t, this.formatNumber);
       if (this.views.timeline) this.views.timeline.updateLanguage(this.t, this.formatNumber);
       if (this.views.compare) this.views.compare.updateLanguage(this.t, this.formatNumber);
+      if (this.views.l2) this.views.l2.updateLanguage(this.t, this.formatNumber);
+      if (this.views.m1) this.views.m1.updateLanguage(this.t, this.formatNumber);
     }
   }
 
