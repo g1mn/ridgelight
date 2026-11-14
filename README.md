@@ -95,7 +95,7 @@ Made by the AI model, then run and read through by the author:
 - The translations of the interface into the 9 languages other than English.
 - The region positions: the AI read the yellow boxes off the NASA map picture by pixel measurement. The result is approximate and is marked so in `data/sites.json`.
 - The logo mark (web/assets/logo-mark.png, favicon.png) is an AI-generated image (SI, Gemini image model via agy), cropped and resized by the author. The app shows a small AI-generated credit in its footer; video and submission image frames carry a visible watermark.
-- The overview figure `docs/ridgelight-at-a-glance.png` is a screenshot of a diagram page drawn by code (Archify renderer). Its text was drafted with AI assistance (SI) and its numbers are read from `verify/*.json`. It is not an AI-generated image and has no NASA logos, flags or mission patches.
+- The overview figure `docs/ridgelight-at-a-glance.png` is the image export of a page drawn by code (Archify renderer, controls left out). Its text was drafted with AI assistance (SI) and its numbers are read from `verify/*.json`. It is not an AI-generated image and has no NASA logos, flags or mission patches.
 - The demo narration, if the demo video is used, is synthetic speech (Kokoro text-to-speech). The video screens are recordings of the app and cards drawn in code. No AI-generated photo is in the repository. If a logo from an image model is added, it carries a visible label.
 
 Decided by the author, not by the AI:
