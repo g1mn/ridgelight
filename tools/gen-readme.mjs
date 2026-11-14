@@ -230,6 +230,8 @@ function l2f() { return 'verify/l2-summary.json'; }
 
 function expand(tpl) {
   let out = tpl.replace(/\{\{table\}\}/g, () => buildTable());
+  const iau = ((load('data/sites.json') || {}).sites || []).map((s) => s.iau_offset_km).filter((x) => typeof x === 'number');
+  out = out.replace(/\{\{iau_min\}\}/g, () => Math.min(...iau).toFixed(1)).replace(/\{\{iau_max\}\}/g, () => Math.max(...iau).toFixed(1));
   out = out.replace(/\{\{v ([^#\s}]+)#([^|}\s]+)\|(\d+)\|([^|}]*)(\|x100)?\}\}/g, (_, file, key, dec, unit, x100) => {
     return `${numTok(file, key, Number(dec), !!x100)}${unit}<!--v:${file}#${key}${x100 ? ' x100' : ''}-->`;
   });

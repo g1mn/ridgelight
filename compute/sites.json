@@ -18,7 +18,15 @@
     511.0
    ],
    "read_at_utc": "2026-11-14T01:05Z",
-   "read_at_kst": "2026-11-14 10:05 KST"
+   "read_at_kst": "2026-11-14 10:05 KST",
+   "iau_feature": "Cabeus B",
+   "iau_feature_id": 8058,
+   "iau_center_lat": -82.26,
+   "iau_center_lon": -54.58,
+   "iau_diameter_km": 59.62,
+   "iau_offset_km": 66.8,
+   "iau_source_url": "https://planetarynames.wr.usgs.gov/Feature/8058",
+   "iau_checked_utc": "2026-11-14"
   },
   {
    "site_id": "a3-haworth",
@@ -37,7 +45,15 @@
     437.5
    ],
    "read_at_utc": "2026-11-14T01:05Z",
-   "read_at_kst": "2026-11-14 10:05 KST"
+   "read_at_kst": "2026-11-14 10:05 KST",
+   "iau_feature": "Haworth",
+   "iau_feature_id": 14502,
+   "iau_center_lat": -87.45,
+   "iau_center_lon": -5.17,
+   "iau_diameter_km": 51.42,
+   "iau_offset_km": 33.6,
+   "iau_source_url": "https://planetarynames.wr.usgs.gov/Feature/14502",
+   "iau_checked_utc": "2026-11-14"
   },
   {
    "site_id": "a3-malapert-massif",
@@ -56,7 +72,15 @@
     326.0
    ],
    "read_at_utc": "2026-11-14T01:05Z",
-   "read_at_kst": "2026-11-14 10:05 KST"
+   "read_at_kst": "2026-11-14 10:05 KST",
+   "iau_feature": "Malapert",
+   "iau_feature_id": 3603,
+   "iau_center_lat": -85.0,
+   "iau_center_lon": 11.4,
+   "iau_diameter_km": 72.38,
+   "iau_offset_km": 40.3,
+   "iau_source_url": "https://planetarynames.wr.usgs.gov/Feature/3603",
+   "iau_checked_utc": "2026-11-14"
   },
   {
    "site_id": "a3-mons-mouton-plateau",
@@ -75,7 +99,15 @@
     265.5
    ],
    "read_at_utc": "2026-11-14T01:05Z",
-   "read_at_kst": "2026-11-14 10:05 KST"
+   "read_at_kst": "2026-11-14 10:05 KST",
+   "iau_feature": "Mons Mouton",
+   "iau_feature_id": 16070,
+   "iau_center_lat": -84.6,
+   "iau_center_lon": 31.0,
+   "iau_diameter_km": 130.0,
+   "iau_offset_km": 3.6,
+   "iau_source_url": "https://planetarynames.wr.usgs.gov/Feature/16070",
+   "iau_checked_utc": "2026-11-14"
   },
   {
    "site_id": "a3-mons-mouton",
@@ -94,7 +126,15 @@
     339.0
    ],
    "read_at_utc": "2026-11-14T01:05Z",
-   "read_at_kst": "2026-11-14 10:05 KST"
+   "read_at_kst": "2026-11-14 10:05 KST",
+   "iau_feature": "Mons Mouton",
+   "iau_feature_id": 16070,
+   "iau_center_lat": -84.6,
+   "iau_center_lon": 31.0,
+   "iau_diameter_km": 130.0,
+   "iau_offset_km": 24.8,
+   "iau_source_url": "https://planetarynames.wr.usgs.gov/Feature/16070",
+   "iau_checked_utc": "2026-11-14"
   },
   {
    "site_id": "a3-nobile-rim-1",
@@ -113,7 +153,15 @@
     367.5
    ],
    "read_at_utc": "2026-11-14T01:05Z",
-   "read_at_kst": "2026-11-14 10:05 KST"
+   "read_at_kst": "2026-11-14 10:05 KST",
+   "iau_feature": "Nobile",
+   "iau_feature_id": 4321,
+   "iau_center_lat": -85.28,
+   "iau_center_lon": 53.27,
+   "iau_diameter_km": 79.27,
+   "iau_offset_km": 39.2,
+   "iau_source_url": "https://planetarynames.wr.usgs.gov/Feature/4321",
+   "iau_checked_utc": "2026-11-14"
   },
   {
    "site_id": "a3-nobile-rim-2",
@@ -132,7 +180,15 @@
     421.5
    ],
    "read_at_utc": "2026-11-14T01:05Z",
-   "read_at_kst": "2026-11-14 10:05 KST"
+   "read_at_kst": "2026-11-14 10:05 KST",
+   "iau_feature": "Nobile",
+   "iau_feature_id": 4321,
+   "iau_center_lat": -85.28,
+   "iau_center_lon": 53.27,
+   "iau_diameter_km": 79.27,
+   "iau_offset_km": 43.4,
+   "iau_source_url": "https://planetarynames.wr.usgs.gov/Feature/4321",
+   "iau_checked_utc": "2026-11-14"
   },
   {
    "site_id": "a3-de-gerlache-rim-2",
@@ -151,7 +207,15 @@
     679.0
    ],
    "read_at_utc": "2026-11-14T01:05Z",
-   "read_at_kst": "2026-11-14 10:05 KST"
+   "read_at_kst": "2026-11-14 10:05 KST",
+   "iau_feature": "de Gerlache",
+   "iau_feature_id": 1439,
+   "iau_center_lat": -88.48,
+   "iau_center_lon": -88.34,
+   "iau_diameter_km": 32.71,
+   "iau_offset_km": 22.1,
+   "iau_source_url": "https://planetarynames.wr.usgs.gov/Feature/1439",
+   "iau_checked_utc": "2026-11-14"
   },
   {
    "site_id": "a3-slater-plain",
@@ -170,7 +234,16 @@
     940.5
    ],
    "read_at_utc": "2026-11-14T01:05Z",
-   "read_at_kst": "2026-11-14 10:05 KST"
+   "read_at_kst": "2026-11-14 10:05 KST",
+   "iau_feature": "Slater",
+   "iau_feature_id": 15325,
+   "iau_center_lat": -88.08,
+   "iau_center_lon": 111.29,
+   "iau_diameter_km": 25.12,
+   "iau_offset_km": 32.8,
+   "iau_source_url": "https://planetarynames.wr.usgs.gov/Feature/15325",
+   "iau_checked_utc": "2026-11-14"
   }
- ]
+ ],
+ "iau_crosscheck_note": "2026-11-14: no official Artemis III region boundary or center coordinates were found (Moon Trek searchItems API ignores the query and returns only Apollo bookmarks; QuickMap is a JS app with no public query API checked). iau_* fields are the IAU Gazetteer of Planetary Nomenclature (USGS, planetarynames.wr.usgs.gov) feature center, planetographic +East, for the named feature. A region is not the feature center, so these are a plausibility cross-check only and lat_deg/lon_deg are unchanged."
 }
