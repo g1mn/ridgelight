@@ -1,0 +1,20 @@
+[
+  {
+    "synthetic_test_fixture": true,
+    "id": "syn-array-1",
+    "name": "Synthetic Array Site 1",
+    "kind": "landing_site",
+    "lat_deg": -86.0,
+    "lon_deg": 30.0,
+    "coord_quality": "landing_report"
+  },
+  {
+    "synthetic_test_fixture": true,
+    "id": "syn-array-2",
+    "name": "Synthetic Array Site 2",
+    "kind": "artemis3_region",
+    "lat_deg": -87.5,
+    "lon_deg": 90.0,
+    "coord_quality": "approx_from_public_map"
+  }
+]

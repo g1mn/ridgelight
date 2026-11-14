@@ -1,0 +1,17 @@
+{
+  "synthetic_test_fixture": true,
+  "site_id": "syn-site-nosunset",
+  "start_utc": "2026-11-14T00:00:00Z",
+  "step_minutes": 60,
+  "n": 5,
+  "sun": {
+    "az_deg": [0.0, 10.0, 20.0, 30.0, 40.0],
+    "el_deg": [5.0, 4.0, 3.0, 2.0, 1.0],
+    "disk_fraction": [1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "earth": {
+    "az_deg": [180.0, 180.0, 180.0, 180.0, 180.0],
+    "el_deg": [2.0, 2.0, 2.0, 2.0, 2.0]
+  },
+  "source": "synthetic track with no sunset"
+}

@@ -1,0 +1,8 @@
+{
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "build": "node tools/build-data.mjs"
+  }
+}

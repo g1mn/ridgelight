@@ -1,0 +1,46 @@
+{
+  "synthetic_test_fixture": true,
+  "sites": [
+    {
+      "site_id": "syn-site-approx",
+      "name": "Synthetic Approx Site",
+      "kind": "artemis3_region",
+      "lat_deg": -85.0,
+      "lon_deg": 45.0,
+      "coord_quality": "approx_from_public_map"
+    },
+    {
+      "site_id": "syn-site-published",
+      "name": "Synthetic Published Site",
+      "kind": "landing_site",
+      "lat_deg": -86.5,
+      "lon_deg": 120.0,
+      "coord_quality": "published_text"
+    },
+    {
+      "site_id": "syn-site-report",
+      "name": "Synthetic Landing Report Site",
+      "kind": "landing_site",
+      "lat_deg": -88.0,
+      "lon_deg": -60.0,
+      "coord_quality": "landing_report"
+    },
+    {
+      "site_id": "syn-site-unknown-quality",
+      "name": "Synthetic Unknown Quality",
+      "kind": "artemis3_region",
+      "lat_deg": -84.0,
+      "lon_deg": -150.0,
+      "coord_quality": "unrecognized_source"
+    },
+    {
+      "id": "syn-site-id-alias",
+      "name": "Synthetic ID Alias Site",
+      "kind": "landing_site",
+      "lat_deg": -87.2,
+      "lon_deg": 10.0,
+      "coord_quality": "published_text",
+      "read_at_kst": "2026-11-14 10:00 KST"
+    }
+  ]
+}

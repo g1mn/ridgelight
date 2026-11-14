@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lunar Window</title>
+  <meta name="description" content="Lunar Window, a static web app for lunar south pole landing site visibility. Code and text drafted with AI assistance (SI) for NASA Space Apps 2026.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand-block">
+      <h1 id="app-title" class="brand-title">Lunar Window</h1>
+      <p id="app-subtitle" class="brand-subtitle">Lunar South Pole Landing Site Navigator</p>
+      <p id="app-tagline" class="brand-tagline">Pick a lunar south pole site and see when the Sun and Earth rise and set there, with the terrain checked against NASA data.</p>
+    </div>
+    <div class="header-controls">
+      <div class="control-item">
+        <label for="select-lang" id="lbl-lang-select" class="control-label">Language</label>
+        <select id="select-lang" aria-label="Select language">
+          <option value="en">English</option>
+          <option value="ko">한국어</option>
+          <option value="ja">日本語</option>
+          <option value="zh-Hans">简体中文</option>
+          <option value="zh-Hant">繁體中文</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="pt">Português</option>
+          <option value="vi">Tiếng Việt</option>
+        </select>
+      </div>
+      <button type="button" id="btn-theme-toggle" class="btn btn-theme" aria-label="Toggle color theme">
+        <span class="theme-icon" aria-hidden="true">☀️</span>
+        <span class="theme-label">Light</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <div class="views-grid">
+      <!-- 1. South Pole Polar Stereographic Map (B & A) -->
+      <section id="map-view-container" aria-label="Map view"></section>
+
+      <!-- 2. Sky Dome (B & A) -->
+      <section id="dome-view-container" aria-label="Sky dome view"></section>
+    </div>
+
+    <div class="views-full-width">
+      <!-- 3. Timeline Bar (A only) -->
+      <section id="timeline-view-container" aria-label="Timeline bar view"></section>
+
+      <!-- 4. 3-Site Comparison & Date Shift (A only) -->
+      <section id="compare-view-container" aria-label="3-site comparison view"></section>
+
+      <!-- 5. Verification Panel (B & A) -->
+      <section id="verify-view-container" aria-label="Verification panel view"></section>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div id="footer-source-note" class="footer-note">
+      Data sources: <a href="https://ssd.jpl.nasa.gov/horizons/" class="footer-link">NASA JPL Horizons ephemerides</a>, <a href="https://pds-geosciences.wustl.edu/missions/lro/lola.htm" class="footer-link">LOLA illumination products</a>, <a href="https://www.lroc.asu.edu/" class="footer-link">LROC imagery</a>.
+    </div>
+    <div id="footer-disclaimer" class="footer-disclaimer">
+      Unofficial challenge entry for NASA Space Apps Challenge 2026. Not affiliated with or endorsed by NASA.
+    </div>
+  </footer>
+
+  <!-- Generated data and localization (file:// compatible, classic scripts) -->
+  <script src="gen/data.js"></script>
+  <script src="gen/i18n.js"></script>
+
+  <!-- Application scripts -->
+  <script src="src/model.js"></script>
+  <script src="src/map.js"></script>
+  <script src="src/dome.js"></script>
+  <script src="src/verify.js"></script>
+  <script src="src/timeline.js"></script>
+  <script src="src/compare.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>
