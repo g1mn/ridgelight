@@ -56,13 +56,50 @@ Reading the table:
 - LOLA average visibility maps `AVGVISIB_85S_060M_201608` and `AVGVISIB_75S_120M_201608` with their `_EARTH` versions: reference for the terrain model check (`verify/l1b-summary.json`).
 - LROC wide angle camera south pole movie frames (`WAC_MOVIE_S*`) and the `WAC_POLE_ILL_PCT_SOUTH_100M` illumination map: M1 (`verify/m1-summary.json`).
 
-Resources tab of the challenge: NASA JPL Horizons is used (the L1(a) check). Moon Trek was used to look for official region coordinates (WMTS capabilities and the search service, no data kept from it). LROC QuickMap and the CSA Moon Exploration page were not used for any result. The LROC and LOLA products above are the same data QuickMap and Moon Trek show, but we downloaded them from the PDS archives (`compute/manifest.json`), not through those portals. The footer of the app links to QuickMap and Moon Trek for looking at a region by hand.
+Citation of the challenge Resources tab (the Global Award needs at least one NASA item from it): the item "Horizons System" (NASA JPL, https://ssd.jpl.nasa.gov/horizons/) is used for the L1(a) check, and the NAIF SPICE kernels that Horizons is built on are used for every Sun and Earth direction in the app. The item "Moon Trek" was used to look for official region coordinates (WMTS capabilities and the search service, no data kept from it). The item "Quickmap" and the Space Agency Partner item "Moon Exploration" (CSA) were not used for any result. The LROC and LOLA products above are the same data QuickMap and Moon Trek show, but we downloaded them from the PDS archives (`compute/manifest.json`), not through those portals. The footer of the app links to QuickMap and Moon Trek for looking at a region by hand.
 
 The IAU Gazetteer of Planetary Nomenclature (USGS) was used for the feature center cross-check in `data/sites.json`. It is not NASA data.
 
 The LOLA elevation models are described in Smith et al. (2010), Geophysical Research Letters 37, doi:10.1029/2010GL043751.
 
 File names and SHA-256 sums of the inputs are in `verify/data-sha256.txt` and the sums of the generated files are in `LW_DATA.sources` inside `web/gen/data.js`. Numbers shown in the app come from `data/` and `verify/`, not from the page code. Download addresses are in `compute/manifest.json`. No data from Space Agency partners was used beyond these NASA products.
+
+## Software, services and licenses
+
+Nothing here is NASA data. The app in `web/` loads no library, font or script from outside the repository (system font stack, a test checks for external calls). Libraries below were used by the calculation scripts and the video and slide tooling and are not copied into the repository. Versions and license fields were read from the package metadata of the installed packages on 2026-11-15.
+
+| Item | Version | License (as stated by the package) | Used for |
+|---|---|---|---|
+| Python | 3.12.3 | PSF license (not read from metadata) | `compute/` scripts |
+| spiceypy (Python binding of the NAIF SPICE Toolkit, CSPICE N0067) | 8.3.0 | MIT | Sun and Earth directions, Moon orientation, station positions |
+| NumPy | 2.5.4 | BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0 | array math in `compute/` |
+| Pillow | 13.0.0 | MIT-CMU | image handling in `compute/m1_lroc.py` |
+| Node.js (built-in `node:test`, `fs`, `crypto`) | 24.x | MIT (not read from metadata) | tests and build scripts, no npm packages |
+| kokoro-onnx | 0.6.1 | MIT (LICENSE file in the package) | demo narration (synthetic speech) |
+| ONNX Runtime | 1.31.1 | MIT | runs the speech model |
+| Kokoro-82M speech model (`kokoro-v1.0.onnx`) | v1.0 | Apache-2.0 according to the model card, not re-checked on 2026-11-15 | demo narration, not stored in the repository |
+| espeakng-loader | 0.2.4 | not stated in the package metadata | phoneme step of the speech model |
+| FFmpeg | 6.1.1 (distribution build, GPL enabled) | GPL | assembling the demo video, a tool and not part of the repository |
+| Google Chrome (headless) | 150 | proprietary freeware | rendering video frames and slide PDF, a tool and not part of the repository |
+| Claude (Anthropic) | n/a | service terms | see the SI section |
+| Gemini image model through the `agy` command line | n/a | service terms | logo mark, see the SI section |
+| Archify renderer | n/a | not read | the overview figure `docs/ridgelight-at-a-glance.png` |
+| Vercel (static hosting) | n/a | service terms | the live test site |
+
+Data licenses: the NASA and PDS products above are public. The IAU Gazetteer of Planetary Nomenclature (USGS) was read for feature centers only. The repository code is Apache-2.0 (`LICENSE`). The logo mark is an AI-generated image made during the hackathon, with no third-party image source.
+
+## Hackathon period
+
+The first commit of this repository is `7090cd4` (2026-11-14 10:03:33 KST, 09:03 Taipei time). All 11 commits are by one author between 2026-11-14 10:03 and 19:42 KST. Before that only planning notes existed outside this repository (dated 2026-11-11, the M1 and DSN target values). Everything in the repository is dated after the hackathon began. All input data were downloaded on 2026-11-14 (sums in `verify/data-sha256.txt`).
+
+## Approximate, modeled and example values
+
+- Region positions are approximate (a few km): read by pixel measurement from a NASA map picture, not official coordinates (`coord_quality` in `data/sites.json`).
+- The 15 x 15 km region box is an assumption. Every region result describes that box.
+- Sunlight and Earth visibility are computed by our model from elevation maps and SPICE, at hourly steps and on a 2 km grid. They are simulated values and not measurements. Only the M1 check compares the model with real photographs, on points 88 to 90 deg S.
+- Earth above the horizon is an upper bound for a radio link and not a link assessment.
+- The landing date condition (X hours, Y percent) and the DSN elevation limit are example values and not mission requirements.
+- The app prints a note next to these results ("approx." label, approximate position note, example value note, and the notes in the verification panel).
 
 ## Method in short
 
@@ -76,7 +113,7 @@ File names and SHA-256 sums of the inputs are in `verify/data-sha256.txt` and th
 
 ## Use of Super Intelligence (SI)
 
-Almost everything in this repository was made with an AI model (Claude, from Anthropic), working inside the author's coding session. We list it by kind so nobody has to guess.
+Almost everything in this repository was made with an AI model (Claude, from Anthropic), working inside the author's coding session.
 
 Made by the AI model, then run and read through by the author:
 - The app code in `web/` and the tests in `test/`.
