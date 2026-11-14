@@ -3,14 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lunar Window</title>
-  <meta name="description" content="Lunar Window, a static web app for lunar south pole landing site visibility. Code and text drafted with AI assistance (SI) for NASA Space Apps 2026.">
+  <title>Ridgelight</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <meta name="description" content="Ridgelight, a static web app for lunar south pole landing site visibility. Code and text drafted with AI assistance (SI) for NASA Space Apps 2026.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="app-header">
+    <img class="brand-logo" src="assets/logo-mark.png" width="56" height="56" alt="Ridgelight logo, a crescent Moon with a ridgeline (AI-generated image)">
     <div class="brand-block">
-      <h1 id="app-title" class="brand-title">Lunar Window</h1>
+      <h1 id="app-title" class="brand-title">Ridgelight</h1>
       <p id="app-subtitle" class="brand-subtitle">Lunar South Pole Landing Site Navigator</p>
       <p id="app-tagline" class="brand-tagline">Pick a lunar south pole site and see when the Sun and Earth rise and set there, with the terrain checked against NASA data.</p>
     </div>
@@ -65,6 +67,7 @@
   </main>
 
   <footer class="app-footer">
+    <div class="footer-note" id="footer-logo-credit" lang="en">Logo: AI-generated image (SI, Gemini image model), then cropped by the author.</div>
     <div id="footer-source-note" class="footer-note">
       Data sources: <a href="https://ssd.jpl.nasa.gov/horizons/" class="footer-link">NASA JPL Horizons ephemerides</a>, <a href="https://pds-geosciences.wustl.edu/missions/lro/lola.htm" class="footer-link">LOLA illumination products</a>, <a href="https://www.lroc.asu.edu/" class="footer-link">LROC imagery</a>.
     </div>

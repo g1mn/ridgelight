@@ -1,14 +1,14 @@
-# Project page text for Lunar Window
+# Project page text for Ridgelight
 
 Field names follow the 2026 "Project Page Form Field Instructions". Fields that need a link are filled in at submission.
 
 ## Project Name
 
-Lunar Window (working name)
+Ridgelight
 
 ## High-Level Project Summary
 
-Lunar Window is a static web app for the challenge "Lunar Landing Site Navigator". You pick one of the nine Artemis III candidate regions near the lunar south pole and see when the Sun and Earth are above the horizon there, over the real terrain. Inside each region it also finds the spot with the most hours of Sun and Earth together, lists landing dates that keep the Sun up for three days, and shows the longest shadow and the Deep Space Network station windows.
+Ridgelight is a static web app for the challenge "Lunar Landing Site Navigator". You pick one of the nine Artemis III candidate regions near the lunar south pole and see when the Sun and Earth are above the horizon there, over the real terrain. Inside each region it also finds the spot with the most hours of Sun and Earth together, lists landing dates that keep the Sun up for three days, and shows the longest shadow and the Deep Space Network station windows.
 
 It matters because a site is only useful if you can say how far to trust the numbers. The app puts the checks next to the results. Its terrain shadow model agrees with real LROC photographs at 94.1% of 200 points, against 56.1% for a flat horizon. The SPICE code matches Horizons within 4.06e-7 degrees over 72 pairs, and we say plainly that this second check tests our implementation, not the Moon. Everything runs in a browser with no server and no network calls, and the interface is available in 10 languages.
 
@@ -18,7 +18,9 @@ It matters because a site is only useful if you can say how far to trust the num
 
 ## Link to Final Project
 
-(Link added at submission: the public repository and the page that serves the app.)
+Live test site: https://lunar-window-two.vercel.app
+
+(Repository link added at submission.)
 
 ## Detailed Project Description
 

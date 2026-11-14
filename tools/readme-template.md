@@ -1,6 +1,12 @@
-# Lunar Window
+# Ridgelight
 
-Lunar Window is a static web app for the NASA Space Apps Challenge 2026 challenge "Lunar Landing Site Navigator". Pick one of the nine Artemis III candidate regions near the lunar south pole and see when the Sun and Earth are above the horizon there, which spot inside the region has the most light and line of sight to Earth, and how much of that rests on checks against NASA data.
+<img src="web/assets/logo-mark.png" width="96" alt="Ridgelight logo, AI-generated image">
+
+*When sunlight reaches every lunar landing site.*
+
+Live test site: https://lunar-window-two.vercel.app
+
+Ridgelight is a static web app for the NASA Space Apps Challenge 2026 challenge "Lunar Landing Site Navigator". Pick one of the nine Artemis III candidate regions near the lunar south pole and see when the Sun and Earth are above the horizon there, which spot inside the region has the most light and line of sight to Earth, and how much of that rests on checks against NASA data.
 
 **Result in one line:** our terrain shadow model agrees with real LROC photographs at {{v verify/m1-summary.json#agreement_pct|1|%}} of the frame and point pairs with valid data (kappa {{v verify/m1-summary.json#kappa|2|}}), against {{v verify/m1-summary.json#baseline.agreement_pct|1|%}} for a flat horizon, over {{v verify/m1-summary.json#frames|0| frames}} and 200 points near the pole. The SPICE code reproduces Horizons Sun and Earth directions within {{e verify/l1a-summary.json#max_sep_deg|2| deg}} over {{v verify/l1a-summary.json#n_pairs|0| pairs}}, which is an implementation check and not a ground truth comparison. Both numbers, and every other row, are in the table below with the target we wrote down before the data was downloaded.
 
@@ -76,6 +82,7 @@ Made by the AI model, then run and read through by the author:
 - Drafts of this README, the project page text and the verification notes, including the script that fills the table and the numbers in this file from the JSON files.
 - The translations of the interface into the 9 languages other than English.
 - The region positions: the AI read the yellow boxes off the NASA map picture by pixel measurement. The result is approximate and is marked so in `data/sites.json`.
+- The logo mark (web/assets/logo-mark.png, favicon.png) is an AI-generated image (SI, Gemini image model via agy), cropped and resized by the author. The app shows a small AI-generated credit in its footer; video and submission image frames carry a visible watermark.
 - The demo narration, if the demo video is used, is synthetic speech (Kokoro text-to-speech). The video screens are recordings of the app and cards drawn in code. No AI-generated photo is in the repository. If a logo from an image model is added, it carries a visible label.
 
 Decided by the author, not by the AI:
@@ -106,10 +113,10 @@ All scripts are in `compute/`. Data are downloaded with `compute/fetch.sh` (inpu
 
 | Form field | Where the evidence is |
 |---|---|
-| Project Name | Lunar Window (working name) |
+| Project Name | Ridgelight |
 | High-Level Project Summary | First paragraphs above and `submission/form-en.md` |
 | Link to Project Demo | Added at submission (30 second video or 7 slide deck with English subtitles) |
-| Link to Final Project | Public repository link, added at submission |
+| Link to Final Project | https://lunar-window-two.vercel.app (static page), repository link added at submission |
 | Detailed Project Description | This file, `docs/verification-protocol.md`, the verification panel in the app, `submission/form-en.md` |
 | Use of Super Intelligence (SI) | The SI section above and `submission/form-en.md` |
 | NASA Data | The NASA data section above |
