@@ -1,0 +1,479 @@
+{
+ "mode": "observed",
+ "seed": 20261114,
+ "layer": "A",
+ "points": 200,
+ "frames": 37,
+ "utc_parsed": 37,
+ "valid_source": "mask",
+ "mask_valid_when": "nonzero",
+ "threshold_method": "otsu_88_90S_256",
+ "mask_equals_dn_gt_0": true,
+ "frame_list": [
+  {
+   "name": "WAC_MOVIE_S20100219T1859",
+   "utc_mid": "2010-02-19T19:02:27Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 109.64109947685036,
+   "threshold_T": 45,
+   "valid_points": 166,
+   "agreement_pct": 95.78313253012048,
+   "baseline_agreement_pct": 88.55421686746988
+  },
+  {
+   "name": "WAC_MOVIE_S20100301T0858",
+   "utc_mid": "2010-03-01T09:01:32Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -6.822477427442871,
+   "threshold_T": 51,
+   "valid_points": 168,
+   "agreement_pct": 99.40476190476191,
+   "baseline_agreement_pct": 82.73809523809523
+  },
+  {
+   "name": "WAC_MOVIE_S20100310T2300",
+   "utc_mid": "2010-03-10T23:03:31Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -123.41451482669758,
+   "threshold_T": 64,
+   "valid_points": 165,
+   "agreement_pct": 96.36363636363636,
+   "baseline_agreement_pct": 80.0
+  },
+  {
+   "name": "WAC_MOVIE_S20100320T1446",
+   "utc_mid": "2010-03-20T14:49:55Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 118.70820818625344,
+   "threshold_T": 45,
+   "valid_points": 189,
+   "agreement_pct": 98.4126984126984,
+   "baseline_agreement_pct": 92.5925925925926
+  },
+  {
+   "name": "WAC_MOVIE_S20100330T0836",
+   "utc_mid": "2010-03-30T08:39:20Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 0.12809413754047427,
+   "threshold_T": 25,
+   "valid_points": 190,
+   "agreement_pct": 99.47368421052632,
+   "baseline_agreement_pct": 89.47368421052632
+  },
+  {
+   "name": "WAC_MOVIE_S20100408T1855",
+   "utc_mid": "2010-04-08T18:59:10Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -114.70530217665272,
+   "threshold_T": 56,
+   "valid_points": 193,
+   "agreement_pct": 95.85492227979275,
+   "baseline_agreement_pct": 91.19170984455958
+  },
+  {
+   "name": "WAC_MOVIE_S20100418T0856",
+   "utc_mid": "2010-04-18T09:00:06Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 128.16272552171978,
+   "threshold_T": 40,
+   "valid_points": 165,
+   "agreement_pct": 98.18181818181819,
+   "baseline_agreement_pct": 91.51515151515152
+  },
+  {
+   "name": "WAC_MOVIE_S20100427T2252",
+   "utc_mid": "2010-04-27T22:55:46Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 11.367976636269173,
+   "threshold_T": 52,
+   "valid_points": 192,
+   "agreement_pct": 99.47916666666666,
+   "baseline_agreement_pct": 85.9375
+  },
+  {
+   "name": "WAC_MOVIE_S20100507T1444",
+   "utc_mid": "2010-05-07T14:47:11Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -106.3876025380824,
+   "threshold_T": 51,
+   "valid_points": 200,
+   "agreement_pct": 96.0,
+   "baseline_agreement_pct": 88.0
+  },
+  {
+   "name": "WAC_MOVIE_S20100517T0250",
+   "utc_mid": "2010-05-17T02:53:14Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 137.32736198341695,
+   "threshold_T": 34,
+   "valid_points": 150,
+   "agreement_pct": 97.33333333333334,
+   "baseline_agreement_pct": 91.33333333333333
+  },
+  {
+   "name": "WAC_MOVIE_S20100526T1838",
+   "utc_mid": "2010-05-26T18:42:14Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 19.4096502613863,
+   "threshold_T": 56,
+   "valid_points": 200,
+   "agreement_pct": 99.0,
+   "baseline_agreement_pct": 77.5
+  },
+  {
+   "name": "WAC_MOVIE_S20100605T0644",
+   "utc_mid": "2010-06-05T06:47:40Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -96.52152114994028,
+   "threshold_T": 56,
+   "valid_points": 187,
+   "agreement_pct": 93.04812834224599,
+   "baseline_agreement_pct": 70.05347593582889
+  },
+  {
+   "name": "WAC_MOVIE_S20100614T2041",
+   "utc_mid": "2010-06-14T20:44:32Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 146.17622284951338,
+   "threshold_T": 39,
+   "valid_points": 154,
+   "agreement_pct": 97.40259740259741,
+   "baseline_agreement_pct": 82.46753246753246
+  },
+  {
+   "name": "WAC_MOVIE_S20100624T1420",
+   "utc_mid": "2010-06-24T14:23:38Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 27.214748100332805,
+   "threshold_T": 51,
+   "valid_points": 181,
+   "agreement_pct": 96.68508287292818,
+   "baseline_agreement_pct": 59.11602209944752
+  },
+  {
+   "name": "WAC_MOVIE_S20100704T0224",
+   "utc_mid": "2010-07-04T02:27:34Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -88.73987487336827,
+   "threshold_T": 57,
+   "valid_points": 187,
+   "agreement_pct": 91.44385026737967,
+   "baseline_agreement_pct": 52.94117647058824
+  },
+  {
+   "name": "WAC_MOVIE_S20100713T1620",
+   "utc_mid": "2010-07-13T16:23:47Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 153.95449361910556,
+   "threshold_T": 47,
+   "valid_points": 161,
+   "agreement_pct": 97.51552795031056,
+   "baseline_agreement_pct": 67.08074534161491
+  },
+  {
+   "name": "WAC_MOVIE_S20100723T0615",
+   "utc_mid": "2010-07-23T06:18:48Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 36.853857466982944,
+   "threshold_T": 51,
+   "valid_points": 164,
+   "agreement_pct": 90.85365853658537,
+   "baseline_agreement_pct": 54.268292682926834
+  },
+  {
+   "name": "WAC_MOVIE_S20100801T2207",
+   "utc_mid": "2010-08-01T22:10:28Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -80.99644679384386,
+   "threshold_T": 62,
+   "valid_points": 174,
+   "agreement_pct": 88.50574712643679,
+   "baseline_agreement_pct": 26.436781609195403
+  },
+  {
+   "name": "WAC_MOVIE_S20100811T1204",
+   "utc_mid": "2010-08-11T12:07:24Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 161.75805891166667,
+   "threshold_T": 60,
+   "valid_points": 169,
+   "agreement_pct": 92.3076923076923,
+   "baseline_agreement_pct": 32.544378698224854
+  },
+  {
+   "name": "WAC_MOVIE_S20100821T0006",
+   "utc_mid": "2010-08-21T00:10:14Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 45.640958435706374,
+   "threshold_T": 59,
+   "valid_points": 153,
+   "agreement_pct": 94.11764705882352,
+   "baseline_agreement_pct": 33.33333333333333
+  },
+  {
+   "name": "WAC_MOVIE_S20100830T1556",
+   "utc_mid": "2010-08-30T15:59:48Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -72.09122061475638,
+   "threshold_T": 64,
+   "valid_points": 177,
+   "agreement_pct": 89.26553672316385,
+   "baseline_agreement_pct": 25.423728813559322
+  },
+  {
+   "name": "WAC_MOVIE_S20100909T0744",
+   "utc_mid": "2010-09-09T07:47:39Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 169.8552209555286,
+   "threshold_T": 66,
+   "valid_points": 189,
+   "agreement_pct": 94.70899470899471,
+   "baseline_agreement_pct": 28.04232804232804
+  },
+  {
+   "name": "WAC_MOVIE_S20100918T2138",
+   "utc_mid": "2010-09-18T21:42:20Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 52.87970626281994,
+   "threshold_T": 68,
+   "valid_points": 169,
+   "agreement_pct": 92.3076923076923,
+   "baseline_agreement_pct": 24.2603550295858
+  },
+  {
+   "name": "WAC_MOVIE_S20100928T1136",
+   "utc_mid": "2010-09-28T11:39:38Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -63.75721735331271,
+   "threshold_T": 66,
+   "valid_points": 161,
+   "agreement_pct": 88.81987577639751,
+   "baseline_agreement_pct": 21.11801242236025
+  },
+  {
+   "name": "WAC_MOVIE_S20101008T0134",
+   "utc_mid": "2010-10-08T01:38:09Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 179.29158159121033,
+   "threshold_T": 63,
+   "valid_points": 195,
+   "agreement_pct": 94.87179487179486,
+   "baseline_agreement_pct": 24.615384615384617
+  },
+  {
+   "name": "WAC_MOVIE_S20101017T1532",
+   "utc_mid": "2010-10-17T15:36:04Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 62.400307517847956,
+   "threshold_T": 71,
+   "valid_points": 172,
+   "agreement_pct": 90.69767441860465,
+   "baseline_agreement_pct": 25.0
+  },
+  {
+   "name": "WAC_MOVIE_S20101027T0524",
+   "utc_mid": "2010-10-27T05:27:56Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -54.03373811461547,
+   "threshold_T": 73,
+   "valid_points": 142,
+   "agreement_pct": 87.32394366197182,
+   "baseline_agreement_pct": 26.056338028169012
+  },
+  {
+   "name": "WAC_MOVIE_S20101105T2110",
+   "utc_mid": "2010-11-05T21:13:27Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -171.7068574526846,
+   "threshold_T": 58,
+   "valid_points": 200,
+   "agreement_pct": 94.5,
+   "baseline_agreement_pct": 31.0
+  },
+  {
+   "name": "WAC_MOVIE_S20101115T1107",
+   "utc_mid": "2010-11-15T11:10:19Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 71.51856327656277,
+   "threshold_T": 65,
+   "valid_points": 200,
+   "agreement_pct": 86.5,
+   "baseline_agreement_pct": 28.499999999999996
+  },
+  {
+   "name": "WAC_MOVIE_S20101125T0104",
+   "utc_mid": "2010-11-25T01:07:39Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -44.82954847353231,
+   "threshold_T": 76,
+   "valid_points": 130,
+   "agreement_pct": 87.6923076923077,
+   "baseline_agreement_pct": 20.76923076923077
+  },
+  {
+   "name": "WAC_MOVIE_S20101204T1501",
+   "utc_mid": "2010-12-04T15:04:58Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -161.4314317150279,
+   "threshold_T": 58,
+   "valid_points": 192,
+   "agreement_pct": 93.75,
+   "baseline_agreement_pct": 39.58333333333333
+  },
+  {
+   "name": "WAC_MOVIE_S20101214T0452",
+   "utc_mid": "2010-12-14T04:55:46Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 81.90979101435174,
+   "threshold_T": 60,
+   "valid_points": 188,
+   "agreement_pct": 90.42553191489363,
+   "baseline_agreement_pct": 44.148936170212764
+  },
+  {
+   "name": "WAC_MOVIE_S20101223T2030",
+   "utc_mid": "2010-12-23T20:34:15Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -35.2202240636076,
+   "threshold_T": 69,
+   "valid_points": 134,
+   "agreement_pct": 91.7910447761194,
+   "baseline_agreement_pct": 29.1044776119403
+  },
+  {
+   "name": "WAC_MOVIE_S20110102T1014",
+   "utc_mid": "2011-01-02T10:18:04Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -151.61151232757365,
+   "threshold_T": 70,
+   "valid_points": 151,
+   "agreement_pct": 92.05298013245033,
+   "baseline_agreement_pct": 50.331125827814574
+  },
+  {
+   "name": "WAC_MOVIE_S20110112T0011",
+   "utc_mid": "2011-01-12T00:14:38Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": 91.68494732263672,
+   "threshold_T": 50,
+   "valid_points": 188,
+   "agreement_pct": 95.2127659574468,
+   "baseline_agreement_pct": 71.27659574468085
+  },
+  {
+   "name": "WAC_MOVIE_S20110121T1408",
+   "utc_mid": "2011-01-21T14:11:30Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -24.599686335229887,
+   "threshold_T": 63,
+   "valid_points": 161,
+   "agreement_pct": 98.13664596273291,
+   "baseline_agreement_pct": 62.732919254658384
+  },
+  {
+   "name": "WAC_MOVIE_S20110131T0403",
+   "utc_mid": "2011-01-31T04:07:14Z",
+   "utc_source": "label",
+   "subsolar_lon_deg": -141.06640275882867,
+   "threshold_T": 75,
+   "valid_points": 144,
+   "agreement_pct": 93.05555555555556,
+   "baseline_agreement_pct": 68.75
+  }
+ ],
+ "excluded_frames": [],
+ "confusion": {
+  "obs_lit_pred_lit": 530,
+  "obs_lit_pred_shadow": 12,
+  "obs_shadow_pred_lit": 365,
+  "obs_shadow_pred_shadow": 5494,
+  "no_data": 999
+ },
+ "agreement_pct": 94.11029526636463,
+ "kappa": 0.7067136263154229,
+ "baseline": {
+  "confusion": {
+   "obs_lit_pred_lit": 459,
+   "obs_lit_pred_shadow": 83,
+   "obs_shadow_pred_lit": 2727,
+   "obs_shadow_pred_shadow": 3132,
+   "no_data": 999
+  },
+  "agreement_pct": 56.100609279800025,
+  "kappa": 0.11869557139234135
+ },
+ "sensitivity": {
+  "T0.5": {
+   "agreement_pct": 97.12544914857052
+  },
+  "T1.5": {
+   "agreement_pct": 91.34510232776128
+  },
+  "f_gt_0": {
+   "agreement_pct": 92.50117169192313
+  },
+  "f_ge_0.99": {
+   "agreement_pct": 94.26652085611623
+  }
+ },
+ "target": {
+  "label": "Target set at hackathon start",
+  "agreement_pct_min": 85,
+  "beat_baseline": true
+ },
+ "target_met": true,
+ "year_compare": {
+  "period_utc": [
+   "2010-02-15T00:00",
+   "2011-02-05T00:00"
+  ],
+  "steps": 8520,
+  "lroc_pct_factor": 1.0,
+  "lroc_twi_pct_factor": 1.0,
+  "n": 199,
+  "mae_pp": 2.1350692211055278,
+  "r": 0.9638292577044504,
+  "mean_diff_pp": 0.7303924271356784,
+  "n_twi": 199,
+  "mae_pp_twi": 1.945042633165829,
+  "r_twi": 0.9644339337983373,
+  "mean_diff_pp_twi": 0.7253734170854271,
+  "note": "ours: share of hours with Sun disc fraction f >= 0.5 over one year; LROC: share of 3,807 frames (plus 229 gap fillers) judged lit with a conservative global threshold, and a time-weighted variant"
+ },
+ "figures": [
+  {
+   "role": "median",
+   "path": "data/m1/fig-median.png",
+   "frame": "WAC_MOVIE_S20101105T2110",
+   "agreement_pct": 94.5,
+   "dense_pixel_agreement_pct": 93.48101090579345
+  },
+  {
+   "role": "az90",
+   "path": "data/m1/fig-az90.png",
+   "frame": "WAC_MOVIE_S20100821T0006",
+   "agreement_pct": 94.11764705882352,
+   "dense_pixel_agreement_pct": 90.61851226761516
+  }
+ ],
+ "dense_check": {
+  "WAC_MOVIE_S20101105T2110": {
+   "pixels": 1155716,
+   "agreement_pct": 93.48101090579345
+  },
+  "WAC_MOVIE_S20100821T0006": {
+   "pixels": 937346,
+   "agreement_pct": 90.61851226761516
+  }
+ },
+ "pixel_rule": "offset = upperleft_corner_x / pixel_scale_x = 3039.5; sample = floor(offset + x/100 + 0.5), line = floor(offset - y/100 + 0.5)",
+ "limits": [
+  "observation is a single global Otsu cut per frame, not a calibrated shadow detector",
+  "layer A points lie in 88-90 S where scattered light and low Sun make DN near the cut uncertain",
+  "LOLA DEM (20 m) and the LROC frames use different projections and ephemeris, a shift of a few pixels is possible",
+  "the model is evaluated at the Sun centre with disc fraction f >= 0.5 as lit"
+ ],
+ "generated_with": "Claude (Anthropic SI) wrote compute/m1_lroc.py; numbers come from the script run; figures are generated from LROC data and our model",
+ "computed_at_utc": "2026-11-14T01:26Z",
+ "runtime_s": 114.96451377868652
+}
