@@ -1,0 +1,72 @@
+{
+ "regions": 9,
+ "region_ids": [
+  "a3-peak-near-cabeus-b",
+  "a3-haworth",
+  "a3-malapert-massif",
+  "a3-mons-mouton-plateau",
+  "a3-mons-mouton",
+  "a3-nobile-rim-1",
+  "a3-nobile-rim-2",
+  "a3-de-gerlache-rim-2",
+  "a3-slater-plain"
+ ],
+ "reduced": [],
+ "reduced_reason": "",
+ "grid_step_m": 2000.0,
+ "score_field": "joint_sun_earth_hours",
+ "score_period": {
+  "start": "2027-01-01",
+  "end": "2028-12-31"
+ },
+ "score_epochs": 17544,
+ "points_per_region": {
+  "a3-peak-near-cabeus-b": 49,
+  "a3-haworth": 49,
+  "a3-malapert-massif": 49,
+  "a3-mons-mouton-plateau": 49,
+  "a3-mons-mouton": 49,
+  "a3-nobile-rim-1": 49,
+  "a3-nobile-rim-2": 49,
+  "a3-de-gerlache-rim-2": 49,
+  "a3-slater-plain": 49
+ },
+ "best_point": {
+  "a3-peak-near-cabeus-b": "a3-peak-near-cabeus-b-37",
+  "a3-haworth": "a3-haworth-21",
+  "a3-malapert-massif": "a3-malapert-massif-30",
+  "a3-mons-mouton-plateau": "a3-mons-mouton-plateau-42",
+  "a3-mons-mouton": "a3-mons-mouton-47",
+  "a3-nobile-rim-1": "a3-nobile-rim-1-47",
+  "a3-nobile-rim-2": "a3-nobile-rim-2-22",
+  "a3-de-gerlache-rim-2": "a3-de-gerlache-rim-2-02",
+  "a3-slater-plain": "a3-slater-plain-19"
+ },
+ "best_vs_center_hours": {
+  "a3-peak-near-cabeus-b": 2959.0,
+  "a3-haworth": 4014.0,
+  "a3-malapert-massif": 2316.0,
+  "a3-mons-mouton-plateau": 4520.0,
+  "a3-mons-mouton": 2672.0,
+  "a3-nobile-rim-1": 8152.0,
+  "a3-nobile-rim-2": 3837.0,
+  "a3-de-gerlache-rim-2": 2028.0,
+  "a3-slater-plain": 3980.0
+ },
+ "rank_changed_combos": 6659,
+ "rank_pairs_total": 26136,
+ "top1_changed_dates": 477,
+ "dates_total": 726,
+ "shift_days": 5,
+ "region_box_assumption": "15 x 15 km square around the approximate region point (NASA 2022 caption), 7 x 7 grid at 2 km",
+ "runtime_s": 105.1,
+ "runtime_by_step_s": {
+  "body_vectors": 3.6,
+  "grid_horizons_and_scores": 95.5,
+  "calendar": 0.0,
+  "shadow": 0.7,
+  "total": 99.9,
+  "dsn": 5.2
+ },
+ "generated_with": "Claude (Anthropic SI) wrote compute/l2_sites.py; numbers come from the script run"
+}

@@ -1,0 +1,397 @@
+{
+ "rows": [
+  {
+   "site_id": "a3-peak-near-cabeus-b",
+   "point_id": "a3-peak-near-cabeus-b-37",
+   "point_kind": "best",
+   "period": "18.6y",
+   "longest_shadow_hours": 358.21468403999995,
+   "shadow_start_utc": "2034-12-07T17:56:54.668286Z",
+   "shadow_end_utc": "2034-12-22T16:09:47.530830Z",
+   "sens_longest_hours": 360.28445763694447
+  },
+  {
+   "site_id": "a3-peak-near-cabeus-b",
+   "point_id": "a3-peak-near-cabeus-b-37",
+   "point_kind": "best",
+   "period": "calendar",
+   "longest_shadow_hours": 356.8032251925,
+   "shadow_start_utc": "2027-05-03T02:03:27.214934Z",
+   "shadow_end_utc": "2027-05-17T22:51:38.825627Z",
+   "sens_longest_hours": 359.4133060075
+  },
+  {
+   "site_id": "a3-peak-near-cabeus-b",
+   "point_id": "a3-peak-near-cabeus-b-25",
+   "point_kind": "center",
+   "period": "18.6y",
+   "longest_shadow_hours": 388.4697632602778,
+   "shadow_start_utc": "2044-05-25T15:40:53.173040Z",
+   "shadow_end_utc": "2044-06-10T20:09:04.320777Z",
+   "sens_longest_hours": 585.5030512977778
+  },
+  {
+   "site_id": "a3-peak-near-cabeus-b",
+   "point_id": "a3-peak-near-cabeus-b-25",
+   "point_kind": "center",
+   "period": "calendar",
+   "longest_shadow_hours": 375.64538234305553,
+   "shadow_start_utc": "2027-05-04T16:36:06.193546Z",
+   "shadow_end_utc": "2027-05-20T08:14:49.569981Z",
+   "sens_longest_hours": 585.5030512977778
+  },
+  {
+   "site_id": "a3-haworth",
+   "point_id": "a3-haworth-21",
+   "point_kind": "best",
+   "period": "18.6y",
+   "longest_shadow_hours": 639.2258008805555,
+   "shadow_start_utc": "2031-02-08T17:13:31.037713Z",
+   "shadow_end_utc": "2031-03-07T08:27:03.920883Z",
+   "sens_longest_hours": 650.5651180525
+  },
+  {
+   "site_id": "a3-haworth",
+   "point_id": "a3-haworth-21",
+   "point_kind": "best",
+   "period": "calendar",
+   "longest_shadow_hours": 637.5240913563889,
+   "shadow_start_utc": "2027-04-22T19:53:53.836070Z",
+   "shadow_end_utc": "2027-05-19T09:25:20.564953Z",
+   "sens_longest_hours": 648.6462857983333
+  },
+  {
+   "site_id": "a3-haworth",
+   "point_id": "a3-haworth-25",
+   "point_kind": "center",
+   "period": "18.6y",
+   "longest_shadow_hours": 681.0186190255555,
+   "shadow_start_utc": "2032-02-01T12:30:15.635075Z",
+   "shadow_end_utc": "2032-02-29T21:31:22.663567Z",
+   "sens_longest_hours": 687.7804010722223
+  },
+  {
+   "site_id": "a3-haworth",
+   "point_id": "a3-haworth-25",
+   "point_kind": "center",
+   "period": "calendar",
+   "longest_shadow_hours": 679.1841552544445,
+   "shadow_start_utc": "2027-04-26T06:57:37.767191Z",
+   "shadow_end_utc": "2027-05-24T14:08:40.726107Z",
+   "sens_longest_hours": 685.7475454380556
+  },
+  {
+   "site_id": "a3-malapert-massif",
+   "point_id": "a3-malapert-massif-30",
+   "point_kind": "best",
+   "period": "18.6y",
+   "longest_shadow_hours": 386.90598803638886,
+   "shadow_start_utc": "2030-02-24T15:24:12.464483Z",
+   "shadow_end_utc": "2030-03-12T18:18:34.021414Z",
+   "sens_longest_hours": 393.5397604013889
+  },
+  {
+   "site_id": "a3-malapert-massif",
+   "point_id": "a3-malapert-massif-30",
+   "point_kind": "best",
+   "period": "calendar",
+   "longest_shadow_hours": 386.1449884263889,
+   "shadow_start_utc": "2027-04-28T01:41:58.272265Z",
+   "shadow_end_utc": "2027-05-14T03:50:40.230600Z",
+   "sens_longest_hours": 392.21801207916667
+  },
+  {
+   "site_id": "a3-malapert-massif",
+   "point_id": "a3-malapert-massif-25",
+   "point_kind": "center",
+   "period": "18.6y",
+   "longest_shadow_hours": 459.5166183172222,
+   "shadow_start_utc": "2032-02-01T21:42:37.673067Z",
+   "shadow_end_utc": "2032-02-21T01:13:37.499009Z",
+   "sens_longest_hours": 466.6847218616666
+  },
+  {
+   "site_id": "a3-malapert-massif",
+   "point_id": "a3-malapert-massif-25",
+   "point_kind": "center",
+   "period": "calendar",
+   "longest_shadow_hours": 458.1028161002778,
+   "shadow_start_utc": "2027-04-26T16:11:26.973801Z",
+   "shadow_end_utc": "2027-05-15T18:17:37.111762Z",
+   "sens_longest_hours": 465.07677858222223
+  },
+  {
+   "site_id": "a3-mons-mouton-plateau",
+   "point_id": "a3-mons-mouton-plateau-42",
+   "point_kind": "best",
+   "period": "18.6y",
+   "longest_shadow_hours": 422.55763889,
+   "shadow_start_utc": "2030-02-21T07:40:05.146068Z",
+   "shadow_end_utc": "2030-03-10T22:13:32.646072Z",
+   "sens_longest_hours": 430.63992063861116
+  },
+  {
+   "site_id": "a3-mons-mouton-plateau",
+   "point_id": "a3-mons-mouton-plateau-42",
+   "point_kind": "best",
+   "period": "calendar",
+   "longest_shadow_hours": 421.7926291166667,
+   "shadow_start_utc": "2027-04-24T17:37:56.912611Z",
+   "shadow_end_utc": "2027-05-12T07:25:30.377431Z",
+   "sens_longest_hours": 428.5005765786111
+  },
+  {
+   "site_id": "a3-mons-mouton-plateau",
+   "point_id": "a3-mons-mouton-plateau-25",
+   "point_kind": "center",
+   "period": "18.6y",
+   "longest_shadow_hours": 591.8656185080556,
+   "shadow_start_utc": "2032-01-29T01:28:39.809907Z",
+   "shadow_end_utc": "2032-02-22T17:20:36.036536Z",
+   "sens_longest_hours": 608.6277460688889
+  },
+  {
+   "site_id": "a3-mons-mouton-plateau",
+   "point_id": "a3-mons-mouton-plateau-25",
+   "point_kind": "center",
+   "period": "calendar",
+   "longest_shadow_hours": 589.8134886305555,
+   "shadow_start_utc": "2027-04-22T21:31:23.802104Z",
+   "shadow_end_utc": "2027-05-17T11:20:12.361174Z",
+   "sens_longest_hours": 606.445824568889
+  },
+  {
+   "site_id": "a3-mons-mouton",
+   "point_id": "a3-mons-mouton-47",
+   "point_kind": "best",
+   "period": "18.6y",
+   "longest_shadow_hours": 409.45965019861114,
+   "shadow_start_utc": "2031-02-13T10:53:26.196439Z",
+   "shadow_end_utc": "2031-03-02T12:21:00.937154Z",
+   "sens_longest_hours": 417.10737362611115
+  },
+  {
+   "site_id": "a3-mons-mouton",
+   "point_id": "a3-mons-mouton-47",
+   "point_kind": "best",
+   "period": "calendar",
+   "longest_shadow_hours": 408.3217771508333,
+   "shadow_start_utc": "2027-04-27T12:56:25.079956Z",
+   "shadow_end_utc": "2027-05-14T13:15:43.477699Z",
+   "sens_longest_hours": 415.9949951441667
+  },
+  {
+   "site_id": "a3-mons-mouton",
+   "point_id": "a3-mons-mouton-25",
+   "point_kind": "center",
+   "period": "18.6y",
+   "longest_shadow_hours": 668.9282394258333,
+   "shadow_start_utc": "2032-01-22T07:39:46.064685Z",
+   "shadow_end_utc": "2032-02-19T04:35:27.726618Z",
+   "sens_longest_hours": 2071.948594093333
+  },
+  {
+   "site_id": "a3-mons-mouton",
+   "point_id": "a3-mons-mouton-25",
+   "point_kind": "center",
+   "period": "calendar",
+   "longest_shadow_hours": 664.9555012277777,
+   "shadow_start_utc": "2028-04-04T13:28:13.347383Z",
+   "shadow_end_utc": "2028-05-02T06:25:33.151803Z",
+   "sens_longest_hours": 1384.3502074697224
+  },
+  {
+   "site_id": "a3-nobile-rim-1",
+   "point_id": "a3-nobile-rim-1-47",
+   "point_kind": "best",
+   "period": "18.6y",
+   "longest_shadow_hours": 319.60451617888884,
+   "shadow_start_utc": "2030-02-23T17:34:04.669512Z",
+   "shadow_end_utc": "2030-03-09T01:10:20.927756Z",
+   "sens_longest_hours": 331.35025673055554
+  },
+  {
+   "site_id": "a3-nobile-rim-1",
+   "point_id": "a3-nobile-rim-1-47",
+   "point_kind": "best",
+   "period": "calendar",
+   "longest_shadow_hours": 319.06773836055555,
+   "shadow_start_utc": "2027-04-27T03:34:58.043444Z",
+   "shadow_end_utc": "2027-05-10T10:39:01.901542Z",
+   "sens_longest_hours": 330.43898857777776
+  },
+  {
+   "site_id": "a3-nobile-rim-1",
+   "point_id": "a3-nobile-rim-1-25",
+   "point_kind": "center",
+   "period": "18.6y",
+   "longest_shadow_hours": 521.3202236222222,
+   "shadow_start_utc": "2032-01-22T12:47:11.715560Z",
+   "shadow_end_utc": "2032-02-13T06:06:24.520600Z",
+   "sens_longest_hours": 523.5301743641667
+  },
+  {
+   "site_id": "a3-nobile-rim-1",
+   "point_id": "a3-nobile-rim-1-25",
+   "point_kind": "center",
+   "period": "calendar",
+   "longest_shadow_hours": 519.2370205388888,
+   "shadow_start_utc": "2027-04-16T08:26:55.221837Z",
+   "shadow_end_utc": "2027-05-07T23:41:08.495777Z",
+   "sens_longest_hours": 521.7400213191667
+  },
+  {
+   "site_id": "a3-nobile-rim-2",
+   "point_id": "a3-nobile-rim-2-22",
+   "point_kind": "best",
+   "period": "18.6y",
+   "longest_shadow_hours": 387.5682886402778,
+   "shadow_start_utc": "2031-02-08T03:38:51.688324Z",
+   "shadow_end_utc": "2031-02-24T07:12:57.527429Z",
+   "sens_longest_hours": 392.5778818613889
+  },
+  {
+   "site_id": "a3-nobile-rim-2",
+   "point_id": "a3-nobile-rim-2-22",
+   "point_kind": "best",
+   "period": "calendar",
+   "longest_shadow_hours": 386.6821482086111,
+   "shadow_start_utc": "2028-04-10T15:26:50.813779Z",
+   "shadow_end_utc": "2028-04-26T18:07:46.547330Z",
+   "sens_longest_hours": 391.57100825777775
+  },
+  {
+   "site_id": "a3-nobile-rim-2",
+   "point_id": "a3-nobile-rim-2-25",
+   "point_kind": "center",
+   "period": "18.6y",
+   "longest_shadow_hours": 523.8765450530556,
+   "shadow_start_utc": "2030-02-19T12:11:41.791940Z",
+   "shadow_end_utc": "2030-03-13T08:04:17.354131Z",
+   "sens_longest_hours": 544.3412396488889
+  },
+  {
+   "site_id": "a3-nobile-rim-2",
+   "point_id": "a3-nobile-rim-2-25",
+   "point_kind": "center",
+   "period": "calendar",
+   "longest_shadow_hours": 521.1246556983333,
+   "shadow_start_utc": "2027-04-22T22:43:49.835095Z",
+   "shadow_end_utc": "2027-05-14T15:51:18.595609Z",
+   "sens_longest_hours": 542.0560662794444
+  },
+  {
+   "site_id": "a3-de-gerlache-rim-2",
+   "point_id": "a3-de-gerlache-rim-2-02",
+   "point_kind": "best",
+   "period": "18.6y",
+   "longest_shadow_hours": 414.53390385305556,
+   "shadow_start_utc": "2033-12-19T02:52:27.318776Z",
+   "shadow_end_utc": "2034-01-05T09:24:29.372647Z",
+   "sens_longest_hours": 420.22317559916667
+  },
+  {
+   "site_id": "a3-de-gerlache-rim-2",
+   "point_id": "a3-de-gerlache-rim-2-02",
+   "point_kind": "best",
+   "period": "calendar",
+   "longest_shadow_hours": 412.84853895861113,
+   "shadow_start_utc": "2027-05-03T18:51:11.843998Z",
+   "shadow_end_utc": "2027-05-20T23:42:06.584249Z",
+   "sens_longest_hours": 418.3504163775
+  },
+  {
+   "site_id": "a3-de-gerlache-rim-2",
+   "point_id": "a3-de-gerlache-rim-2-25",
+   "point_kind": "center",
+   "period": "18.6y",
+   "longest_shadow_hours": 501.12242603833334,
+   "shadow_start_utc": "2030-02-27T11:55:10.870983Z",
+   "shadow_end_utc": "2030-03-20T09:02:31.604721Z",
+   "sens_longest_hours": 507.2832998908333
+  },
+  {
+   "site_id": "a3-de-gerlache-rim-2",
+   "point_id": "a3-de-gerlache-rim-2-25",
+   "point_kind": "center",
+   "period": "calendar",
+   "longest_shadow_hours": 500.27327689416666,
+   "shadow_start_utc": "2027-04-30T22:09:34.175164Z",
+   "shadow_end_utc": "2027-05-21T18:25:57.971983Z",
+   "sens_longest_hours": 505.0760261022222
+  },
+  {
+   "site_id": "a3-slater-plain",
+   "point_id": "a3-slater-plain-19",
+   "point_kind": "best",
+   "period": "18.6y",
+   "longest_shadow_hours": 440.27307368777775,
+   "shadow_start_utc": "2036-10-31T04:44:27.536402Z",
+   "shadow_end_utc": "2036-11-18T13:00:50.601678Z",
+   "sens_longest_hours": 447.5436137944444
+  },
+  {
+   "site_id": "a3-slater-plain",
+   "point_id": "a3-slater-plain-19",
+   "point_kind": "best",
+   "period": "calendar",
+   "longest_shadow_hours": 436.75888652027777,
+   "shadow_start_utc": "2027-05-17T09:53:28.588993Z",
+   "shadow_end_utc": "2027-06-04T14:39:00.580466Z",
+   "sens_longest_hours": 445.1360934277778
+  },
+  {
+   "site_id": "a3-slater-plain",
+   "point_id": "a3-slater-plain-25",
+   "point_kind": "center",
+   "period": "18.6y",
+   "longest_shadow_hours": 5665.026233889167,
+   "shadow_start_utc": "2031-09-30T00:44:11.915636Z",
+   "shadow_end_utc": "2032-05-23T01:45:46.357637Z",
+   "sens_longest_hours": 6363.507969908889
+  },
+  {
+   "site_id": "a3-slater-plain",
+   "point_id": "a3-slater-plain-25",
+   "point_kind": "center",
+   "period": "calendar",
+   "longest_shadow_hours": 5658.768410528889,
+   "shadow_start_utc": "2027-12-12T05:15:11.400658Z",
+   "shadow_end_utc": "2028-08-04T00:01:17.678562Z",
+   "sens_longest_hours": 6354.7255336533335
+  }
+ ],
+ "crosscheck": {
+  "site_id": "a3-peak-near-cabeus-b",
+  "point_kind": "best",
+  "period": "calendar",
+  "method": "SPICE azlcpo (ELLIPSOID, LT+S, MOON_ME), horizon from the same mask",
+  "edges": [
+   {
+    "edge": "start",
+    "utc_before": "2027-05-03T02:00:00.000000Z",
+    "utc_after": "2027-05-03T03:00:00.000000Z",
+    "sun_top_minus_horizon_before_deg": 0.008840413764731714,
+    "sun_top_minus_horizon_after_deg": -0.14474634422254412
+   },
+   {
+    "edge": "end",
+    "utc_before": "2027-05-17T22:00:00.000000Z",
+    "utc_after": "2027-05-17T23:00:00.000000Z",
+    "sun_top_minus_horizon_before_deg": -0.26559937522077437,
+    "sun_top_minus_horizon_after_deg": 0.04295551725933677
+   }
+  ],
+  "max_abs_diff_vs_series_deg": 1.611926059297275e-08,
+  "pass": true
+ },
+ "definition": {
+  "representative": "Sun disc fully hidden (f = 0) at consecutive hourly epochs, edges interpolated",
+  "sensitivity": "f < 0.5",
+  "periods": {
+   "18.6y": "2026-01-01T00:00 UTC, 163,056 hourly epochs",
+   "calendar": "2027-01-01T00:00 .. 2028-12-31T23:00 UTC"
+  }
+ },
+ "generated_with": "Claude (Anthropic SI) wrote compute/l2_sites.py; numbers come from the script run"
+}
