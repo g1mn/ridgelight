@@ -1,0 +1,176 @@
+{
+ "generated_by": "compute/read_sites.py logic run by Claude (Anthropic SI) on 2026-11-14; coordinates read from NASA map image",
+ "sites": [
+  {
+   "site_id": "a3-peak-near-cabeus-b",
+   "id": "a3-peak-near-cabeus-b",
+   "name": "Peak near Cabeus B",
+   "kind": "artemis3_region",
+   "lat_deg": -83.644,
+   "lon_deg": -68.655,
+   "coord_quality": "approx_from_public_map",
+   "approx": true,
+   "source_url": "https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg",
+   "source_page_url": "https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/",
+   "source_note": "Region name from the NASA 2024-10 release. Position read from the yellow region box center in the release map (no lat/lon grid is printed). Method: south pole star at pixel (745.8,762.4) taken as the pole, scale bar 50 km = 179 px, map top taken as 0 deg longitude with east to the right (checked: Malapert Massif lands near 0E and 86S). Polar stereographic inverse, R=1737.4 km. Estimated error a few km; the NTRS abstract (ntrs.nasa.gov/citations/20250011660) gives no coordinates. Representative point of a region that holds several landing sites, not a landing site.",
+   "px_center": [
+    102.5,
+    511.0
+   ],
+   "read_at_utc": "2026-11-14T01:05Z",
+   "read_at_kst": "2026-11-14 10:05 KST"
+  },
+  {
+   "site_id": "a3-haworth",
+   "id": "a3-haworth",
+   "name": "Haworth",
+   "kind": "artemis3_region",
+   "lat_deg": -86.761,
+   "lon_deg": -22.533,
+   "coord_quality": "approx_from_public_map",
+   "approx": true,
+   "source_url": "https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg",
+   "source_page_url": "https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/",
+   "source_note": "Region name from the NASA 2024-10 release. Position read from the yellow region box center in the release map (no lat/lon grid is printed). Method: south pole star at pixel (745.8,762.4) taken as the pole, scale bar 50 km = 179 px, map top taken as 0 deg longitude with east to the right (checked: Malapert Massif lands near 0E and 86S). Polar stereographic inverse, R=1737.4 km. Estimated error a few km; the NTRS abstract (ntrs.nasa.gov/citations/20250011660) gives no coordinates. Representative point of a region that holds several landing sites, not a landing site.",
+   "px_center": [
+    611.0,
+    437.5
+   ],
+   "read_at_utc": "2026-11-14T01:05Z",
+   "read_at_kst": "2026-11-14 10:05 KST"
+  },
+  {
+   "site_id": "a3-malapert-massif",
+   "id": "a3-malapert-massif",
+   "name": "Malapert Massif",
+   "kind": "artemis3_region",
+   "lat_deg": -85.982,
+   "lon_deg": -0.104,
+   "coord_quality": "approx_from_public_map",
+   "approx": true,
+   "source_url": "https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg",
+   "source_page_url": "https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/",
+   "source_note": "Region name from the NASA 2024-10 release. Position read from the yellow region box center in the release map (no lat/lon grid is printed). Method: south pole star at pixel (745.8,762.4) taken as the pole, scale bar 50 km = 179 px, map top taken as 0 deg longitude with east to the right (checked: Malapert Massif lands near 0E and 86S). Polar stereographic inverse, R=1737.4 km. Estimated error a few km; the NTRS abstract (ntrs.nasa.gov/citations/20250011660) gives no coordinates. Representative point of a region that holds several landing sites, not a landing site.",
+   "px_center": [
+    745.0,
+    326.0
+   ],
+   "read_at_utc": "2026-11-14T01:05Z",
+   "read_at_kst": "2026-11-14 10:05 KST"
+  },
+  {
+   "site_id": "a3-mons-mouton-plateau",
+   "id": "a3-mons-mouton-plateau",
+   "name": "Mons Mouton Plateau",
+   "kind": "artemis3_region",
+   "lat_deg": -84.591,
+   "lon_deg": 32.266,
+   "coord_quality": "approx_from_public_map",
+   "approx": true,
+   "source_url": "https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg",
+   "source_page_url": "https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/",
+   "source_note": "Region name from the NASA 2024-10 release. Position read from the yellow region box center in the release map (no lat/lon grid is printed). Method: south pole star at pixel (745.8,762.4) taken as the pole, scale bar 50 km = 179 px, map top taken as 0 deg longitude with east to the right (checked: Malapert Massif lands near 0E and 86S). Polar stereographic inverse, R=1737.4 km. Estimated error a few km; the NTRS abstract (ntrs.nasa.gov/citations/20250011660) gives no coordinates. Representative point of a region that holds several landing sites, not a landing site.",
+   "px_center": [
+    1059.5,
+    265.5
+   ],
+   "read_at_utc": "2026-11-14T01:05Z",
+   "read_at_kst": "2026-11-14 10:05 KST"
+  },
+  {
+   "site_id": "a3-mons-mouton",
+   "id": "a3-mons-mouton",
+   "name": "Mons Mouton",
+   "kind": "artemis3_region",
+   "lat_deg": -85.415,
+   "lon_deg": 31.77,
+   "coord_quality": "approx_from_public_map",
+   "approx": true,
+   "source_url": "https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg",
+   "source_page_url": "https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/",
+   "source_note": "Region name from the NASA 2024-10 release. Position read from the yellow region box center in the release map (no lat/lon grid is printed). Method: south pole star at pixel (745.8,762.4) taken as the pole, scale bar 50 km = 179 px, map top taken as 0 deg longitude with east to the right (checked: Malapert Massif lands near 0E and 86S). Polar stereographic inverse, R=1737.4 km. Estimated error a few km; the NTRS abstract (ntrs.nasa.gov/citations/20250011660) gives no coordinates. Representative point of a region that holds several landing sites, not a landing site.",
+   "px_center": [
+    1008.0,
+    339.0
+   ],
+   "read_at_utc": "2026-11-14T01:05Z",
+   "read_at_kst": "2026-11-14 10:05 KST"
+  },
+  {
+   "site_id": "a3-nobile-rim-1",
+   "id": "a3-nobile-rim-1",
+   "name": "Nobile Rim 1",
+   "kind": "artemis3_region",
+   "lat_deg": -85.425,
+   "lon_deg": 37.381,
+   "coord_quality": "approx_from_public_map",
+   "approx": true,
+   "source_url": "https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg",
+   "source_page_url": "https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/",
+   "source_note": "Region name from the NASA 2024-10 release. Position read from the yellow region box center in the release map (no lat/lon grid is printed). Method: south pole star at pixel (745.8,762.4) taken as the pole, scale bar 50 km = 179 px, map top taken as 0 deg longitude with east to the right (checked: Malapert Massif lands near 0E and 86S). Polar stereographic inverse, R=1737.4 km. Estimated error a few km; the NTRS abstract (ntrs.nasa.gov/citations/20250011660) gives no coordinates. Representative point of a region that holds several landing sites, not a landing site.",
+   "px_center": [
+    1047.5,
+    367.5
+   ],
+   "read_at_utc": "2026-11-14T01:05Z",
+   "read_at_kst": "2026-11-14 10:05 KST"
+  },
+  {
+   "site_id": "a3-nobile-rim-2",
+   "id": "a3-nobile-rim-2",
+   "name": "Nobile Rim 2",
+   "kind": "artemis3_region",
+   "lat_deg": -83.945,
+   "lon_deg": 58.792,
+   "coord_quality": "approx_from_public_map",
+   "approx": true,
+   "source_url": "https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg",
+   "source_page_url": "https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/",
+   "source_note": "Region name from the NASA 2024-10 release. Position read from the yellow region box center in the release map (no lat/lon grid is printed). Method: south pole star at pixel (745.8,762.4) taken as the pole, scale bar 50 km = 179 px, map top taken as 0 deg longitude with east to the right (checked: Malapert Massif lands near 0E and 86S). Polar stereographic inverse, R=1737.4 km. Estimated error a few km; the NTRS abstract (ntrs.nasa.gov/citations/20250011660) gives no coordinates. Representative point of a region that holds several landing sites, not a landing site.",
+   "px_center": [
+    1308.5,
+    421.5
+   ],
+   "read_at_utc": "2026-11-14T01:05Z",
+   "read_at_kst": "2026-11-14 10:05 KST"
+  },
+  {
+   "site_id": "a3-de-gerlache-rim-2",
+   "id": "a3-de-gerlache-rim-2",
+   "name": "de Gerlache Rim 2",
+   "kind": "artemis3_region",
+   "lat_deg": -88.233,
+   "lon_deg": -64.238,
+   "coord_quality": "approx_from_public_map",
+   "approx": true,
+   "source_url": "https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg",
+   "source_page_url": "https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/",
+   "source_note": "Region name from the NASA 2024-10 release. Position read from the yellow region box center in the release map (no lat/lon grid is printed). Method: south pole star at pixel (745.8,762.4) taken as the pole, scale bar 50 km = 179 px, map top taken as 0 deg longitude with east to the right (checked: Malapert Massif lands near 0E and 86S). Polar stereographic inverse, R=1737.4 km. Estimated error a few km; the NTRS abstract (ntrs.nasa.gov/citations/20250011660) gives no coordinates. Representative point of a region that holds several landing sites, not a landing site.",
+   "px_center": [
+    573.0,
+    679.0
+   ],
+   "read_at_utc": "2026-11-14T01:05Z",
+   "read_at_kst": "2026-11-14 10:05 KST"
+  },
+  {
+   "site_id": "a3-slater-plain",
+   "id": "a3-slater-plain",
+   "name": "Slater Plain",
+   "kind": "artemis3_region",
+   "lat_deg": -87.16,
+   "lon_deg": 125.283,
+   "coord_quality": "approx_from_public_map",
+   "approx": true,
+   "source_url": "https://www.nasa.gov/wp-content/uploads/2024/10/artemis-iii-landing-region-candidates.jpg",
+   "source_page_url": "https://www.nasa.gov/news-release/nasa-provides-update-on-artemis-iii-moon-landing-regions/",
+   "source_note": "Region name from the NASA 2024-10 release. Position read from the yellow region box center in the release map (no lat/lon grid is printed). Method: south pole star at pixel (745.8,762.4) taken as the pole, scale bar 50 km = 179 px, map top taken as 0 deg longitude with east to the right (checked: Malapert Massif lands near 0E and 86S). Polar stereographic inverse, R=1737.4 km. Estimated error a few km; the NTRS abstract (ntrs.nasa.gov/citations/20250011660) gives no coordinates. Representative point of a region that holds several landing sites, not a landing site.",
+   "px_center": [
+    997.5,
+    940.5
+   ],
+   "read_at_utc": "2026-11-14T01:05Z",
+   "read_at_kst": "2026-11-14 10:05 KST"
+  }
+ ]
+}

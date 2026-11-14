@@ -1,0 +1,28 @@
+{
+ "n_pairs": 72,
+ "max_sep_deg": 4.06e-07,
+ "median_sep_deg": 1.165e-07,
+ "target_max_sep_deg": 0.05,
+ "target_note": "Target set at hackathon start: max separation <= 0.05 deg. Implementation check against Horizons, same ephemeris family, not a ground-truth comparison.",
+ "epochs_utc": [
+  "2027-01-15T00:00",
+  "2027-04-15T06:00",
+  "2027-07-15T12:00",
+  "2027-10-15T18:00"
+ ],
+ "sites": 9,
+ "bodies": [
+  "sun",
+  "earth"
+ ],
+ "worst_pair": {
+  "site_id": "a3-haworth",
+  "utc": "2027-01-15T00:00",
+  "body": "earth",
+  "sep_deg": "0.000000406"
+ },
+ "met_target": true,
+ "spice": "CSPICE_N0067",
+ "computed_at_utc": "2026-11-14T01:08Z",
+ "generated_with": "Claude (Anthropic SI) wrote compute/spice_check.py; numbers come from the script run"
+}

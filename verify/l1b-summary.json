@@ -1,0 +1,125 @@
+{
+ "mode": "terrain",
+ "seed": 20261114,
+ "n": 500,
+ "layers": {
+  "A": 200,
+  "B": 150,
+  "C": 150
+ },
+ "mae_sun_pp": 1.3900260000000002,
+ "mean_diff_sun_pp": -1.0059544,
+ "r_sun": 0.994762439496519,
+ "mae_earth_pp": 0.6843720000000001,
+ "mean_diff_earth_pp": 0.4898539999999998,
+ "r_earth": 0.9956615616542697,
+ "target_mae_sun_pp": 5,
+ "target_r_sun": 0.95,
+ "target_mae_earth_pp": 5,
+ "target_r_earth": 0.95,
+ "gate": "pass",
+ "earth_source": "model",
+ "gate_rule": "500 points computed, Sun MAE 10 pp or less and correlation 0.8 or more, and the Sun elevation from the visibility code matches L1(a) at 3 of the 9 sites at all 4 epochs within 0.01 deg",
+ "gate_rule_source": "docs/verification-protocol.md",
+ "gate_decided_kst": "2026-11-14 10:16 KST",
+ "l1a_crosscheck_max_abs_deg": 2.5021342042741423e-06,
+ "runtime_s": 148.66734433174133,
+ "runtime_by_step_s": {
+  "sampling": 0.0,
+  "body_vectors": 3.6,
+  "site_horizons_and_l1a_crosscheck": 2.1,
+  "horizons_500": 123.8,
+  "visibility_500": 18.5,
+  "total": 148.7
+ },
+ "rejected_redraws": {
+  "A": 0,
+  "B": 0,
+  "C": 0
+ },
+ "by_layer": {
+  "A": {
+   "n": 200,
+   "sun": {
+    "mae": 1.5869704999999998,
+    "mean_diff": -1.2351044999999998,
+    "r": 0.9934359939610696
+   },
+   "earth": {
+    "mae": 0.9393435000000002,
+    "mean_diff": 0.7801994999999997,
+    "r": 0.9878708291821691
+   }
+  },
+  "B": {
+   "n": 150,
+   "sun": {
+    "mae": 1.458708,
+    "mean_diff": -0.9009373333333334,
+    "r": 0.9909837882504257
+   },
+   "earth": {
+    "mae": 0.6185480000000002,
+    "mean_diff": 0.3994346666666665,
+    "r": 0.997596949060053
+   }
+  },
+  "C": {
+   "n": 150,
+   "sun": {
+    "mae": 1.0587513333333334,
+    "mean_diff": -0.8054380000000003,
+    "r": 0.9975824763253506
+   },
+   "earth": {
+    "mae": 0.41023399999999993,
+    "mean_diff": 0.19314599999999993,
+    "r": 0.9993015136906405
+   }
+  }
+ },
+ "sun_anyfrac_diagnostic": {
+  "note": "fraction of epochs with any part of the Sun disc above the horizon, the map label's own wording",
+  "mae_pp": 0.6756196000000001,
+  "mean_diff_pp": 0.4337947999999998,
+  "r": 0.9956696831665758
+ },
+ "period": {
+  "ours": "2026-01-01T00:00 UTC, 163056 hourly epochs (18.6 years)",
+  "map": "AVGVISIB 201608 label: START_TIME 2009-07-13, STOP_TIME 2013-07-18 (label text); timestep of the map not stated in the label"
+ },
+ "diff_causes": [
+  {
+   "factor": "disk",
+   "ours": "mean of visible Sun disc fraction f (disc radius 696,000 km)",
+   "map": "label: percentage of timesteps where each pixel was sunlit by any fraction of the solar disc",
+   "note": "see sun_anyfrac_diagnostic for our value under the map's wording"
+  },
+  {
+   "factor": "observer_height",
+   "ours": "DEM surface + 2 m",
+   "map": "not stated in the label (unverified)",
+   "note": "not varied"
+  },
+  {
+   "factor": "period",
+   "ours": "2026-2044, 163,056 hourly epochs",
+   "map": "label period 2009-2013, step unverified",
+   "note": "not varied"
+  },
+  {
+   "factor": "dem_version",
+   "ours": "LOLA LDEM 85S 20/40 m, 80S 80 m, 75S 120 m, 60S 240 m (2017-06)",
+   "map": "unverified, label does not name the DEM",
+   "note": "not varied"
+  },
+  {
+   "factor": "resolution",
+   "ours": "ray samples at DEM pixel size; points snapped to map pixel centers (60 m and 120 m)",
+   "map": "60 m and 120 m maps",
+   "note": "not varied"
+  }
+ ],
+ "generated_with": "Claude (Anthropic SI) wrote compute/l1b.py; numbers come from the script run",
+ "computed_at_utc": "2026-11-14T01:16Z"
+}

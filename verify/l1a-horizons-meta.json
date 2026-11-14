@@ -1,0 +1,27 @@
+{
+ "horizons_header": {
+  "Center pole/equ": "MEAN_ME (high precision)        {East-longitude positive}",
+  "Center radii": "1737.4, 1737.4, 1737.4 km       {Equator_a, b, pole_c}",
+  "Center geodetic": "291.345, -83.644, -3.88969E-13  {E-lon(deg),Lat(deg),Alt(km)}",
+  "Atmos refraction": "NO (AIRLESS)"
+ },
+ "moon_me_lines_in_fk": [
+  "MOON_ME",
+  "MOON_ME                     MOON_ME_DE440_ME421  FIXED  31001",
+  "MOON_ME_DE440_ME421         MOON_PA_DE440        FIXED  31009",
+  "MOON_ME_DE440_ME421",
+  "MOON_ME",
+  "MOON_ME_DE421",
+  "MOON_ME_DE440_ME421",
+  "the MOON_ME and MOON_PA frames is approximately 0.02886 degrees;"
+ ],
+ "horizons_calls": 18,
+ "first_url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&MAKE_EPHEM=YES&EPHEM_TYPE=OBSERVER&OBJ_DATA=NO&COMMAND=%2710%27&CENTER=%27coord@301%27&COORD_TYPE=%27GEODETIC%27&SITE_COORD=%27291.345,-83.644,0%27&QUANTITIES=%274%27&APPARENT=%27AIRLESS%27&ANG_FORMAT=%27DEG%27&EXTRA_PREC=%27YES%27&TIME_TYPE=%27UT%27&CSV_FORMAT=%27YES%27&TLIST_TYPE=%27CAL%27&TLIST=%272027-Jan-15%2000:00%27%20%272027-Apr-15%2006:00%27%20%272027-Jul-15%2012:00%27%20%272027-Oct-15%2018:00%27",
+ "kernels": [
+  "naif0012.tls",
+  "de440s.bsp",
+  "moon_de440_250416.tf",
+  "moon_pa_de440_200625.bpc",
+  "pck00011.tpc"
+ ]
+}

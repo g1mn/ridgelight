@@ -1,0 +1,4179 @@
+{
+ "file": "plan/data-manifest.json",
+ "task": "N04 (nasa-spaceapps-seoul-2026)",
+ "generated": "2026-11-10 13:3x KST",
+ "by": "Claude 서브에이전트(N04). HEAD 요청, 디렉터리·S3 목록, LROC 라벨 xml(메타데이터)만 읽었다. 데이터 파일 본문은 받지 않았다(RULES.md 1절, 11/14 09:00 KST 전 받기 금지)",
+ "rule_for_N07": [
+  "fetch.sh는 fetch_default가 true인 항목만 server_path에 받는다. 받은 크기가 bytes와 다르면 실패로 멈춘다",
+  "md5_from_label이 있는 항목은 md5sum도 대조한다(LROC 공식 라벨 값)",
+  "받은 뒤 ~/nasa-lunar-data/SHA256SUMS를 만든다",
+  "받기 직전에 서버 df를 다시 재서 free_after_fetch가 3,000,000,000 B 아래로 내려가면 cut_order_if_disk_short 순서로 뺀다",
+  "원자료는 ~/jobs 밖에 둔다(remote-job.sh 되받기에 안 섞임). 맥으로 가져오지 않는다",
+  "server_path는 184개 모두 서로 다르다. 같은 이름 xml 두 종(DATA/BDR 원본 IMG 라벨, EXTRAS/BROWSE TIF 라벨)은 BDR 쪽을 lroc_movie_south/bdr_xml/에 둔다(11-10 N07 사전 점검에서 고침)"
+ ],
+ "server": {
+  "host": "oci-devbase",
+  "root": "~/nasa-lunar-data",
+  "free_bytes_baseline_11_10_0943": 9800000000,
+  "free_baseline_source": "tasks.json inputs '11-10 09:43 KST 디스크 여유 9.8G'. 단위가 GiB일 수 있어 더 작은 10진 9,800,000,000 B로 셈",
+  "free_bytes_now": 7944777728,
+  "free_now_source": "11-10 13:27 KST ssh oci-devbase 'df -B1 ~'(읽기만). 4시간 사이 약 1.9 GB 줄었다. ~/nasa-lunar-data는 아직 없음"
+ },
+ "totals": {
+  "files": 184,
+  "files_with_bytes": 184,
+  "files_unverified": 0,
+  "files_fetch_default": 184,
+  "bytes_fetch_default": 2888676731,
+  "limit_bytes": 4000000000,
+  "within_limit": true,
+  "free_after_fetch_baseline": 6911323269,
+  "free_after_fetch_now": 5056100997,
+  "free_after_rule": "3,000,000,000 B 이상",
+  "label_vs_head_size_mismatch": [],
+  "by_group": {
+   "lola_dem": {
+    "files": 10,
+    "bytes": 927401457
+   },
+   "lola_illum": {
+    "files": 12,
+    "bytes": 499725179
+   },
+   "naif": {
+    "files": 8,
+    "bytes": 77159505
+   },
+   "lroc_ill": {
+    "files": 5,
+    "bytes": 11839699
+   },
+   "lroc_movie_south": {
+    "files": 149,
+    "bytes": 1372550891
+   }
+  }
+ },
+ "cut_order_if_disk_short": [
+  "dem_60s_240m(120 MB)",
+  "avgvisib_65s_240m 태양·지구(165 MB)",
+  "lroc_ill_twi(6 MB, 보조)",
+  "dem_85s_20m(460 MB, 40 m로 대신하고 L1(d) 민감도는 '안 함'으로 표기)",
+  "LROC 영상을 30장으로(선택 규칙은 그대로, 장수만 30)"
+ ],
+ "lroc_frame_selection": {
+  "rule": "verify-protocol.md M1 절과 같다. 기간 2010-02-15T00:00~2011-02-05T00:00 UTC(LROC 조도 백분율 지도와 같은 1년). 장수 n을 30~40 중 '고른 영상의 삭망 위상 최대 빈틈'이 가장 작은 값으로 정하고, 기간을 n등분한 칸 가운데 시각에 가장 가까운 영상을 고른다(같으면 이른 쪽). 월식 2회 앞뒤 6시간 제외. 영상 내용은 보지 않고 목록의 파일 이름(시각)만으로 고른다",
+  "eclipses_excluded_utc": [
+   "2010-06-26T11:38:00",
+   "2010-12-21T08:17:00"
+  ],
+  "max_phase_gap_by_n": {
+   "30": 0.185,
+   "31": 0.062,
+   "32": 0.113,
+   "33": 0.085,
+   "34": 0.053,
+   "35": 0.061,
+   "36": 0.315,
+   "37": 0.047,
+   "38": 0.054,
+   "39": 0.07,
+   "40": 0.089
+  },
+  "chosen_n": 37,
+  "candidates_in_window": 3554,
+  "total_img_in_listing": 8170,
+  "listing_source": "https://pds.mcp.nasa.gov/data/store/img/?delimiter=/&prefix=lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/ (S3 목록, IMG 8,170개. https://data.lroc.im-ldi.com/lroc/view_rdr/WAC_POLE_MOVIE_SOUTH 목록 8,170개와 이름이 모두 같음)",
+  "why_geotiff": "원본 IMG는 장당 147,889,920 B(32비트 실수, 1장 HEAD)라 37장이면 5,471,927,040 B로 한도를 넘는다. 같은 격자의 8비트 GeoTIFF(장당 37,016,543 B, 37장 HEAD와 라벨 크기 일치)를 쓴다. 8비트 늘이기 방식은 미확인이라 임계값은 영상마다 정한다(verify-protocol.md M1)",
+  "phase_reference": "삭망 위상 기준 2010-01-15 07:11 UTC 신월, 주기 29.530589일(태양 방위가 한 바퀴 도는 주기)",
+  "frames": [
+   {
+    "k": 0,
+    "target_utc": "2010-02-19T19:08",
+    "name": "WAC_MOVIE_S20100219T1859",
+    "start_utc_from_name": "2010-02-19T18:59",
+    "offset_h": -0.15,
+    "synodic_phase": 0.202,
+    "fallbacks": [
+     "WAC_MOVIE_S20100219T2052",
+     "WAC_MOVIE_S20100219T1706",
+     "WAC_MOVIE_S20100219T2245"
+    ],
+    "start_utc_label": "2010-02-19T18:59:16Z",
+    "stop_utc_label": "2010-02-19T19:05:39Z"
+   },
+   {
+    "k": 1,
+    "target_utc": "2010-03-01T09:24",
+    "name": "WAC_MOVIE_S20100301T0858",
+    "start_utc_from_name": "2010-03-01T08:58",
+    "offset_h": -0.44,
+    "synodic_phase": 0.526,
+    "fallbacks": [
+     "WAC_MOVIE_S20100301T1051",
+     "WAC_MOVIE_S20100301T0705",
+     "WAC_MOVIE_S20100301T1244"
+    ],
+    "start_utc_label": "2010-03-01T08:58:24Z",
+    "stop_utc_label": "2010-03-01T09:04:40Z"
+   },
+   {
+    "k": 2,
+    "target_utc": "2010-03-10T23:40",
+    "name": "WAC_MOVIE_S20100310T2300",
+    "start_utc_from_name": "2010-03-10T23:00",
+    "offset_h": -0.68,
+    "synodic_phase": 0.851,
+    "fallbacks": [
+     "WAC_MOVIE_S20100311T0053",
+     "WAC_MOVIE_S20100310T2107",
+     "WAC_MOVIE_S20100311T0246"
+    ],
+    "start_utc_label": "2010-03-10T23:00:12Z",
+    "stop_utc_label": "2010-03-10T23:06:50Z"
+   },
+   {
+    "k": 3,
+    "target_utc": "2010-03-20T13:56",
+    "name": "WAC_MOVIE_S20100320T1446",
+    "start_utc_from_name": "2010-03-20T14:46",
+    "offset_h": 0.82,
+    "synodic_phase": 0.178,
+    "fallbacks": [
+     "WAC_MOVIE_S20100320T1253",
+     "WAC_MOVIE_S20100320T1639",
+     "WAC_MOVIE_S20100320T1100"
+    ],
+    "start_utc_label": "2010-03-20T14:46:42Z",
+    "stop_utc_label": "2010-03-20T14:53:09Z"
+   },
+   {
+    "k": 4,
+    "target_utc": "2010-03-30T04:12",
+    "name": "WAC_MOVIE_S20100330T0836",
+    "start_utc_from_name": "2010-03-30T08:36",
+    "offset_h": 4.38,
+    "synodic_phase": 0.508,
+    "fallbacks": [
+     "WAC_MOVIE_S20100329T2310",
+     "WAC_MOVIE_S20100329T2117",
+     "WAC_MOVIE_S20100330T1222"
+    ],
+    "start_utc_label": "2010-03-30T08:36:01Z",
+    "stop_utc_label": "2010-03-30T08:42:40Z"
+   },
+   {
+    "k": 5,
+    "target_utc": "2010-04-08T18:29",
+    "name": "WAC_MOVIE_S20100408T1855",
+    "start_utc_from_name": "2010-04-08T18:55",
+    "offset_h": 0.43,
+    "synodic_phase": 0.827,
+    "fallbacks": [
+     "WAC_MOVIE_S20100408T1702",
+     "WAC_MOVIE_S20100408T2048",
+     "WAC_MOVIE_S20100408T1509"
+    ],
+    "start_utc_label": "2010-04-08T18:55:50Z",
+    "stop_utc_label": "2010-04-08T19:02:31Z"
+   },
+   {
+    "k": 6,
+    "target_utc": "2010-04-18T08:45",
+    "name": "WAC_MOVIE_S20100418T0856",
+    "start_utc_from_name": "2010-04-18T08:56",
+    "offset_h": 0.18,
+    "synodic_phase": 0.152,
+    "fallbacks": [
+     "WAC_MOVIE_S20100418T0703",
+     "WAC_MOVIE_S20100418T1050",
+     "WAC_MOVIE_S20100418T0510"
+    ],
+    "start_utc_label": "2010-04-18T08:56:54Z",
+    "stop_utc_label": "2010-04-18T09:03:19Z"
+   },
+   {
+    "k": 7,
+    "target_utc": "2010-04-27T23:01",
+    "name": "WAC_MOVIE_S20100427T2252",
+    "start_utc_from_name": "2010-04-27T22:52",
+    "offset_h": -0.16,
+    "synodic_phase": 0.476,
+    "fallbacks": [
+     "WAC_MOVIE_S20100428T0045",
+     "WAC_MOVIE_S20100427T2059",
+     "WAC_MOVIE_S20100427T1906"
+    ],
+    "start_utc_label": "2010-04-27T22:52:35Z",
+    "stop_utc_label": "2010-04-27T22:58:57Z"
+   },
+   {
+    "k": 8,
+    "target_utc": "2010-05-07T13:17",
+    "name": "WAC_MOVIE_S20100507T1444",
+    "start_utc_from_name": "2010-05-07T14:44",
+    "offset_h": 1.44,
+    "synodic_phase": 0.803,
+    "fallbacks": [
+     "WAC_MOVIE_S20100507T1057",
+     "WAC_MOVIE_S20100507T1637",
+     "WAC_MOVIE_S20100507T0904"
+    ],
+    "start_utc_label": "2010-05-07T14:44:01Z",
+    "stop_utc_label": "2010-05-07T14:50:22Z"
+   },
+   {
+    "k": 9,
+    "target_utc": "2010-05-17T03:34",
+    "name": "WAC_MOVIE_S20100517T0250",
+    "start_utc_from_name": "2010-05-17T02:50",
+    "offset_h": -0.73,
+    "synodic_phase": 0.125,
+    "fallbacks": [
+     "WAC_MOVIE_S20100517T0443",
+     "WAC_MOVIE_S20100517T0056",
+     "WAC_MOVIE_S20100517T0636"
+    ],
+    "start_utc_label": "2010-05-17T02:50:01Z",
+    "stop_utc_label": "2010-05-17T02:56:28Z"
+   },
+   {
+    "k": 10,
+    "target_utc": "2010-05-26T17:50",
+    "name": "WAC_MOVIE_S20100526T1838",
+    "start_utc_from_name": "2010-05-26T18:38",
+    "offset_h": 0.8,
+    "synodic_phase": 0.452,
+    "fallbacks": [
+     "WAC_MOVIE_S20100526T1645",
+     "WAC_MOVIE_S20100526T2032",
+     "WAC_MOVIE_S20100526T1452"
+    ],
+    "start_utc_label": "2010-05-26T18:38:58Z",
+    "stop_utc_label": "2010-05-26T18:45:31Z"
+   },
+   {
+    "k": 11,
+    "target_utc": "2010-06-05T08:06",
+    "name": "WAC_MOVIE_S20100605T0644",
+    "start_utc_from_name": "2010-06-05T06:44",
+    "offset_h": -1.37,
+    "synodic_phase": 0.774,
+    "fallbacks": [
+     "WAC_MOVIE_S20100605T1030",
+     "WAC_MOVIE_S20100605T0258",
+     "WAC_MOVIE_S20100605T1416"
+    ],
+    "start_utc_label": "2010-06-05T06:44:22Z",
+    "stop_utc_label": "2010-06-05T06:50:59Z"
+   },
+   {
+    "k": 12,
+    "target_utc": "2010-06-14T22:22",
+    "name": "WAC_MOVIE_S20100614T2041",
+    "start_utc_from_name": "2010-06-14T20:41",
+    "offset_h": -1.7,
+    "synodic_phase": 0.099,
+    "fallbacks": [
+     "WAC_MOVIE_S20100615T0027",
+     "WAC_MOVIE_S20100614T1655",
+     "WAC_MOVIE_S20100615T0413"
+    ],
+    "start_utc_label": "2010-06-14T20:41:18Z",
+    "stop_utc_label": "2010-06-14T20:47:46Z"
+   },
+   {
+    "k": 13,
+    "target_utc": "2010-06-24T12:38",
+    "name": "WAC_MOVIE_S20100624T1420",
+    "start_utc_from_name": "2010-06-24T14:20",
+    "offset_h": 1.68,
+    "synodic_phase": 0.428,
+    "fallbacks": [
+     "WAC_MOVIE_S20100624T1034",
+     "WAC_MOVIE_S20100624T1806",
+     "WAC_MOVIE_S20100624T0648"
+    ],
+    "start_utc_label": "2010-06-24T14:20:24Z",
+    "stop_utc_label": "2010-06-24T14:26:52Z"
+   },
+   {
+    "k": 14,
+    "target_utc": "2010-07-04T02:55",
+    "name": "WAC_MOVIE_S20100704T0224",
+    "start_utc_from_name": "2010-07-04T02:24",
+    "offset_h": -0.52,
+    "synodic_phase": 0.75,
+    "fallbacks": [
+     "WAC_MOVIE_S20100704T0610",
+     "WAC_MOVIE_S20100703T2238",
+     "WAC_MOVIE_S20100704T0956"
+    ],
+    "start_utc_label": "2010-07-04T02:24:24Z",
+    "stop_utc_label": "2010-07-04T02:30:44Z"
+   },
+   {
+    "k": 15,
+    "target_utc": "2010-07-13T17:11",
+    "name": "WAC_MOVIE_S20100713T1620",
+    "start_utc_from_name": "2010-07-13T16:20",
+    "offset_h": -0.86,
+    "synodic_phase": 0.074,
+    "fallbacks": [
+     "WAC_MOVIE_S20100713T2007",
+     "WAC_MOVIE_S20100713T1234",
+     "WAC_MOVIE_S20100713T2353"
+    ],
+    "start_utc_label": "2010-07-13T16:20:34Z",
+    "stop_utc_label": "2010-07-13T16:27:01Z"
+   },
+   {
+    "k": 16,
+    "target_utc": "2010-07-23T07:27",
+    "name": "WAC_MOVIE_S20100723T0615",
+    "start_utc_from_name": "2010-07-23T06:15",
+    "offset_h": -1.21,
+    "synodic_phase": 0.399,
+    "fallbacks": [
+     "WAC_MOVIE_S20100723T1001",
+     "WAC_MOVIE_S20100723T0229",
+     "WAC_MOVIE_S20100723T1347"
+    ],
+    "start_utc_label": "2010-07-23T06:15:38Z",
+    "stop_utc_label": "2010-07-23T06:21:59Z"
+   },
+   {
+    "k": 17,
+    "target_utc": "2010-08-01T21:43",
+    "name": "WAC_MOVIE_S20100801T2207",
+    "start_utc_from_name": "2010-08-01T22:07",
+    "offset_h": 0.39,
+    "synodic_phase": 0.726,
+    "fallbacks": [
+     "WAC_MOVIE_S20100801T2014",
+     "WAC_MOVIE_S20100801T1820",
+     "WAC_MOVIE_S20100802T0153"
+    ],
+    "start_utc_label": "2010-08-01T22:07:22Z",
+    "stop_utc_label": "2010-08-01T22:13:34Z"
+   },
+   {
+    "k": 18,
+    "target_utc": "2010-08-11T12:00",
+    "name": "WAC_MOVIE_S20100811T1204",
+    "start_utc_from_name": "2010-08-11T12:04",
+    "offset_h": 0.07,
+    "synodic_phase": 0.05,
+    "fallbacks": [
+     "WAC_MOVIE_S20100811T1357",
+     "WAC_MOVIE_S20100811T0818",
+     "WAC_MOVIE_S20100811T1550"
+    ],
+    "start_utc_label": "2010-08-11T12:04:11Z",
+    "stop_utc_label": "2010-08-11T12:10:38Z"
+   },
+   {
+    "k": 19,
+    "target_utc": "2010-08-21T02:16",
+    "name": "WAC_MOVIE_S20100821T0006",
+    "start_utc_from_name": "2010-08-21T00:06",
+    "offset_h": -2.17,
+    "synodic_phase": 0.372,
+    "fallbacks": [
+     "WAC_MOVIE_S20100821T0739",
+     "WAC_MOVIE_S20100820T2020",
+     "WAC_MOVIE_S20100820T1827"
+    ],
+    "start_utc_label": "2010-08-21T00:06:59Z",
+    "stop_utc_label": "2010-08-21T00:13:29Z"
+   },
+   {
+    "k": 20,
+    "target_utc": "2010-08-30T16:32",
+    "name": "WAC_MOVIE_S20100830T1556",
+    "start_utc_from_name": "2010-08-30T15:56",
+    "offset_h": -0.61,
+    "synodic_phase": 0.699,
+    "fallbacks": [
+     "WAC_MOVIE_S20100830T1749",
+     "WAC_MOVIE_S20100830T1403",
+     "WAC_MOVIE_S20100830T1210"
+    ],
+    "start_utc_label": "2010-08-30T15:56:31Z",
+    "stop_utc_label": "2010-08-30T16:03:05Z"
+   },
+   {
+    "k": 21,
+    "target_utc": "2010-09-09T06:48",
+    "name": "WAC_MOVIE_S20100909T0744",
+    "start_utc_from_name": "2010-09-09T07:44",
+    "offset_h": 0.92,
+    "synodic_phase": 0.026,
+    "fallbacks": [
+     "WAC_MOVIE_S20100909T0937",
+     "WAC_MOVIE_S20100909T0358",
+     "WAC_MOVIE_S20100909T1130"
+    ],
+    "start_utc_label": "2010-09-09T07:44:20Z",
+    "stop_utc_label": "2010-09-09T07:50:58Z"
+   },
+   {
+    "k": 22,
+    "target_utc": "2010-09-18T21:04",
+    "name": "WAC_MOVIE_S20100918T2138",
+    "start_utc_from_name": "2010-09-18T21:38",
+    "offset_h": 0.55,
+    "synodic_phase": 0.351,
+    "fallbacks": [
+     "WAC_MOVIE_S20100918T1946",
+     "WAC_MOVIE_S20100918T2332",
+     "WAC_MOVIE_S20100918T1752"
+    ],
+    "start_utc_label": "2010-09-18T21:38:59Z",
+    "stop_utc_label": "2010-09-18T21:45:42Z"
+   },
+   {
+    "k": 23,
+    "target_utc": "2010-09-28T11:21",
+    "name": "WAC_MOVIE_S20100928T1136",
+    "start_utc_from_name": "2010-09-28T11:36",
+    "offset_h": 0.25,
+    "synodic_phase": 0.675,
+    "fallbacks": [
+     "WAC_MOVIE_S20100928T0943",
+     "WAC_MOVIE_S20100928T0749",
+     "WAC_MOVIE_S20100928T1522"
+    ],
+    "start_utc_label": "2010-09-28T11:36:20Z",
+    "stop_utc_label": "2010-09-28T11:42:57Z"
+   },
+   {
+    "k": 24,
+    "target_utc": "2010-10-08T01:37",
+    "name": "WAC_MOVIE_S20101008T0134",
+    "start_utc_from_name": "2010-10-08T01:34",
+    "offset_h": -0.05,
+    "synodic_phase": 1.0,
+    "fallbacks": [
+     "WAC_MOVIE_S20101008T0328",
+     "WAC_MOVIE_S20101008T0520",
+     "WAC_MOVIE_S20101008T0714"
+    ],
+    "start_utc_label": "2010-10-08T01:34:50Z",
+    "stop_utc_label": "2010-10-08T01:41:29Z"
+   },
+   {
+    "k": 25,
+    "target_utc": "2010-10-17T15:53",
+    "name": "WAC_MOVIE_S20101017T1532",
+    "start_utc_from_name": "2010-10-17T15:32",
+    "offset_h": -0.36,
+    "synodic_phase": 0.324,
+    "fallbacks": [
+     "WAC_MOVIE_S20101017T1725",
+     "WAC_MOVIE_S20101017T1339",
+     "WAC_MOVIE_S20101017T1919"
+    ],
+    "start_utc_label": "2010-10-17T15:32:44Z",
+    "stop_utc_label": "2010-10-17T15:39:25Z"
+   },
+   {
+    "k": 26,
+    "target_utc": "2010-10-27T06:09",
+    "name": "WAC_MOVIE_S20101027T0524",
+    "start_utc_from_name": "2010-10-27T05:24",
+    "offset_h": -0.76,
+    "synodic_phase": 0.648,
+    "fallbacks": [
+     "WAC_MOVIE_S20101027T0331",
+     "WAC_MOVIE_S20101027T0910",
+     "WAC_MOVIE_S20101027T0138"
+    ],
+    "start_utc_label": "2010-10-27T05:24:38Z",
+    "stop_utc_label": "2010-10-27T05:31:14Z"
+   },
+   {
+    "k": 27,
+    "target_utc": "2010-11-05T20:25",
+    "name": "WAC_MOVIE_S20101105T2110",
+    "start_utc_from_name": "2010-11-05T21:10",
+    "offset_h": 0.73,
+    "synodic_phase": 0.976,
+    "fallbacks": [
+     "WAC_MOVIE_S20101105T1916",
+     "WAC_MOVIE_S20101105T1723",
+     "WAC_MOVIE_S20101106T0056"
+    ],
+    "start_utc_label": "2010-11-05T21:10:07Z",
+    "stop_utc_label": "2010-11-05T21:16:48Z"
+   },
+   {
+    "k": 28,
+    "target_utc": "2010-11-15T10:42",
+    "name": "WAC_MOVIE_S20101115T1107",
+    "start_utc_from_name": "2010-11-15T11:07",
+    "offset_h": 0.41,
+    "synodic_phase": 0.3,
+    "fallbacks": [
+     "WAC_MOVIE_S20101115T1300",
+     "WAC_MOVIE_S20101115T0721",
+     "WAC_MOVIE_S20101115T0527"
+    ],
+    "start_utc_label": "2010-11-15T11:07:00Z",
+    "stop_utc_label": "2010-11-15T11:13:39Z"
+   },
+   {
+    "k": 29,
+    "target_utc": "2010-11-25T00:58",
+    "name": "WAC_MOVIE_S20101125T0104",
+    "start_utc_from_name": "2010-11-25T01:04",
+    "offset_h": 0.09,
+    "synodic_phase": 0.624,
+    "fallbacks": [
+     "WAC_MOVIE_S20101124T2311",
+     "WAC_MOVIE_S20101125T0257",
+     "WAC_MOVIE_S20101124T2118"
+    ],
+    "start_utc_label": "2010-11-25T01:04:22Z",
+    "stop_utc_label": "2010-11-25T01:10:57Z"
+   },
+   {
+    "k": 30,
+    "target_utc": "2010-12-04T15:14",
+    "name": "WAC_MOVIE_S20101204T1501",
+    "start_utc_from_name": "2010-12-04T15:01",
+    "offset_h": -0.23,
+    "synodic_phase": 0.949,
+    "fallbacks": [
+     "WAC_MOVIE_S20101204T1654",
+     "WAC_MOVIE_S20101204T1308",
+     "WAC_MOVIE_S20101204T1847"
+    ],
+    "start_utc_label": "2010-12-04T15:01:38Z",
+    "stop_utc_label": "2010-12-04T15:08:18Z"
+   },
+   {
+    "k": 31,
+    "target_utc": "2010-12-14T05:30",
+    "name": "WAC_MOVIE_S20101214T0452",
+    "start_utc_from_name": "2010-12-14T04:52",
+    "offset_h": -0.65,
+    "synodic_phase": 0.273,
+    "fallbacks": [
+     "WAC_MOVIE_S20101214T0645",
+     "WAC_MOVIE_S20101214T0259",
+     "WAC_MOVIE_S20101214T0838"
+    ],
+    "start_utc_label": "2010-12-14T04:52:28Z",
+    "stop_utc_label": "2010-12-14T04:59:04Z"
+   },
+   {
+    "k": 32,
+    "target_utc": "2010-12-23T19:47",
+    "name": "WAC_MOVIE_S20101223T2030",
+    "start_utc_from_name": "2010-12-23T20:30",
+    "offset_h": 0.72,
+    "synodic_phase": 0.6,
+    "fallbacks": [
+     "WAC_MOVIE_S20101223T1838",
+     "WAC_MOVIE_S20101223T2223",
+     "WAC_MOVIE_S20101223T1644"
+    ],
+    "start_utc_label": "2010-12-23T20:30:59Z",
+    "stop_utc_label": "2010-12-23T20:37:32Z"
+   },
+   {
+    "k": 33,
+    "target_utc": "2011-01-02T10:03",
+    "name": "WAC_MOVIE_S20110102T1014",
+    "start_utc_from_name": "2011-01-02T10:14",
+    "offset_h": 0.18,
+    "synodic_phase": 0.924,
+    "fallbacks": [
+     "WAC_MOVIE_S20110102T0822",
+     "WAC_MOVIE_S20110102T1207",
+     "WAC_MOVIE_S20110102T0628"
+    ],
+    "start_utc_label": "2011-01-02T10:14:45Z",
+    "stop_utc_label": "2011-01-02T10:21:24Z"
+   },
+   {
+    "k": 34,
+    "target_utc": "2011-01-12T00:19",
+    "name": "WAC_MOVIE_S20110112T0011",
+    "start_utc_from_name": "2011-01-12T00:11",
+    "offset_h": -0.14,
+    "synodic_phase": 0.249,
+    "fallbacks": [
+     "WAC_MOVIE_S20110112T0204",
+     "WAC_MOVIE_S20110111T2218",
+     "WAC_MOVIE_S20110112T0357"
+    ],
+    "start_utc_label": "2011-01-12T00:11:21Z",
+    "stop_utc_label": "2011-01-12T00:17:56Z"
+   },
+   {
+    "k": 35,
+    "target_utc": "2011-01-21T14:35",
+    "name": "WAC_MOVIE_S20110121T1408",
+    "start_utc_from_name": "2011-01-21T14:08",
+    "offset_h": -0.46,
+    "synodic_phase": 0.573,
+    "fallbacks": [
+     "WAC_MOVIE_S20110121T1601",
+     "WAC_MOVIE_S20110121T1215",
+     "WAC_MOVIE_S20110121T1754"
+    ],
+    "start_utc_label": "2011-01-21T14:08:13Z",
+    "stop_utc_label": "2011-01-21T14:14:47Z"
+   },
+   {
+    "k": 36,
+    "target_utc": "2011-01-31T04:51",
+    "name": "WAC_MOVIE_S20110131T0403",
+    "start_utc_from_name": "2011-01-31T04:03",
+    "offset_h": -0.81,
+    "synodic_phase": 0.897,
+    "fallbacks": [
+     "WAC_MOVIE_S20110131T0557",
+     "WAC_MOVIE_S20110131T0210",
+     "WAC_MOVIE_S20110131T0750"
+    ],
+    "start_utc_label": "2011-01-31T04:03:57Z",
+    "stop_utc_label": "2011-01-31T04:10:32Z"
+   }
+  ]
+ },
+ "files": [
+  {
+   "id": "dem_85s_20m_img",
+   "group": "lola_dem",
+   "name": "ldem_85s_20m.img",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/img/ldem_85s_20m.img",
+   "http_status": "200",
+   "bytes": 460136448,
+   "last_modified": "Thu, 06 Jul 2017 13:55:39 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_dem/ldem_85s_20m.img",
+   "use": "근거리 지평선, 85~90°S 관측점 주변(20 m)",
+   "levers": [
+    "L1(b)",
+    "L2",
+    "L4",
+    "M1",
+    "M3"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "dem_85s_20m_lbl",
+   "group": "lola_dem",
+   "name": "ldem_85s_20m.lbl",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/img/ldem_85s_20m.lbl",
+   "http_status": "200",
+   "bytes": 4991,
+   "last_modified": "Fri, 02 Jun 2017 16:01:43 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_dem/ldem_85s_20m.lbl",
+   "use": "ldem_85s_20m.img 라벨(투영·크기·스케일)",
+   "levers": [
+    "L1(b)",
+    "L2",
+    "L4",
+    "M1",
+    "M3"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "dem_85s_40m_img",
+   "group": "lola_dem",
+   "name": "ldem_85s_40m.img",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/img/ldem_85s_40m.img",
+   "http_status": "200",
+   "bytes": 115034112,
+   "last_modified": "Thu, 06 Jul 2017 13:55:57 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_dem/ldem_85s_40m.img",
+   "use": "근거리 지평선 대체, 해상도 민감도 L1(d)(20 m와 비교)",
+   "levers": [
+    "L1(b)",
+    "L1(d)"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "dem_85s_40m_lbl",
+   "group": "lola_dem",
+   "name": "ldem_85s_40m.lbl",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/img/ldem_85s_40m.lbl",
+   "http_status": "200",
+   "bytes": 4986,
+   "last_modified": "Fri, 02 Jun 2017 15:58:56 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_dem/ldem_85s_40m.lbl",
+   "use": "ldem_85s_40m.img 라벨(투영·크기·스케일)",
+   "levers": [
+    "L1(b)",
+    "L1(d)"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "dem_80s_80m_img",
+   "group": "lola_dem",
+   "name": "ldem_80s_80m.img",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/img/ldem_80s_80m.img",
+   "http_status": "200",
+   "bytes": 115520000,
+   "last_modified": "Thu, 06 Jul 2017 13:48:41 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_dem/ldem_80s_80m.img",
+   "use": "중거리 지평선, 80~85°S 관측점 근거리",
+   "levers": [
+    "L1(b)",
+    "L2",
+    "L4",
+    "M1",
+    "M3"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "dem_80s_80m_lbl",
+   "group": "lola_dem",
+   "name": "ldem_80s_80m.lbl",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/img/ldem_80s_80m.lbl",
+   "http_status": "200",
+   "bytes": 4986,
+   "last_modified": "Fri, 02 Jun 2017 15:59:15 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_dem/ldem_80s_80m.lbl",
+   "use": "ldem_80s_80m.img 라벨(투영·크기·스케일)",
+   "levers": [
+    "L1(b)",
+    "L2",
+    "L4",
+    "M1",
+    "M3"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "dem_75s_120m_img",
+   "group": "lola_dem",
+   "name": "ldem_75s_120m.img",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/img/ldem_75s_120m.img",
+   "http_status": "200",
+   "bytes": 116250752,
+   "last_modified": "Thu, 06 Jul 2017 13:36:41 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_dem/ldem_75s_120m.img",
+   "use": "원거리 지평선(75~90°S)",
+   "levers": [
+    "L1(b)",
+    "L2",
+    "L4",
+    "M3"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "dem_75s_120m_lbl",
+   "group": "lola_dem",
+   "name": "ldem_75s_120m.lbl",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/img/ldem_75s_120m.lbl",
+   "http_status": "200",
+   "bytes": 4991,
+   "last_modified": "Fri, 02 Jun 2017 15:58:46 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_dem/ldem_75s_120m.lbl",
+   "use": "ldem_75s_120m.img 라벨(투영·크기·스케일)",
+   "levers": [
+    "L1(b)",
+    "L2",
+    "L4",
+    "M3"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "dem_60s_240m_img",
+   "group": "lola_dem",
+   "name": "ldem_60s_240m.img",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/img/ldem_60s_240m.img",
+   "http_status": "200",
+   "bytes": 120435200,
+   "last_modified": "Thu, 06 Jul 2017 13:31:44 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_dem/ldem_60s_240m.img",
+   "use": "최원거리 지평선(60~90°S), 80~85°S 점의 북쪽 먼 지형과 Chandrayaan-3 참고 대조",
+   "levers": [
+    "L1(b)",
+    "L1(c)"
+   ],
+   "required": false,
+   "fetch_default": true,
+   "note": "과제 목록상 선택(L1(c)용). 120 MB라 기본으로 받는다. 디스크가 모자라면 자를 순서 1번"
+  },
+  {
+   "id": "dem_60s_240m_lbl",
+   "group": "lola_dem",
+   "name": "ldem_60s_240m.lbl",
+   "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/polar/img/ldem_60s_240m.lbl",
+   "http_status": "200",
+   "bytes": 4991,
+   "last_modified": "Fri, 02 Jun 2017 16:00:22 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_dem/ldem_60s_240m.lbl",
+   "use": "ldem_60s_240m.img 라벨(투영·크기·스케일)",
+   "levers": [
+    "L1(b)",
+    "L1(c)"
+   ],
+   "required": false,
+   "fetch_default": true
+  },
+  {
+   "id": "avgvisib_85s_060m_img",
+   "group": "lola_illum",
+   "name": "AVGVISIB_85S_060M_201608.IMG",
+   "url": "http://imbrium.mit.edu/EXTRAS/ILLUMINATION/IMG/AVGVISIB_85S_060M_201608.IMG",
+   "http_status": "200",
+   "bytes": 51166728,
+   "last_modified": "Thu, 15 Sep 2016 02:22:23 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_illum/AVGVISIB_85S_060M_201608.IMG",
+   "use": "18.6년 평균 태양 가시 비율 지도: L1(b) 85~90°S 층(A·B) 정답 지도",
+   "levers": [
+    "L1(b)"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "avgvisib_85s_060m_lbl",
+   "group": "lola_illum",
+   "name": "AVGVISIB_85S_060M_201608.LBL",
+   "url": "http://imbrium.mit.edu/EXTRAS/ILLUMINATION/IMG/AVGVISIB_85S_060M_201608.LBL",
+   "http_status": "200",
+   "bytes": 4094,
+   "last_modified": "Fri, 13 Oct 2023 20:22:50 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_illum/AVGVISIB_85S_060M_201608.LBL",
+   "use": "AVGVISIB_85S_060M_201608.IMG 라벨(스케일·투영)",
+   "levers": [
+    "L1(b)"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "avgvisib_85s_060m_earth_img",
+   "group": "lola_illum",
+   "name": "AVGVISIB_85S_060M_201608_EARTH.IMG",
+   "url": "http://imbrium.mit.edu/EXTRAS/ILLUMINATION/IMG/AVGVISIB_85S_060M_201608_EARTH.IMG",
+   "http_status": "200",
+   "bytes": 51166728,
+   "last_modified": "Thu, 15 Sep 2016 02:23:39 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_illum/AVGVISIB_85S_060M_201608_EARTH.IMG",
+   "use": "18.6년 평균 지구 가시 비율 지도: L1(b) 85~90°S 층(A·B) 정답 지도",
+   "levers": [
+    "L1(b)"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "avgvisib_85s_060m_earth_lbl",
+   "group": "lola_illum",
+   "name": "AVGVISIB_85S_060M_201608_EARTH.LBL",
+   "url": "http://imbrium.mit.edu/EXTRAS/ILLUMINATION/IMG/AVGVISIB_85S_060M_201608_EARTH.LBL",
+   "http_status": "200",
+   "bytes": 4111,
+   "last_modified": "Fri, 13 Oct 2023 20:22:42 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_illum/AVGVISIB_85S_060M_201608_EARTH.LBL",
+   "use": "AVGVISIB_85S_060M_201608_EARTH.IMG 라벨(스케일·투영)",
+   "levers": [
+    "L1(b)"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "avgvisib_75s_120m_img",
+   "group": "lola_illum",
+   "name": "AVGVISIB_75S_120M_201608.IMG",
+   "url": "http://imbrium.mit.edu/EXTRAS/ILLUMINATION/IMG/AVGVISIB_75S_120M_201608.IMG",
+   "http_status": "200",
+   "bytes": 116250752,
+   "last_modified": "Wed, 21 Sep 2016 15:59:52 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_illum/AVGVISIB_75S_120M_201608.IMG",
+   "use": "18.6년 평균 태양 가시 비율 지도: L1(b) 80~85°S 층(C) 정답 지도, 85°S 북쪽 후보지 값",
+   "levers": [
+    "L1(b)",
+    "L2"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "avgvisib_75s_120m_lbl",
+   "group": "lola_illum",
+   "name": "AVGVISIB_75S_120M_201608.LBL",
+   "url": "http://imbrium.mit.edu/EXTRAS/ILLUMINATION/IMG/AVGVISIB_75S_120M_201608.LBL",
+   "http_status": "200",
+   "bytes": 4092,
+   "last_modified": "Fri, 13 Oct 2023 20:22:32 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_illum/AVGVISIB_75S_120M_201608.LBL",
+   "use": "AVGVISIB_75S_120M_201608.IMG 라벨(스케일·투영)",
+   "levers": [
+    "L1(b)",
+    "L2"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "avgvisib_75s_120m_earth_img",
+   "group": "lola_illum",
+   "name": "AVGVISIB_75S_120M_201608_EARTH.IMG",
+   "url": "http://imbrium.mit.edu/EXTRAS/ILLUMINATION/IMG/AVGVISIB_75S_120M_201608_EARTH.IMG",
+   "http_status": "200",
+   "bytes": 116250752,
+   "last_modified": "Mon, 26 Sep 2016 16:06:09 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_illum/AVGVISIB_75S_120M_201608_EARTH.IMG",
+   "use": "18.6년 평균 지구 가시 비율 지도: L1(b) 80~85°S 층(C) 정답 지도, 85°S 북쪽 후보지 값",
+   "levers": [
+    "L1(b)",
+    "L2"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "avgvisib_75s_120m_earth_lbl",
+   "group": "lola_illum",
+   "name": "AVGVISIB_75S_120M_201608_EARTH.LBL",
+   "url": "http://imbrium.mit.edu/EXTRAS/ILLUMINATION/IMG/AVGVISIB_75S_120M_201608_EARTH.LBL",
+   "http_status": "200",
+   "bytes": 4112,
+   "last_modified": "Fri, 13 Oct 2023 20:22:16 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_illum/AVGVISIB_75S_120M_201608_EARTH.LBL",
+   "use": "AVGVISIB_75S_120M_201608_EARTH.IMG 라벨(스케일·투영)",
+   "levers": [
+    "L1(b)",
+    "L2"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "avgvisib_65s_240m_img",
+   "group": "lola_illum",
+   "name": "AVGVISIB_65S_240M_201608.IMG",
+   "url": "http://imbrium.mit.edu/EXTRAS/ILLUMINATION/IMG/AVGVISIB_65S_240M_201608.IMG",
+   "http_status": "200",
+   "bytes": 82432800,
+   "last_modified": "Thu, 15 Sep 2016 02:22:52 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_illum/AVGVISIB_65S_240M_201608.IMG",
+   "use": "18.6년 평균 태양 가시 비율 지도: Chandrayaan-3 지점 값(참고 대조 L1(c))",
+   "levers": [
+    "L1(c)"
+   ],
+   "required": false,
+   "fetch_default": true,
+   "note": "선택. 디스크가 모자라면 자를 순서 2번"
+  },
+  {
+   "id": "avgvisib_65s_240m_lbl",
+   "group": "lola_illum",
+   "name": "AVGVISIB_65S_240M_201608.LBL",
+   "url": "http://imbrium.mit.edu/EXTRAS/ILLUMINATION/IMG/AVGVISIB_65S_240M_201608.LBL",
+   "http_status": "200",
+   "bytes": 4096,
+   "last_modified": "Fri, 13 Oct 2023 20:22:08 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_illum/AVGVISIB_65S_240M_201608.LBL",
+   "use": "AVGVISIB_65S_240M_201608.IMG 라벨(스케일·투영)",
+   "levers": [
+    "L1(c)"
+   ],
+   "required": false,
+   "fetch_default": true
+  },
+  {
+   "id": "avgvisib_65s_240m_earth_img",
+   "group": "lola_illum",
+   "name": "AVGVISIB_65S_240M_201608_EARTH.IMG",
+   "url": "http://imbrium.mit.edu/EXTRAS/ILLUMINATION/IMG/AVGVISIB_65S_240M_201608_EARTH.IMG",
+   "http_status": "200",
+   "bytes": 82432800,
+   "last_modified": "Thu, 15 Sep 2016 02:23:54 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_illum/AVGVISIB_65S_240M_201608_EARTH.IMG",
+   "use": "18.6년 평균 지구 가시 비율 지도: Chandrayaan-3 지점 값(참고 대조 L1(c))",
+   "levers": [
+    "L1(c)"
+   ],
+   "required": false,
+   "fetch_default": true,
+   "note": "선택. 디스크가 모자라면 자를 순서 2번"
+  },
+  {
+   "id": "avgvisib_65s_240m_earth_lbl",
+   "group": "lola_illum",
+   "name": "AVGVISIB_65S_240M_201608_EARTH.LBL",
+   "url": "http://imbrium.mit.edu/EXTRAS/ILLUMINATION/IMG/AVGVISIB_65S_240M_201608_EARTH.LBL",
+   "http_status": "200",
+   "bytes": 4114,
+   "last_modified": "Fri, 13 Oct 2023 20:21:38 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lola_illum/AVGVISIB_65S_240M_201608_EARTH.LBL",
+   "use": "AVGVISIB_65S_240M_201608_EARTH.IMG 라벨(스케일·투영)",
+   "levers": [
+    "L1(c)"
+   ],
+   "required": false,
+   "fetch_default": true
+  },
+  {
+   "id": "naif_de440s",
+   "group": "naif",
+   "name": "de440s.bsp",
+   "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440s.bsp",
+   "http_status": "200",
+   "bytes": 32726016,
+   "last_modified": "Mon, 21 Dec 2020 19:39:26 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/naif/de440s.bsp",
+   "use": "태양·지구·달 위치(DE440 단축판)",
+   "levers": [
+    "L1(a)",
+    "L1(b)",
+    "L2",
+    "L4",
+    "M1",
+    "M2",
+    "M3"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "naif_moon_pa",
+   "group": "naif",
+   "name": "moon_pa_de440_200625.bpc",
+   "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/moon_pa_de440_200625.bpc",
+   "http_status": "200",
+   "bytes": 12863488,
+   "last_modified": "Sat, 26 Jun 2021 01:49:57 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/naif/moon_pa_de440_200625.bpc",
+   "use": "달 자세 PA 프레임(칭동 포함, 과제 원문 40행 대응)",
+   "levers": [
+    "L1(a)",
+    "L1(b)",
+    "L2",
+    "L4",
+    "M1",
+    "M2",
+    "M3"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "naif_moon_fk",
+   "group": "naif",
+   "name": "moon_de440_250416.tf",
+   "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/fk/satellites/moon_de440_250416.tf",
+   "http_status": "200",
+   "bytes": 19478,
+   "last_modified": "Wed, 16 Apr 2025 12:47:17 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/naif/moon_de440_250416.tf",
+   "use": "MOON_ME·MOON_PA 프레임 정의(LOLA 좌표계는 ME)",
+   "levers": [
+    "L1(a)",
+    "L1(b)",
+    "L2",
+    "L4",
+    "M1",
+    "M2",
+    "M3"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "naif_pck",
+   "group": "naif",
+   "name": "pck00011.tpc",
+   "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc",
+   "http_status": "200",
+   "bytes": 131226,
+   "last_modified": "Tue, 27 Dec 2022 16:28:50 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/naif/pck00011.tpc",
+   "use": "천체 반지름·자전 상수(달 구 반지름 1737.4 km 대조)",
+   "levers": [
+    "L1(a)"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "naif_lsk",
+   "group": "naif",
+   "name": "naif0012.tls",
+   "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/lsk/naif0012.tls",
+   "http_status": "200",
+   "bytes": 5257,
+   "last_modified": "Fri, 15 Jul 2016 00:00:37 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/naif/naif0012.tls",
+   "use": "윤초(UTC와 TDB 변환)",
+   "levers": [
+    "L1(a)",
+    "L1(b)",
+    "L2",
+    "L4",
+    "M1",
+    "M2",
+    "M3"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "naif_dsn_spk",
+   "group": "naif",
+   "name": "earthstns_itrf93_260814.bsp",
+   "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/stations/earthstns_itrf93_260814.bsp",
+   "http_status": "200",
+   "bytes": 26624,
+   "last_modified": "Fri, 14 Aug 2026 22:50:08 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/naif/earthstns_itrf93_260814.bsp",
+   "use": "DSN 지상국 위치(ITRF93). 골드스톤·마드리드·캔버라 안테나 번호는 N11에서 커널 주석으로 확인",
+   "levers": [
+    "M2"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "naif_dsn_fk",
+   "group": "naif",
+   "name": "earth_topo_260814.tf",
+   "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/fk/stations/earth_topo_260814.tf",
+   "http_status": "200",
+   "bytes": 69400,
+   "last_modified": "Sat, 15 Aug 2026 00:23:45 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/naif/earth_topo_260814.tf",
+   "use": "지상국 지평 좌표 프레임(DSS-nn_TOPO)",
+   "levers": [
+    "M2"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "naif_earth_bpc",
+   "group": "naif",
+   "name": "earth_1962_260806_2126_combined.bpc",
+   "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/earth_1962_260806_2126_combined.bpc",
+   "http_status": "200",
+   "bytes": 31318016,
+   "last_modified": "Sat, 08 Aug 2026 15:05:07 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/naif/earth_1962_260806_2126_combined.bpc",
+   "use": "지구 자세(ITRF93), 과거 고정밀 + 예측. 파일 이름상 1962~2126, 실제 범위는 N07에서 pckcov로 확인",
+   "levers": [
+    "M2"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_ill_pct_img",
+   "group": "lroc_ill",
+   "name": "WAC_POLE_ILL_PCT_SOUTH_100M.IMG",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_ILL_PCT_SOUTH/WAC_POLE_ILL_PCT_SOUTH_100M.IMG",
+   "http_status": "200",
+   "bytes": 5904896,
+   "last_modified": "Fri, 14 Aug 2026 18:25:36 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_ill/WAC_POLE_ILL_PCT_SOUTH_100M.IMG",
+   "use": "LROC 관측 1년(2010-02-15~2011-02-05, 3,807장) 조도 백분율, 88~90°S, 100 m. M1 관측 비율 대조",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_ill_pct_xml",
+   "group": "lroc_ill",
+   "name": "WAC_POLE_ILL_PCT_SOUTH_100M.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_ILL_PCT_SOUTH/WAC_POLE_ILL_PCT_SOUTH_100M.xml",
+   "http_status": "200",
+   "bytes": 12979,
+   "last_modified": "Mon, 03 Aug 2026 16:40:27 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_ill/WAC_POLE_ILL_PCT_SOUTH_100M.xml",
+   "use": "위 IMG의 PDS4 라벨",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_ill_pct_readme",
+   "group": "lroc_ill",
+   "name": "WAC_POLE_ILL_PCT_SOUTH_README.TXT",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_ILL_PCT_SOUTH/WAC_POLE_ILL_PCT_SOUTH_README.TXT",
+   "http_status": "200",
+   "bytes": 3997,
+   "last_modified": "Fri, 14 Aug 2026 18:25:36 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_ill/WAC_POLE_ILL_PCT_SOUTH_README.TXT",
+   "use": "제품 설명(기간·장수·보수적 전역 임계값)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_ill_twi_img",
+   "group": "lroc_ill",
+   "name": "WAC_POLE_ILL_TWI_SOUTH_100M.IMG",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_ILL_TWI_SOUTH/WAC_POLE_ILL_TWI_SOUTH_100M.IMG",
+   "http_status": "200",
+   "bytes": 5904896,
+   "last_modified": "Fri, 14 Aug 2026 18:38:57 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_ill/WAC_POLE_ILL_TWI_SOUTH_100M.IMG",
+   "use": "시간 가중 조도 지도(README가 관측 간격 치우침 보정용으로 권함). M1 보조 대조",
+   "levers": [
+    "M1"
+   ],
+   "required": false,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_ill_twi_xml",
+   "group": "lroc_ill",
+   "name": "WAC_POLE_ILL_TWI_SOUTH_100M.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_ILL_TWI_SOUTH/WAC_POLE_ILL_TWI_SOUTH_100M.xml",
+   "http_status": "200",
+   "bytes": 12931,
+   "last_modified": "Mon, 03 Aug 2026 16:40:40 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_ill/WAC_POLE_ILL_TWI_SOUTH_100M.xml",
+   "use": "위 IMG의 PDS4 라벨",
+   "levers": [
+    "M1"
+   ],
+   "required": false,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_movie_readme",
+   "group": "lroc_movie_south",
+   "name": "WAC_POLE_MOVIE_SOUTH_README.TXT",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_POLE_MOVIE_SOUTH_README.TXT",
+   "http_status": "200",
+   "bytes": 5357,
+   "last_modified": "Fri, 14 Aug 2026 18:26:50 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_POLE_MOVIE_SOUTH_README.TXT",
+   "use": "제품 설명(파일 이름 = 관측 시작 UTC, 80~90°S 극 평사 100 m, 극 2° 안 104 km만 매번 찍힘)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100219T1859_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100219T1859.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100219T1859.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:24:55 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100219T1859.TIF",
+   "use": "실제 사진(관측 2010-02-19T18:59 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "771e9a243f9b9b89ecddf1d04e86ebd1"
+  },
+  {
+   "id": "lroc_20100219T1859_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100219T1859.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100219T1859.MASK.TIF",
+   "http_status": "200",
+   "bytes": 67872,
+   "last_modified": "Fri, 14 Aug 2026 18:33:18 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100219T1859.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "2af2e7f9e682563aca585b815483d247"
+  },
+  {
+   "id": "lroc_20100219T1859_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100219T1859.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100219T1859.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:06:31 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100219T1859.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100219T1859_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100219T1859.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100219T1859.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:05 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100219T1859.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100301T0858_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100301T0858.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100301T0858.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:40:31 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100301T0858.TIF",
+   "use": "실제 사진(관측 2010-03-01T08:58 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "09d76adbe3bc751360ad46fcdeb5dfe9"
+  },
+  {
+   "id": "lroc_20100301T0858_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100301T0858.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100301T0858.MASK.TIF",
+   "http_status": "200",
+   "bytes": 59360,
+   "last_modified": "Fri, 14 Aug 2026 18:38:02 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100301T0858.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "7eb2b215ba8ab9dbcdb5fd8e51329dcc"
+  },
+  {
+   "id": "lroc_20100301T0858_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100301T0858.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100301T0858.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:09 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100301T0858.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100301T0858_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100301T0858.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100301T0858.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:40:43 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100301T0858.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100310T2300_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100310T2300.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100310T2300.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:10 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100310T2300.TIF",
+   "use": "실제 사진(관측 2010-03-10T23:00 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "15a9504d0053019d4cf93a370ab4ca42"
+  },
+  {
+   "id": "lroc_20100310T2300_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100310T2300.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100310T2300.MASK.TIF",
+   "http_status": "200",
+   "bytes": 54564,
+   "last_modified": "Fri, 14 Aug 2026 18:33:27 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100310T2300.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "50802e956235a6214cedaba86efcd4a9"
+  },
+  {
+   "id": "lroc_20100310T2300_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100310T2300.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100310T2300.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:08:08 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100310T2300.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100310T2300_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100310T2300.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100310T2300.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:40:56 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100310T2300.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100320T1446_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100320T1446.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100320T1446.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:03 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100320T1446.TIF",
+   "use": "실제 사진(관측 2010-03-20T14:46 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "0ace9f96d2778025580f210503bea17f"
+  },
+  {
+   "id": "lroc_20100320T1446_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100320T1446.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100320T1446.MASK.TIF",
+   "http_status": "200",
+   "bytes": 71412,
+   "last_modified": "Fri, 14 Aug 2026 18:33:21 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100320T1446.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "6b0bd74e4443644b4b18b1cafc6c1469"
+  },
+  {
+   "id": "lroc_20100320T1446_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100320T1446.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100320T1446.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:06:46 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100320T1446.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100320T1446_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100320T1446.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100320T1446.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:11 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100320T1446.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100330T0836_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100330T0836.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100330T0836.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:31 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100330T0836.TIF",
+   "use": "실제 사진(관측 2010-03-30T08:36 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "299320d6136d3a2c5f1cc3b641b27a71"
+  },
+  {
+   "id": "lroc_20100330T0836_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100330T0836.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100330T0836.MASK.TIF",
+   "http_status": "200",
+   "bytes": 44622,
+   "last_modified": "Fri, 14 Aug 2026 18:38:04 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100330T0836.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "f4e00f4256b756d59a1aedcacefc0352"
+  },
+  {
+   "id": "lroc_20100330T0836_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100330T0836.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100330T0836.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:08:26 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100330T0836.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100330T0836_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100330T0836.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100330T0836.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:08 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100330T0836.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100408T1855_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100408T1855.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100408T1855.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:33 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100408T1855.TIF",
+   "use": "실제 사진(관측 2010-04-08T18:55 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "e73d77b4a76e48f7abb92a4d14bd86a8"
+  },
+  {
+   "id": "lroc_20100408T1855_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100408T1855.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100408T1855.MASK.TIF",
+   "http_status": "200",
+   "bytes": 71136,
+   "last_modified": "Fri, 14 Aug 2026 18:33:19 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100408T1855.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "bf9d92ea86499b150bed113afc08a538"
+  },
+  {
+   "id": "lroc_20100408T1855_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100408T1855.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100408T1855.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:06 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100408T1855.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100408T1855_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100408T1855.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100408T1855.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:40:52 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100408T1855.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100418T0856_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100418T0856.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100418T0856.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:22 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100418T0856.TIF",
+   "use": "실제 사진(관측 2010-04-18T08:56 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "9c5496e6439f6e7d1011d9254dcabe98"
+  },
+  {
+   "id": "lroc_20100418T0856_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100418T0856.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100418T0856.MASK.TIF",
+   "http_status": "200",
+   "bytes": 58468,
+   "last_modified": "Fri, 14 Aug 2026 18:33:21 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100418T0856.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "b0f2629b26544c482060746521ef93a1"
+  },
+  {
+   "id": "lroc_20100418T0856_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100418T0856.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100418T0856.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:13 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100418T0856.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100418T0856_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100418T0856.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100418T0856.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:40:43 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100418T0856.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100427T2252_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100427T2252.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100427T2252.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:06 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100427T2252.TIF",
+   "use": "실제 사진(관측 2010-04-27T22:52 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "95470694a7ac62067573682f4313429b"
+  },
+  {
+   "id": "lroc_20100427T2252_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100427T2252.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100427T2252.MASK.TIF",
+   "http_status": "200",
+   "bytes": 57114,
+   "last_modified": "Fri, 14 Aug 2026 18:38:06 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100427T2252.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "041fa67d2660a84f15a28fad52673e15"
+  },
+  {
+   "id": "lroc_20100427T2252_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100427T2252.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100427T2252.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:39 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100427T2252.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100427T2252_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100427T2252.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100427T2252.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:31 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100427T2252.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100507T1444_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100507T1444.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100507T1444.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:06 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100507T1444.TIF",
+   "use": "실제 사진(관측 2010-05-07T14:44 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "40a093d0e5b55e58d28736c6e88afeb5"
+  },
+  {
+   "id": "lroc_20100507T1444_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100507T1444.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100507T1444.MASK.TIF",
+   "http_status": "200",
+   "bytes": 71040,
+   "last_modified": "Fri, 14 Aug 2026 18:39:53 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100507T1444.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "6fb8f5b136eba642de49161d7174a43e"
+  },
+  {
+   "id": "lroc_20100507T1444_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100507T1444.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100507T1444.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:26 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100507T1444.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100507T1444_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100507T1444.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100507T1444.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:42:35 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100507T1444.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100517T0250_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100517T0250.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100517T0250.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:28 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100517T0250.TIF",
+   "use": "실제 사진(관측 2010-05-17T02:50 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "9ed0fd97b0424522cc4cd9e2db0c9d45"
+  },
+  {
+   "id": "lroc_20100517T0250_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100517T0250.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100517T0250.MASK.TIF",
+   "http_status": "200",
+   "bytes": 42774,
+   "last_modified": "Fri, 14 Aug 2026 18:35:32 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100517T0250.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "ac73cf02543993eb7979a3322d46a319"
+  },
+  {
+   "id": "lroc_20100517T0250_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100517T0250.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100517T0250.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:55 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100517T0250.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100517T0250_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100517T0250.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100517T0250.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:42:49 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100517T0250.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100526T1838_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100526T1838.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100526T1838.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:08 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100526T1838.TIF",
+   "use": "실제 사진(관측 2010-05-26T18:38 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "80f56bf5fd0f6bd6de695462045064b2"
+  },
+  {
+   "id": "lroc_20100526T1838_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100526T1838.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100526T1838.MASK.TIF",
+   "http_status": "200",
+   "bytes": 71778,
+   "last_modified": "Fri, 14 Aug 2026 18:38:07 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100526T1838.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "ed871da58dbf562e0bfc57fe1b00f60e"
+  },
+  {
+   "id": "lroc_20100526T1838_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100526T1838.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100526T1838.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:52 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100526T1838.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100526T1838_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100526T1838.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100526T1838.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:45:26 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100526T1838.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100605T0644_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100605T0644.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100605T0644.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:34 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100605T0644.TIF",
+   "use": "실제 사진(관측 2010-06-05T06:44 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "69c250d403d07a36f187831a44542078"
+  },
+  {
+   "id": "lroc_20100605T0644_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100605T0644.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100605T0644.MASK.TIF",
+   "http_status": "200",
+   "bytes": 56392,
+   "last_modified": "Fri, 14 Aug 2026 18:38:07 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100605T0644.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "6dd6cc8b5164d41ba960b4832feea79e"
+  },
+  {
+   "id": "lroc_20100605T0644_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100605T0644.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100605T0644.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:59 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100605T0644.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100605T0644_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100605T0644.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100605T0644.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:28 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100605T0644.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100614T2041_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100614T2041.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100614T2041.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:30 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100614T2041.TIF",
+   "use": "실제 사진(관측 2010-06-14T20:41 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "3cfa41e7683841e4d5acebee4d2b3d89"
+  },
+  {
+   "id": "lroc_20100614T2041_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100614T2041.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100614T2041.MASK.TIF",
+   "http_status": "200",
+   "bytes": 57768,
+   "last_modified": "Fri, 14 Aug 2026 18:38:11 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100614T2041.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "4fd9e00a24b3e8a2da41beba983c5829"
+  },
+  {
+   "id": "lroc_20100614T2041_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100614T2041.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100614T2041.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:28 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100614T2041.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100614T2041_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100614T2041.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100614T2041.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:24 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100614T2041.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100624T1420_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100624T1420.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100624T1420.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:33 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100624T1420.TIF",
+   "use": "실제 사진(관측 2010-06-24T14:20 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "0657005133b48db6a9005ec55ddcb1a7"
+  },
+  {
+   "id": "lroc_20100624T1420_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100624T1420.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100624T1420.MASK.TIF",
+   "http_status": "200",
+   "bytes": 69234,
+   "last_modified": "Fri, 14 Aug 2026 18:33:33 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100624T1420.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "94ee8e2dbcc462ce52a2b61f45dfbeb9"
+  },
+  {
+   "id": "lroc_20100624T1420_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100624T1420.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100624T1420.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:23 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100624T1420.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100624T1420_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100624T1420.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100624T1420.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:28 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100624T1420.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100704T0224_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100704T0224.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100704T0224.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:30 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100704T0224.TIF",
+   "use": "실제 사진(관측 2010-07-04T02:24 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "6aebdf2a41d1f7a5238e454c747d1cac"
+  },
+  {
+   "id": "lroc_20100704T0224_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100704T0224.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100704T0224.MASK.TIF",
+   "http_status": "200",
+   "bytes": 44756,
+   "last_modified": "Fri, 14 Aug 2026 18:33:34 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100704T0224.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "59b1a03ebd97943eec18e1d077cc8af4"
+  },
+  {
+   "id": "lroc_20100704T0224_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100704T0224.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100704T0224.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:08:45 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100704T0224.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100704T0224_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100704T0224.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100704T0224.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:40:53 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100704T0224.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100713T1620_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100713T1620.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100713T1620.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:32 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100713T1620.TIF",
+   "use": "실제 사진(관측 2010-07-13T16:20 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "34974bbd410b5ca88df41c54d6a5858a"
+  },
+  {
+   "id": "lroc_20100713T1620_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100713T1620.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100713T1620.MASK.TIF",
+   "http_status": "200",
+   "bytes": 72160,
+   "last_modified": "Fri, 14 Aug 2026 18:33:38 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100713T1620.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "fc1c850bb973251bd090e8931675237f"
+  },
+  {
+   "id": "lroc_20100713T1620_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100713T1620.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100713T1620.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:02 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100713T1620.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100713T1620_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100713T1620.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100713T1620.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:09 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100713T1620.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100723T0615_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100723T0615.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100723T0615.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:09 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100723T0615.TIF",
+   "use": "실제 사진(관측 2010-07-23T06:15 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "1f8c17add16fd854009dbd58edc94858"
+  },
+  {
+   "id": "lroc_20100723T0615_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100723T0615.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100723T0615.MASK.TIF",
+   "http_status": "200",
+   "bytes": 53958,
+   "last_modified": "Fri, 14 Aug 2026 18:38:10 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100723T0615.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "48715db1edd45ada3bbcc1f76afb914a"
+  },
+  {
+   "id": "lroc_20100723T0615_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100723T0615.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100723T0615.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:08:03 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100723T0615.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100723T0615_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100723T0615.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100723T0615.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:42:02 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100723T0615.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100801T2207_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100801T2207.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100801T2207.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:40:31 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100801T2207.TIF",
+   "use": "실제 사진(관측 2010-08-01T22:07 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "11cd72608c8ef05c6e84c997b15718ce"
+  },
+  {
+   "id": "lroc_20100801T2207_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100801T2207.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100801T2207.MASK.TIF",
+   "http_status": "200",
+   "bytes": 61078,
+   "last_modified": "Fri, 14 Aug 2026 18:33:36 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100801T2207.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "1eef34f81a43ff7be3be76226acc79d2"
+  },
+  {
+   "id": "lroc_20100801T2207_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100801T2207.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100801T2207.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:48 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100801T2207.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100801T2207_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100801T2207.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100801T2207.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:42:02 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100801T2207.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100811T1204_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100811T1204.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100811T1204.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:35 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100811T1204.TIF",
+   "use": "실제 사진(관측 2010-08-11T12:04 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "c3bff858c2391fcd77c8db9b43f46d55"
+  },
+  {
+   "id": "lroc_20100811T1204_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100811T1204.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100811T1204.MASK.TIF",
+   "http_status": "200",
+   "bytes": 68596,
+   "last_modified": "Fri, 14 Aug 2026 18:33:37 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100811T1204.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "baebbe42965a4cc415b611fbcb397093"
+  },
+  {
+   "id": "lroc_20100811T1204_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100811T1204.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100811T1204.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:47 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100811T1204.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100811T1204_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100811T1204.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100811T1204.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:02 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100811T1204.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100821T0006_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100821T0006.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100821T0006.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:09 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100821T0006.TIF",
+   "use": "실제 사진(관측 2010-08-21T00:06 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "556d55a22b69a1fee1f05bc4f5f9c76c"
+  },
+  {
+   "id": "lroc_20100821T0006_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100821T0006.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100821T0006.MASK.TIF",
+   "http_status": "200",
+   "bytes": 45014,
+   "last_modified": "Fri, 14 Aug 2026 18:33:36 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100821T0006.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "88b87691c4c05ccf313cdeab7c5b409c"
+  },
+  {
+   "id": "lroc_20100821T0006_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100821T0006.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100821T0006.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:17 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100821T0006.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100821T0006_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100821T0006.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100821T0006.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:49 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100821T0006.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100830T1556_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100830T1556.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100830T1556.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:13 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100830T1556.TIF",
+   "use": "실제 사진(관측 2010-08-30T15:56 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "fb5c4cb81eb315df327f0854d7778505"
+  },
+  {
+   "id": "lroc_20100830T1556_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100830T1556.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100830T1556.MASK.TIF",
+   "http_status": "200",
+   "bytes": 71458,
+   "last_modified": "Fri, 14 Aug 2026 18:33:39 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100830T1556.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "a407832fb38b5b313161f38c6af000ae"
+  },
+  {
+   "id": "lroc_20100830T1556_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100830T1556.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100830T1556.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:25 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100830T1556.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100830T1556_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100830T1556.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100830T1556.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:43:32 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100830T1556.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100909T0744_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100909T0744.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100909T0744.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:12 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100909T0744.TIF",
+   "use": "실제 사진(관측 2010-09-09T07:44 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "1e93cab0be55b21c38bb9de01021d377"
+  },
+  {
+   "id": "lroc_20100909T0744_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100909T0744.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100909T0744.MASK.TIF",
+   "http_status": "200",
+   "bytes": 49884,
+   "last_modified": "Fri, 14 Aug 2026 18:33:40 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100909T0744.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "9cafbed45085c869ae13ba6183e17b5e"
+  },
+  {
+   "id": "lroc_20100909T0744_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100909T0744.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100909T0744.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:56 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100909T0744.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100909T0744_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100909T0744.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100909T0744.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:08 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100909T0744.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100918T2138_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100918T2138.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100918T2138.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:48 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100918T2138.TIF",
+   "use": "실제 사진(관측 2010-09-18T21:38 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "41de4b2976ffa53a8ee010a40c21ec90"
+  },
+  {
+   "id": "lroc_20100918T2138_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100918T2138.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100918T2138.MASK.TIF",
+   "http_status": "200",
+   "bytes": 64716,
+   "last_modified": "Fri, 14 Aug 2026 18:25:00 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100918T2138.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "5d0bc33440b9155b3071a6c354af0624"
+  },
+  {
+   "id": "lroc_20100918T2138_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100918T2138.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100918T2138.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:08:43 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100918T2138.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100918T2138_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100918T2138.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100918T2138.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:07 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100918T2138.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100928T1136_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100928T1136.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100928T1136.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:11 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100928T1136.TIF",
+   "use": "실제 사진(관측 2010-09-28T11:36 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "271d68e6940d0ee3cdba25c7ac3f4a1e"
+  },
+  {
+   "id": "lroc_20100928T1136_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100928T1136.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100928T1136.MASK.TIF",
+   "http_status": "200",
+   "bytes": 65920,
+   "last_modified": "Fri, 14 Aug 2026 18:38:21 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100928T1136.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "079dd8307b68afebbe1eef855e5e9ec7"
+  },
+  {
+   "id": "lroc_20100928T1136_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100928T1136.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100928T1136.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:08:02 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20100928T1136.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20100928T1136_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20100928T1136.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100928T1136.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:42:20 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20100928T1136.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101008T0134_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101008T0134.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101008T0134.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:16 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101008T0134.TIF",
+   "use": "실제 사진(관측 2010-10-08T01:34 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "70c26586abcff01bad6915b375d08cf6"
+  },
+  {
+   "id": "lroc_20101008T0134_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101008T0134.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101008T0134.MASK.TIF",
+   "http_status": "200",
+   "bytes": 48326,
+   "last_modified": "Fri, 14 Aug 2026 18:33:48 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101008T0134.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "ce2b43ff7d68a1959d536fc5ec6045f8"
+  },
+  {
+   "id": "lroc_20101008T0134_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101008T0134.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101008T0134.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:32 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101008T0134.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101008T0134_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101008T0134.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101008T0134.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:32 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20101008T0134.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101017T1532_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101017T1532.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101017T1532.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:20 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101017T1532.TIF",
+   "use": "실제 사진(관측 2010-10-17T15:32 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "1c5d18dc5eb311b23fdd1fc015c57855"
+  },
+  {
+   "id": "lroc_20101017T1532_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101017T1532.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101017T1532.MASK.TIF",
+   "http_status": "200",
+   "bytes": 72966,
+   "last_modified": "Fri, 14 Aug 2026 18:38:19 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101017T1532.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "824d5c82befb6fe01dd6d8a2ac01ca17"
+  },
+  {
+   "id": "lroc_20101017T1532_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101017T1532.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101017T1532.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:59 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101017T1532.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101017T1532_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101017T1532.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101017T1532.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:09 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20101017T1532.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101027T0524_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101027T0524.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101027T0524.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:21 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101027T0524.TIF",
+   "use": "실제 사진(관측 2010-10-27T05:24 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "7a226a18d73fd1f90fabbdad09c29097"
+  },
+  {
+   "id": "lroc_20101027T0524_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101027T0524.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101027T0524.MASK.TIF",
+   "http_status": "200",
+   "bytes": 48864,
+   "last_modified": "Fri, 14 Aug 2026 18:38:25 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101027T0524.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "900576ecda541bcd5c05d5355c5edcb9"
+  },
+  {
+   "id": "lroc_20101027T0524_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101027T0524.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101027T0524.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:08:36 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101027T0524.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101027T0524_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101027T0524.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101027T0524.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:08 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20101027T0524.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101105T2110_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101105T2110.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101105T2110.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:38:30 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101105T2110.TIF",
+   "use": "실제 사진(관측 2010-11-05T21:10 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "b1480869b8decc9a452b5dff806dfb73"
+  },
+  {
+   "id": "lroc_20101105T2110_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101105T2110.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101105T2110.MASK.TIF",
+   "http_status": "200",
+   "bytes": 66230,
+   "last_modified": "Fri, 14 Aug 2026 18:38:18 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101105T2110.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "3078f0575ab9db2a4a139c88e0f4fee5"
+  },
+  {
+   "id": "lroc_20101105T2110_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101105T2110.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101105T2110.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:08:52 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101105T2110.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101105T2110_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101105T2110.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101105T2110.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:42:53 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20101105T2110.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101115T1107_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101115T1107.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101115T1107.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:51 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101115T1107.TIF",
+   "use": "실제 사진(관측 2010-11-15T11:07 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "7e7abb45072e058e5cca2e60ade25101"
+  },
+  {
+   "id": "lroc_20101115T1107_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101115T1107.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101115T1107.MASK.TIF",
+   "http_status": "200",
+   "bytes": 63808,
+   "last_modified": "Fri, 14 Aug 2026 18:38:19 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101115T1107.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "4eed1f46bf461a11f83e7489470f0a82"
+  },
+  {
+   "id": "lroc_20101115T1107_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101115T1107.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101115T1107.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:51 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101115T1107.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101115T1107_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101115T1107.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101115T1107.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:42:40 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20101115T1107.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101125T0104_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101125T0104.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101125T0104.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:50 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101125T0104.TIF",
+   "use": "실제 사진(관측 2010-11-25T01:04 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "4f3242eabd44269cb2a2a0b92547f600"
+  },
+  {
+   "id": "lroc_20101125T0104_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101125T0104.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101125T0104.MASK.TIF",
+   "http_status": "200",
+   "bytes": 49908,
+   "last_modified": "Fri, 14 Aug 2026 18:33:51 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101125T0104.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "d3da79520017c41f780dcc10c9361cc2"
+  },
+  {
+   "id": "lroc_20101125T0104_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101125T0104.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101125T0104.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:38 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101125T0104.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101125T0104_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101125T0104.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101125T0104.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:43:28 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20101125T0104.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101204T1501_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101204T1501.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101204T1501.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:24:58 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101204T1501.TIF",
+   "use": "실제 사진(관측 2010-12-04T15:01 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "f995f5a5b6c6808f658a5cd97e2860aa"
+  },
+  {
+   "id": "lroc_20101204T1501_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101204T1501.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101204T1501.MASK.TIF",
+   "http_status": "200",
+   "bytes": 72824,
+   "last_modified": "Fri, 14 Aug 2026 18:38:19 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101204T1501.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "4ab022a20782b9a34ea6886211104cea"
+  },
+  {
+   "id": "lroc_20101204T1501_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101204T1501.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101204T1501.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:37 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101204T1501.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101204T1501_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101204T1501.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101204T1501.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:13 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20101204T1501.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101214T0452_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101214T0452.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101214T0452.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:53 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101214T0452.TIF",
+   "use": "실제 사진(관측 2010-12-14T04:52 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "c53bfacf65ecfc1e6c069e4a4f848dca"
+  },
+  {
+   "id": "lroc_20101214T0452_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101214T0452.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101214T0452.MASK.TIF",
+   "http_status": "200",
+   "bytes": 47026,
+   "last_modified": "Fri, 14 Aug 2026 18:33:56 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101214T0452.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "fa6ea3660d3fef0caf963c7ca44165c2"
+  },
+  {
+   "id": "lroc_20101214T0452_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101214T0452.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101214T0452.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:46 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101214T0452.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101214T0452_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101214T0452.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101214T0452.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:46:48 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20101214T0452.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101223T2030_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101223T2030.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101223T2030.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:54 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101223T2030.TIF",
+   "use": "실제 사진(관측 2010-12-23T20:30 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "8548ef27b1e4b292f7f1d69c01d6c8a3"
+  },
+  {
+   "id": "lroc_20101223T2030_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101223T2030.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101223T2030.MASK.TIF",
+   "http_status": "200",
+   "bytes": 66510,
+   "last_modified": "Fri, 14 Aug 2026 18:33:57 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101223T2030.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "516afeb0a3351935a19fb03aeb22168b"
+  },
+  {
+   "id": "lroc_20101223T2030_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101223T2030.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101223T2030.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:42 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20101223T2030.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20101223T2030_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20101223T2030.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20101223T2030.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:21 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20101223T2030.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20110102T1014_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110102T1014.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110102T1014.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:33:56 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20110102T1014.TIF",
+   "use": "실제 사진(관측 2011-01-02T10:14 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "c6fa236af341b155997aaf68a7d579f1"
+  },
+  {
+   "id": "lroc_20110102T1014_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110102T1014.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110102T1014.MASK.TIF",
+   "http_status": "200",
+   "bytes": 61536,
+   "last_modified": "Fri, 14 Aug 2026 18:33:55 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20110102T1014.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "497c09eb0fcd668c17eeb8f087c9eae4"
+  },
+  {
+   "id": "lroc_20110102T1014_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110102T1014.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110102T1014.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:37 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20110102T1014.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20110102T1014_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110102T1014.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110102T1014.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:23 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20110102T1014.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20110112T0011_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110112T0011.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110112T0011.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:34:00 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20110112T0011.TIF",
+   "use": "실제 사진(관측 2011-01-12T00:11 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "a28c7edb32f0191273de94bc97e82537"
+  },
+  {
+   "id": "lroc_20110112T0011_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110112T0011.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110112T0011.MASK.TIF",
+   "http_status": "200",
+   "bytes": 53182,
+   "last_modified": "Fri, 14 Aug 2026 18:38:23 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20110112T0011.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "242e9d2a3a701e02d883ebc66326d670"
+  },
+  {
+   "id": "lroc_20110112T0011_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110112T0011.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110112T0011.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:57 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20110112T0011.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20110112T0011_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110112T0011.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110112T0011.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:20 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20110112T0011.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20110121T1408_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110121T1408.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110121T1408.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:34:02 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20110121T1408.TIF",
+   "use": "실제 사진(관측 2011-01-21T14:08 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "29f1a1473b2ed57632fcac1c49385161"
+  },
+  {
+   "id": "lroc_20110121T1408_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110121T1408.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110121T1408.MASK.TIF",
+   "http_status": "200",
+   "bytes": 70096,
+   "last_modified": "Fri, 14 Aug 2026 18:34:04 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20110121T1408.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "ec0086134b477bec5785e8d8d8062ba9"
+  },
+  {
+   "id": "lroc_20110121T1408_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110121T1408.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110121T1408.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:07:41 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20110121T1408.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20110121T1408_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110121T1408.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110121T1408.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:42:31 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20110121T1408.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20110131T0403_tif",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110131T0403.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110131T0403.TIF",
+   "http_status": "200",
+   "bytes": 37016543,
+   "last_modified": "Fri, 14 Aug 2026 18:34:04 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20110131T0403.TIF",
+   "use": "실제 사진(관측 2011-01-31T04:03 UTC 시작), 밝음·그늘 판정",
+   "levers": [
+    "M1",
+    "L3"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "981967334bcadc88f1324872e2ec7678"
+  },
+  {
+   "id": "lroc_20110131T0403_mask",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110131T0403.MASK.TIF",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110131T0403.MASK.TIF",
+   "http_status": "200",
+   "bytes": 44810,
+   "last_modified": "Fri, 14 Aug 2026 18:34:05 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20110131T0403.MASK.TIF",
+   "use": "같은 영상의 마스크(라벨 설명은 'MASK file'뿐, 유효 영역 표시로 추정. N10에서 확인)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true,
+   "md5_from_label": "aae6964ee1719fec5b40974a9a7f0395"
+  },
+  {
+   "id": "lroc_20110131T0403_tifxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110131T0403.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110131T0403.xml",
+   "http_status": "200",
+   "bytes": 6626,
+   "last_modified": "Mon, 03 Aug 2026 17:08:45 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/WAC_MOVIE_S20110131T0403.xml",
+   "use": "TIF·MASK 라벨(크기·md5)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  },
+  {
+   "id": "lroc_20110131T0403_imgxml",
+   "group": "lroc_movie_south",
+   "name": "WAC_MOVIE_S20110131T0403.xml",
+   "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20110131T0403.xml",
+   "http_status": "200",
+   "bytes": 12733,
+   "last_modified": "Mon, 03 Aug 2026 16:41:20 GMT",
+   "accept_ranges": "bytes",
+   "head_checked_kst": "2026-11-10 13:26 KST",
+   "server_path": "~/nasa-lunar-data/lroc_movie_south/bdr_xml/WAC_MOVIE_S20110131T0403.xml",
+   "use": "원본 IMG 라벨(관측 시작·끝 시각, 6080×6080 격자, 100 m, 좌상단 좌표)",
+   "levers": [
+    "M1"
+   ],
+   "required": true,
+   "fetch_default": true
+  }
+ ],
+ "not_fetched": [
+  {
+   "what": "WAC_POLE_MOVIE_SOUTH 원본 IMG(32비트)",
+   "bytes_each": 147889920,
+   "url_example": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/BDR/WAC_POLE/WAC_POLE_MOVIE_SOUTH/WAC_MOVIE_S20100219T1859.IMG",
+   "why": "37장이면 5.47 GB로 한도 초과. 8비트 판정이 의심스러우면 1~2장만 받아 비교"
+  },
+  {
+   "what": "LROC 거울 서버(pds.lroc.im-ldi.com) 같은 TIF",
+   "bytes_each": 37016543,
+   "why": "HEAD가 리다이렉트 1회 뒤 같은 크기. pds.mcp.nasa.gov가 막히면 대신 쓴다"
+  },
+  {
+   "what": "WAC_MOVIE_CROPPED_S20100402T1354_MPEG4.MP4(4,668장 영상)",
+   "bytes": 880679581,
+   "why": "계산에 쓰지 않음(S3 목록 크기)"
+  },
+  {
+   "what": "ldem_85s_10m.img",
+   "bytes": 1840545792,
+   "why": "용량 대비 이득 작음(11-09 디렉터리 목록 값)"
+  },
+  {
+   "what": "pgda.gsfc.nasa.gov COG·TIF 사본",
+   "bytes": null,
+   "why": "11-09 HEAD가 3,789 B HTML(파일 아님). MIT IMG를 쓴다"
+  },
+  {
+   "what": "earth_assoc_itrf93.tf",
+   "bytes": null,
+   "why": "ITRF93 프레임을 직접 쓰면 필요 없음. EARTH_FIXED 별칭이 필요해지면 7.3K라 그때 받는다"
+  }
+ ],
+ "unverified": [
+  "MASK.TIF의 뜻(라벨에는 'MASK file'뿐). 유효 영역 표시로 추정",
+  "8비트 TIF의 늘이기(stretch) 방식과 영상 사이 일관성",
+  "WAC 영상 한 장이 88°S 밖에서 덮는 넓이(README: 극 2° 안 104 km만 매번 찍힘, 나머지는 띠)",
+  "AVGVISIB 201608판이 쓴 DEM 판·관측 높이·정확한 18.6년 기간",
+  "earth_1962_260806_2126_combined.bpc의 실제 범위(N07 pckcov)",
+  "11/13 Resources 탭이 다른 자료를 필수로 지정하는지(N06)"
+ ],
+ "fixes": [
+  {
+   "kst": "2026-11-10 18:5x",
+   "by": "N07 사전 점검(Claude 서브에이전트)",
+   "what": "_imgxml 37개의 server_path를 lroc_movie_south/bdr_xml/<이름>으로 옮김",
+   "why": "_tifxml과 server_path가 37쌍 겹쳐 fetch.sh가 한쪽을 덮어쓰고 크기 대조(12,733 B 대 6,626 B)가 실패할 상태였다",
+   "bytes_changed": 0
+  }
+ ]
+}
