@@ -36,7 +36,8 @@
     "legend_artemis3": "아르테미스 3 후보 지역",
     "legend_landing_site": "착륙 지점",
     "legend_custom": "직접 입력 지점",
-    "live_summary": "선택 지점: {name}, 위도 {lat}, 경도 {lon}. LOLA 햇빛: {sun}, 지구 보임: {earth}."
+    "live_summary": "선택 지점: {name}, 위도 {lat}, 경도 {lon}. LOLA 햇빛: {sun}, 지구 보임: {earth}.",
+    "live_summary_model": "선택 지점: {name}, 위도 {lat}, 경도 {lon}. 모델 계산({start}~{end} UTC): 해가 뜬 시간 {sun}, 지구가 보인 시간 {earth}."
   },
   "dome": {
     "title": "하늘 돔",

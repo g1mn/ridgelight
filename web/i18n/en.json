@@ -36,7 +36,8 @@
     "legend_artemis3": "Artemis III region",
     "legend_landing_site": "Landing site",
     "legend_custom": "Custom point",
-    "live_summary": "Selected site: {name}, Latitude {lat}, Longitude {lon}. LOLA sunlight: {sun}, Earth visibility: {earth}."
+    "live_summary": "Selected site: {name}, Latitude {lat}, Longitude {lon}. LOLA sunlight: {sun}, Earth visibility: {earth}.",
+    "live_summary_model": "Selected site: {name}, Latitude {lat}, Longitude {lon}. Model, {start} to {end} UTC: Sun up {sun} of the hours, Earth in view {earth}."
   },
   "dome": {
     "title": "Sky Dome",

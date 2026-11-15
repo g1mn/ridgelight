@@ -314,6 +314,9 @@
         g.setAttribute('role', 'button');
         g.setAttribute('aria-label', `${site.name} (${site.kind})`);
         g.dataset.siteId = site.site_id;
+        const tip = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+        tip.textContent = site.approx ? `${site.name} (${this.t('common.approx_label')})` : site.name;
+        g.appendChild(tip);
 
         // Selection ring
         if (isSelected) {
@@ -344,31 +347,36 @@
           g.appendChild(poly);
         }
 
-        // Label on pins
-        const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        lbl.setAttribute('x', proj.x + 8);
-        lbl.setAttribute('y', proj.y + 4);
-        lbl.setAttribute('class', 'map-pin-label');
-        let labelText = site.name;
-        if (site.approx) {
-          labelText += ` (${this.t('common.approx_label')})`;
-        }
-        lbl.textContent = labelText;
-        labelsLayer.appendChild(lbl);
+        // Label only on the selected pin (all nine labels overlap near the pole); the list names every site
+        if (isSelected) {
+          const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          const flip = proj.x > cx + 80; // keep the label inside the map on the right side
+          lbl.setAttribute('x', flip ? proj.x - 15 : proj.x + 14);
+          lbl.setAttribute('y', proj.y + 4);
+          if (flip) lbl.setAttribute('text-anchor', 'end');
+          lbl.setAttribute('class', 'map-pin-label');
+          let labelText = site.name;
+          if (site.approx) {
+            labelText += ` (${this.t('common.approx_label')})`;
+          }
+          lbl.textContent = labelText;
+          labelsLayer.appendChild(lbl);
 
-        // LOLA map values if present
-        const mv = this.data && this.data.mapValuesBySite && this.data.mapValuesBySite[site.site_id];
-        if (mv && (mv.sun_visible_pct != null || mv.earth_visible_pct != null)) {
-          const mvLbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          mvLbl.setAttribute('x', proj.x + 8);
-          mvLbl.setAttribute('y', proj.y + 16);
-          mvLbl.setAttribute('class', 'map-pin-val-label');
-          const parts = [];
-          if (mv.sun_visible_pct != null) parts.push(`Sun ${mv.sun_visible_pct}%`);
-          if (mv.earth_visible_pct != null) parts.push(`Earth ${mv.earth_visible_pct}%`);
-          parts.push(`(${this.t('map.lola_map_value')})`);
-          mvLbl.textContent = parts.join(', ');
-          labelsLayer.appendChild(mvLbl);
+          // LOLA map values if present
+          const mv = this.data && this.data.mapValuesBySite && this.data.mapValuesBySite[site.site_id];
+          if (mv && (mv.sun_visible_pct != null || mv.earth_visible_pct != null)) {
+            const mvLbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            mvLbl.setAttribute('x', flip ? proj.x - 15 : proj.x + 14);
+            mvLbl.setAttribute('y', proj.y + 16);
+            if (flip) mvLbl.setAttribute('text-anchor', 'end');
+            mvLbl.setAttribute('class', 'map-pin-val-label');
+            const parts = [];
+            if (mv.sun_visible_pct != null) parts.push(`Sun ${mv.sun_visible_pct}%`);
+            if (mv.earth_visible_pct != null) parts.push(`Earth ${mv.earth_visible_pct}%`);
+            parts.push(`(${this.t('map.lola_map_value')})`);
+            mvLbl.textContent = parts.join(', ');
+            labelsLayer.appendChild(mvLbl);
+          }
         }
 
         g.addEventListener('click', () => {
@@ -460,6 +468,26 @@
       }
 
       const mv = this.data && this.data.mapValuesBySite && this.data.mapValuesBySite[activeSite.site_id];
+      const track = this.data && this.data.tracks && this.data.tracks[activeSite.site_id];
+      const hz = this.data && this.data.horizon && this.data.horizon[activeSite.site_id];
+      const sunShare = LW.model.visibleShare ? LW.model.visibleShare(track, hz, 'sun') : null;
+      const earthShare = LW.model.visibleShare ? LW.model.visibleShare(track, hz, 'earth') : null;
+      if (!mv && sunShare != null && earthShare != null && track.start_utc) {
+        // No LOLA map value at the site points: show the share of hours from our model over the loaded track
+        const t0 = Date.parse(track.start_utc);
+        const n = track.n || track.sun.el_deg.length;
+        const t1 = t0 + (n - 1) * (track.step_minutes || 60) * 60000;
+        summaryEl.textContent = this.t('map.live_summary_model', {
+          name: activeSite.name,
+          lat: `${this.formatNumber(activeSite.lat_deg.toFixed(3))} deg`,
+          lon: `${this.formatNumber(activeSite.lon_deg.toFixed(3))} deg`,
+          start: new Date(t0).toISOString().slice(0, 10),
+          end: new Date(t1).toISOString().slice(0, 10),
+          sun: `${this.formatNumber((sunShare * 100).toFixed(1))}%`,
+          earth: `${this.formatNumber((earthShare * 100).toFixed(1))}%`
+        });
+        return;
+      }
       const sunStr = mv && mv.sun_visible_pct != null ? `${mv.sun_visible_pct}%` : this.t('common.na');
       const earthStr = mv && mv.earth_visible_pct != null ? `${mv.earth_visible_pct}%` : this.t('common.na');
 

@@ -36,7 +36,8 @@
     "legend_artemis3": "アルテミス3候補地域",
     "legend_landing_site": "着陸地点",
     "legend_custom": "指定座標地点",
-    "live_summary": "選択地点: {name}、緯度 {lat}、経度 {lon}。LOLA日照率: {sun}、地球可視率: {earth}。"
+    "live_summary": "選択地点: {name}、緯度 {lat}、経度 {lon}。LOLA日照率: {sun}、地球可視率: {earth}。",
+    "live_summary_model": "選択地点: {name}、緯度 {lat}、経度 {lon}。モデル計算({start}から{end} UTC): 太陽が出ている時間 {sun}、地球が見える時間 {earth}。"
   },
   "dome": {
     "title": "スカイドーム",

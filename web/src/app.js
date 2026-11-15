@@ -87,6 +87,11 @@
         this.selectedSiteId = this.data.sites[0].site_id;
       }
 
+      // 6b. Default time: without ?t=, open at a step where the Sun and Earth are both up
+      if (urlT == null && LW.model.pickDefaultTimeIndex) {
+        this.timeIndex = LW.model.pickDefaultTimeIndex(this.data, this.selectedSiteId);
+      }
+
       // 7. Bind Header & Footer elements
       this.bindControls();
 

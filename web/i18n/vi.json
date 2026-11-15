@@ -36,7 +36,8 @@
     "legend_artemis3": "Khu vực Artemis III",
     "legend_landing_site": "Điểm hạ cánh",
     "legend_custom": "Điểm tùy chọn",
-    "live_summary": "Điểm đã chọn: {name}, vĩ độ {lat}, kinh độ {lon}. Ánh sáng Mặt Trời theo LOLA: {sun}, khả năng thấy Trái Đất: {earth}."
+    "live_summary": "Điểm đã chọn: {name}, vĩ độ {lat}, kinh độ {lon}. Ánh sáng Mặt Trời theo LOLA: {sun}, khả năng thấy Trái Đất: {earth}.",
+    "live_summary_model": "Điểm đã chọn: {name}, vĩ độ {lat}, kinh độ {lon}. Mô hình, {start} đến {end} UTC: Mặt Trời trên đường chân trời {sun} số giờ, thấy Trái Đất {earth}."
   },
   "dome": {
     "title": "Vòm trời",

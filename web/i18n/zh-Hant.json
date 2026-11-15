@@ -36,7 +36,8 @@
     "legend_artemis3": "阿提米絲3號候選區域",
     "legend_landing_site": "著陸地點",
     "legend_custom": "自訂點",
-    "live_summary": "選中地點: {name}，緯度 {lat}，經度 {lon}。LOLA日照率: {sun}，地球可見率: {earth}。"
+    "live_summary": "選中地點: {name}，緯度 {lat}，經度 {lon}。LOLA日照率: {sun}，地球可見率: {earth}。",
+    "live_summary_model": "選中地點: {name}，緯度 {lat}，經度 {lon}。模型計算（{start} 至 {end} UTC）：太陽在地平線上的時間 {sun}，地球可見的時間 {earth}。"
   },
   "dome": {
     "title": "天穹頂圖",

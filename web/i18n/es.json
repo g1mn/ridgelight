@@ -36,7 +36,8 @@
     "legend_artemis3": "Región Artemis III",
     "legend_landing_site": "Sitio de alunizaje",
     "legend_custom": "Punto personalizado",
-    "live_summary": "Sitio seleccionado: {name}, latitud {lat}, longitud {lon}. Luz solar LOLA: {sun}, visibilidad de la Tierra: {earth}."
+    "live_summary": "Sitio seleccionado: {name}, latitud {lat}, longitud {lon}. Luz solar LOLA: {sun}, visibilidad de la Tierra: {earth}.",
+    "live_summary_model": "Sitio seleccionado: {name}, latitud {lat}, longitud {lon}. Modelo, {start} a {end} UTC: Sol sobre el horizonte {sun} de las horas, Tierra visible {earth}."
   },
   "dome": {
     "title": "Cúpula celeste",

@@ -36,7 +36,8 @@
     "legend_artemis3": "Région Artemis III",
     "legend_landing_site": "Site d'atterrissage",
     "legend_custom": "Point personnalisé",
-    "live_summary": "Site sélectionné : {name}, latitude {lat}, longitude {lon}. Ensoleillement LOLA : {sun}, visibilité de la Terre : {earth}."
+    "live_summary": "Site sélectionné : {name}, latitude {lat}, longitude {lon}. Ensoleillement LOLA : {sun}, visibilité de la Terre : {earth}.",
+    "live_summary_model": "Site sélectionné : {name}, latitude {lat}, longitude {lon}. Modèle, du {start} au {end} UTC : Soleil levé {sun} des heures, Terre visible {earth}."
   },
   "dome": {
     "title": "Dôme céleste",

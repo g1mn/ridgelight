@@ -36,7 +36,8 @@
     "legend_artemis3": "Região Artemis III",
     "legend_landing_site": "Local de pouso",
     "legend_custom": "Ponto personalizado",
-    "live_summary": "Local selecionado: {name}, latitude {lat}, longitude {lon}. Luz solar LOLA: {sun}, visibilidade da Terra: {earth}."
+    "live_summary": "Local selecionado: {name}, latitude {lat}, longitude {lon}. Luz solar LOLA: {sun}, visibilidade da Terra: {earth}.",
+    "live_summary_model": "Local selecionado: {name}, latitude {lat}, longitude {lon}. Modelo, {start} a {end} UTC: Sol acima do horizonte {sun} das horas, Terra visível {earth}."
   },
   "dome": {
     "title": "Domo celeste",

@@ -36,7 +36,8 @@
     "legend_artemis3": "Artemis-III-Region",
     "legend_landing_site": "Landeplatz",
     "legend_custom": "Eigener Punkt",
-    "live_summary": "Gewählter Standort: {name}, Breite {lat}, Länge {lon}. LOLA-Sonnenlicht: {sun}, Sichtbarkeit der Erde: {earth}."
+    "live_summary": "Gewählter Standort: {name}, Breite {lat}, Länge {lon}. LOLA-Sonnenlicht: {sun}, Sichtbarkeit der Erde: {earth}.",
+    "live_summary_model": "Gewählter Standort: {name}, Breite {lat}, Länge {lon}. Modell, {start} bis {end} UTC: Sonne über dem Horizont {sun} der Stunden, Erde sichtbar {earth}."
   },
   "dome": {
     "title": "Himmelskuppel",

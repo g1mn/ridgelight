@@ -119,6 +119,60 @@
   }
 
   /**
+   * Share (0 to 1) of track steps with the body above the terrain horizon, or null without a track.
+   */
+  function visibleShare(track, horizon, body) {
+    if (!track || !track[body] || !Array.isArray(track[body].el_deg)) return null;
+    const n = track.n || track[body].el_deg.length;
+    if (!n) return null;
+    let k = 0;
+    for (let i = 0; i < n; i++) {
+      if (isBodyVisible(track[body].az_deg[i], track[body].el_deg[i], horizon)) k++;
+    }
+    return k / n;
+  }
+
+  /**
+   * Default time step for the first screen: the earliest step where the most sites see both
+   * the Sun and Earth above their terrain horizon, preferring steps where the selected site does.
+   * Returns 0 when no track is loaded.
+   */
+  function pickDefaultTimeIndex(data, selectedSiteId) {
+    const sites = (data && data.sites) || [];
+    const tracks = (data && data.tracks) || {};
+    const horizons = (data && data.horizon) || {};
+    const usable = sites.filter((s) => {
+      const tr = tracks[s.site_id];
+      return tr && tr.sun && tr.earth && Array.isArray(tr.sun.el_deg) && Array.isArray(tr.earth.el_deg);
+    });
+    if (usable.length === 0) return 0;
+    let n = Infinity;
+    for (const s of usable) {
+      const tr = tracks[s.site_id];
+      n = Math.min(n, tr.n || tr.sun.el_deg.length, tr.earth.el_deg.length);
+    }
+    let best = 0;
+    let bestScore = -1;
+    for (let i = 0; i < n; i++) {
+      let both = 0;
+      let selBoth = false;
+      for (const s of usable) {
+        const tr = tracks[s.site_id];
+        const hz = horizons[s.site_id];
+        const ok = isBodyVisible(tr.sun.az_deg[i], tr.sun.el_deg[i], hz) && isBodyVisible(tr.earth.az_deg[i], tr.earth.el_deg[i], hz);
+        if (ok) both++;
+        if (ok && s.site_id === selectedSiteId) selBoth = true;
+      }
+      const score = (selBoth ? 1000 : 0) + both;
+      if (score > bestScore) {
+        bestScore = score;
+        best = i;
+      }
+    }
+    return best;
+  }
+
+  /**
    * Find next sunset from currentIndex.
    * A sunset is the first step where the sun transitions from above horizon to on or below horizon.
    * Returns { index, hours } or null if none in loaded track.
@@ -656,6 +710,8 @@
     isBodyVisible,
     findNextSunset,
     findNextEarthset,
+    visibleShare,
+    pickDefaultTimeIndex,
     findNearestSite,
     normalizeSite,
     normalizeVerify,
