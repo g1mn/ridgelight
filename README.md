@@ -10,7 +10,7 @@ Live test site: https://lunar-window-two.vercel.app
 
 Ridgelight is a static web app for the NASA Space Apps Challenge 2026 challenge "Lunar Landing Site Navigator". Pick one of the nine Artemis III candidate regions near the lunar south pole and see when the Sun and Earth are above the horizon there, which spot inside the region has the most light and line of sight to Earth, and how much of that rests on checks against NASA data.
 
-**Result in one line:** our terrain shadow model agrees with real LROC photographs at 94.1%<!--v:verify/m1-summary.json#agreement_pct--> of the frame and point pairs with valid data (kappa 0.71<!--v:verify/m1-summary.json#kappa-->), against 56.1%<!--v:verify/m1-summary.json#baseline.agreement_pct--> for a flat horizon, over 37 frames<!--v:verify/m1-summary.json#frames--> and 200 points near the pole. The SPICE code reproduces Horizons Sun and Earth directions within 4.06e-7 deg<!--v:verify/l1a-summary.json#max_sep_deg--> over 72 pairs<!--v:verify/l1a-summary.json#n_pairs-->, which is an implementation check and not a ground truth comparison. Both numbers, and every other row, are in the table below with the target we wrote down before the data was downloaded.
+**Result in one line:** our terrain shadow model agrees with real LROC photographs at 94.1%<!--v:verify/m1-summary.json#agreement_pct--> of the frame and point pairs with valid data (kappa 0.71<!--v:verify/m1-summary.json#kappa-->), against 56.1%<!--v:verify/m1-summary.json#baseline.agreement_pct--> for a flat horizon, over 37 frames<!--v:verify/m1-summary.json#frames--> and 200 points near the pole. The SPICE code reproduces Horizons Sun and Earth directions within 4.06e-7 deg<!--v:verify/l1a-summary.json#max_sep_deg--> over 72 pairs<!--v:verify/l1a-summary.json#n_pairs-->, which is an implementation check and not a ground truth comparison. Both numbers, and every other row, are in the table below next to their targets.
 
 Work on this repository started on 2026-11-14 at 10:00 KST (09:00 Taipei time), when the hackathon began. Unofficial entry, not affiliated with or endorsed by NASA.
 
@@ -24,9 +24,9 @@ Screens: south pole map, sky dome (Sun and Earth tracks over the terrain horizon
 
 ## What was checked
 
-Every row shows the measured value, and next to it the target that was written down at the start of the hackathon (`docs/verification-protocol.md`). A missed target would be shown as "not met". The M1 target (agreement of 85%<!--v:verify/m1-summary.json#target.agreement_pct_min--> or more and above the flat horizon) and the DSN tolerance were fixed in planning notes dated 2026-11-11 and copied into the scripts, so this repository shows them only from the commits that carry the results. The L1(a) and L1(b) targets are in the protocol file from the first commit.
+Every row shows the measured value next to its target. A missed target would be shown as "not met". The L1(a) and L1(b) targets are in `docs/verification-protocol.md`, which was added in the second commit together with those two checks. The M1 target (agreement of 85%<!--v:verify/m1-summary.json#target.agreement_pct_min--> or more and above the flat horizon) and the DSN tolerance were fixed in planning notes dated 2026-11-11 and copied into the scripts, so this repository shows them only from the commits that carry the results.
 
-| Check | n | Measured | Target set at hackathon start | Status | Source |
+| Check | n | Measured | Target | Status | Source |
 |---|---|---|---|---|---|
 | SPICE implementation check (matches Horizons) | 72 | max 4.06e-7, median 1.17e-7 deg | 0.05 deg | met | `verify/l1a-summary.json` `n_pairs` `max_sep_deg` `median_sep_deg` `target_max_sep_deg` |
 | Terrain model vs LOLA average visibility maps (model against model) | 500 | Sun MAE 1.39 pp, r 0.995, Earth MAE 0.68 pp, r 0.996 | 5 pp, 0.95, 5 pp, 0.95 | met (gate pass) | `verify/l1b-summary.json` `n` `mae_sun_pp` `r_sun` `mae_earth_pp` `r_earth` `target_mae_sun_pp` `target_r_sun` `target_mae_earth_pp` `target_r_earth` `gate` |
@@ -100,7 +100,7 @@ Data licenses: the NASA and PDS products above are public. The IAU Gazetteer of 
 
 ## Hackathon period
 
-The first commit of this repository is `7090cd4` (2026-11-14 10:03:33 KST, 09:03 Taipei time). All 11 commits are by one author between 2026-11-14 10:03 and 19:42 KST. Before that only planning notes existed outside this repository (dated 2026-11-11, the M1 and DSN target values). Everything in the repository is dated after the hackathon began. All input data were downloaded on 2026-11-14 (sums in `verify/data-sha256.txt`).
+The first commit of this repository is `7090cd4` (2026-11-14 10:03:33 KST, 09:03 Taipei time). Before that only planning notes existed outside this repository (dated 2026-11-11, the M1 and DSN target values). Everything in the repository is dated after the hackathon began. All commits are by one author. Commits dated 2026-11-15 change documentation and display only; no calculation or result changed. All input data were downloaded on 2026-11-14 (sums in `verify/data-sha256.txt`).
 
 ## Approximate, modeled and example values
 
@@ -137,7 +137,7 @@ Made by the AI model, then run and read through by the author:
 
 Decided by the author, not by the AI:
 - The problem and the scope: which challenge, nine regions, Sun and Earth visibility as the question, and what to leave out (no power model, no hazard map).
-- The verification design: which checks to run, which NASA products to compare against, and the target values, written down before the data was downloaded (`docs/verification-protocol.md`).
+- The verification design: which checks to run, which NASA products to compare against, and the target values (`docs/verification-protocol.md`; the M1 and DSN targets come from the 2026-11-11 planning notes).
 - Which NASA data to use and which to drop.
 - Reading the results: what counts as met or not met, which numbers get shown next to the results, and the limits section below.
 

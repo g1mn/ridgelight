@@ -181,7 +181,7 @@ function rowsDef() {
 }
 
 function buildTable() {
-  const head = '| Check | n | Measured | Target set at hackathon start | Status | Source |\n|---|---|---|---|---|---|';
+  const head = '| Check | n | Measured | Target | Status | Source |\n|---|---|---|---|---|---|';
   const lines = [head];
   for (const r of rowsDef()) {
     const d = load(r.file);
