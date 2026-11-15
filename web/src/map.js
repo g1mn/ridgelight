@@ -481,8 +481,9 @@
           name: activeSite.name,
           lat: `${this.formatNumber(activeSite.lat_deg.toFixed(3))} deg`,
           lon: `${this.formatNumber(activeSite.lon_deg.toFixed(3))} deg`,
-          start: new Date(t0).toISOString().slice(0, 10),
-          end: new Date(t1).toISOString().slice(0, 10),
+          // non-breaking hyphens keep each date on one line
+          start: new Date(t0).toISOString().slice(0, 10).replace(/-/g, '\u2011'),
+          end: new Date(t1).toISOString().slice(0, 10).replace(/-/g, '\u2011'),
           sun: `${this.formatNumber((sunShare * 100).toFixed(1))}%`,
           earth: `${this.formatNumber((earthShare * 100).toFixed(1))}%`
         });
