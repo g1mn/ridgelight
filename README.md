@@ -100,7 +100,7 @@ Data licenses: the NASA and PDS products above are public. The IAU Gazetteer of 
 
 ## Hackathon period
 
-The first commit of this repository is `7090cd4` (2026-11-14 10:03:33 KST, 09:03 Taipei time). Before that only planning notes existed outside this repository (dated 2026-11-11, the M1 and DSN target values). Everything in the repository is dated after the hackathon began. All commits are by one author. Commits dated 2026-11-15 change documentation and display only; no calculation or result changed. All input data were downloaded on 2026-11-14 (sums in `verify/data-sha256.txt`).
+The first commit of this repository is `7090cd4` (2026-11-14 10:03:33 KST, 09:03 Taipei time). Before that only planning notes existed outside this repository (dated 2026-11-11, the M1 and DSN target values). Everything in the repository is dated after the hackathon began. All commits are by one author. Commits dated 2026-11-15 change documentation and the first screen of the app only; no data file or verification result changed. All input data were downloaded on 2026-11-14 (sums in `verify/data-sha256.txt`).
 
 ## Approximate, modeled and example values
 
